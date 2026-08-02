@@ -1,0 +1,23 @@
+.announcement {
+    background: oklch(0.546 0.245 262.881);
+    color: white;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 1000;
+   
+}
+.xlr-access{
+  font: bold;
+  margin-left: 5px;
+  border-bottom: 1px solid white;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+

@@ -1,0 +1,43 @@
+:root {
+  /* Background */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+
+  /* Text */
+  --text-primary: #152033;
+  --text-secondary: #586273;
+  --text-third : oklch(37% 0.01165 258.42);
+
+  /* Brand */
+  --primary: #145bd7;
+
+  /* Border */
+  --border-color: #e5e7eb;
+
+  /* Shadow */
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  color-scheme: light;
+
+
+   --btn-bg: #000000;
+  --btn-text: #ffffff;
+  
+}
+
+/* Dark Theme */
+
+.dark {
+  --bg-primary: black;
+  --bg-secondary: #1e293b;
+
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-third : oklch(0.552 0.016 285.938);
+
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+
+
+   --btn-bg: #ffffff;
+  --btn-text: #000000;
+}

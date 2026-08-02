@@ -1,0 +1,169 @@
+.xlr-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--bg-primary);
+  box-shadow: 0 1px 0 var(--border-color);
+}
+
+.xlr-navbar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px 8px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+
+.xlr-branding {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.xlr-logoicon {
+  width: 50px;
+  height: 48px;
+  flex: 0 0 auto;
+}
+
+.xlr-logoicon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.xlr-brandtext {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
+}
+
+.xlr-brandname {
+  color: var(--text-primary);
+  font-size: var(--fs-lg);
+  font-weight: 800;
+}
+
+.xlr-brandname span {
+ color: var(--primary);
+}
+
+.xlr-tagline {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: var( --fs-xxs);
+  font-weight: 800;
+}
+
+
+.xlr-navbar-item-list {
+  display: flex;
+  align-items: center;
+  gap : var( --space-lg)
+}
+
+.xlr-navbar-item {
+  display: flex;
+  align-items: center;
+  gap: var( --space-xs);
+  cursor: pointer;
+}
+
+.xlr-navbar-item-bundle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.xlr-navbar-item-name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+   color: var(--text-primary);
+}
+
+.xlr-navbar-item-subname {
+  font-size: var( --fs-x);
+   color: var(--text-secondary);
+}
+
+.arrow-icon {
+  color: var(--text-primary);
+  transition: transform 0.3s ease;
+}
+
+
+.xlr-navbar-item:hover .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.xlr-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  appearance: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 20px;
+  transition:
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+
+.xlr-navbtn{
+  border-radius: 30px;
+  border: none;
+  box-shadow: var(--shadow-md);
+  color: var(--btn-text);
+  background-color: var(--btn-bg);
+  padding: 10px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.xlr-Interview-roles{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  border-radius: 30px;
+  background: oklch(0.967 0.003 264.542);
+  padding: var(--padding-xs) var(--padding-md);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+
+.xlr-Interview-roles-active{
+  color: var(--bt);
+  background-color: var(--bg-primary);
+   border-radius: 30px;
+   padding: var(--padding-sm) var(--padding-md);
+   font-family: var(--fw-bold);
+ box-shadow: var(--shadow-md);   
+
+}
+
+.dark .xlr-Interview-roles {
+  background: var(--text-third);
+  color: #ffffff;
+}
+
+.dark .xlr-Interview-roles-active {
+  color: #ffffff;
+  background: #000000;
+}

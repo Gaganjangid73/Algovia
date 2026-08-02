@@ -1,0 +1,76 @@
+:root {
+  /* Colors */
+  --primary: #145bd7;
+  --secondary: #586273;
+  --white: #ffffff;
+  --black: #152033;
+
+  /* Font Sizes */
+  --fs-xxs: 8px;
+  --fs-x: 10px;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 20px;
+  --fs-xl: 28px;
+  --fs-3xl: 54px;
+
+   /* height Sizes */
+  --h-xxs: 8px;
+  --h-x: 10px;
+  --h-xs: 12px;
+  --h-sm: 14px;
+  --h-md: 16px;
+  --h-lg: 20px;
+  --h-xl: 28px;
+  --h-2xl: 50px;
+  --h-3xl: 54px;
+
+  /* Font Weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* Spacing */
+  --space-xxs:2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 56px;
+ 
+ 
+   /* padding */
+  --padding-xxs : 2px;
+  --padding-xs : 4px;
+  --padding-sm : 6px;
+  --padding-md : 8px;
+  --padding-lg : 10px;
+   --padding-xl : 12px;
+
+    /* margin */
+  --margin-xxs : 2px;
+  --margin-xs : 4px;
+  --margin-sm : 6px;
+  --margin-md : 8px;
+  --margin-lg : 10px;
+   --margin-xl : 12px;
+   --margin-2xl : 14px;
+   --margin-3xl : 16px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Shadow */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,.08);
+  --shadow-md: 0 8px 20px rgba(0,0,0,.12);
+
+
+}

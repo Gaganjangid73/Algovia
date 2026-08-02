@@ -1,0 +1,164 @@
+/* Global Footer Component Styles */
+.algovia-global-footer {
+  width: 100%;
+  background: var(--bg-primary, #ffffff);
+  border: none;
+  padding: var(--space-3xl) 0 var(--space-2xl);
+  margin-top: var(--space-4xl);
+  transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .algovia-global-footer {
+  background: #000000;
+}
+
+.algovia-footer-container {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.algovia-footer-main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Brand Logo */
+.algovia-footer-brand {
+  display: flex;
+  align-items: center;
+}
+
+.algovia-footer-logo-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+}
+
+.algovia-footer-logo-img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+}
+
+.algovia-footer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.algovia-footer-brand-name {
+  font-size: 1.15rem;
+  font-weight: var(--fw-bold, 700);
+  color: var(--text-primary, #0f172a);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.algovia-footer-brand-name span {
+  color: var(--primary, #145bd7);
+}
+
+.algovia-footer-brand-tagline {
+  font-size: 7px;
+  font-weight: var(--fw-extrabold, 800);
+  color: var(--text-third, #64748b);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Center Navigation Links */
+.algovia-footer-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.algovia-footer-nav-link {
+  font-size: var(--fs-xs, 13px);
+  font-weight: var(--fw-medium, 500);
+  color: var(--text-secondary, #475569);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.algovia-footer-nav-link:hover {
+  color: var(--primary, #145bd7);
+}
+
+.algovia-footer-pipe-separator {
+  color: var(--text-third, #94a3b8);
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+/* Right Social Icons */
+.algovia-footer-socials {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 16px);
+}
+
+.algovia-footer-social-btn {
+  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.algovia-footer-social-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
+
+.algovia-social--instagram {
+  color: #e4405f;
+}
+
+.algovia-social--x {
+  color: var(--text-primary);
+}
+
+.algovia-social--linkedin {
+  color: #0a66c2;
+}
+
+.algovia-social--medium {
+  color: var(--text-primary);
+}
+
+/* Copyright Row */
+.algovia-footer-copyright {
+  text-align: center;
+  border: none;
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-3xl);
+  margin-top: var(--space-md);
+}
+
+.algovia-footer-copyright p {
+  font-size: var(--fs-xs, 12px);
+  font-style: italic;
+  color: var(--text-third, #94a3b8);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .algovia-footer-main-row {
+    flex-direction: column;
+    text-align: center;
+  }
+}

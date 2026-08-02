@@ -8,7 +8,7 @@ export const SYSTEM_DESIGN_DATA = [
     title: "Master High Level Design",
     description: "Without skippable topics, built for interview context. Also learn how real scalable systems are built, high-level design for architecture decisions.",
     badge: "",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9ZQThu-DDGh5-C4a2taE0KbgP_06F6rByyNga47aJEg&s=10",
+    image: "",
     className: "Xlr-sderole-systemdesign-content-card"
   },
   {
@@ -16,7 +16,7 @@ export const SYSTEM_DESIGN_DATA = [
     title: "Master Low Level Design",
     description: "Without skippable topics, built for interview context. Build real-world class diagrams, relationships, design principles, and API-level system components.",
     badge: "",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9ZQThu-DDGh5-C4a2taE0KbgP_06F6rByyNga47aJEg&s=10",
+    image: "",
     className: "Xlr-sderole-systemdesign-content-card"
   },
   {
@@ -24,7 +24,7 @@ export const SYSTEM_DESIGN_DATA = [
     title: "System Design Scenarios",
     description: "Real scenario-based system design cross-questioning that actually comes up in interviews. 90% of interviews touch these.",
     badge: "90% Interviews Touch This",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9ZQThu-DDGh5-C4a2taE0KbgP_06F6rByyNga47aJEg&s=10",
+    image: "",
     className: "Xlr-sderole-systemdesign-content-card"
   }
 ];
@@ -259,11 +259,11 @@ export const fetchReviewsData = async () => {
       badge: "SUCCESS STORY",
       paragraphs: [
         "I've been working as an SDE at a startup in Bengaluru for the last five years, so I wasn't looking for another course. I just wanted a solid place to revise before my interview cycle started.",
-        "I've been following Himanshu for almost two years, and that's honestly the only reason I decided to become a member of Algovia. I already knew the way he explains concepts: simple, practical, and always interview-focused.",
+        "I've been following Gagan for almost two years, and that's honestly the only reason I decided to become a member of Algovia. I already knew the way he explains concepts: simple, practical, and always interview-focused.",
         "For about a month, I revised almost everything from the platform, especially the System Design modules and the DSA patterns. What surprised me was how closely the interview discussions matched the way the concepts were explained here. During multiple interview rounds, I found myself using the same approach, the same trade-offs, and the same thought process that I'd practiced on the platform.",
         "I don't know if it was luck or just good preparation, but I walked into my Google interviews feeling more confident than ever before. Instead of trying to remember answers, I was able to explain my reasoning naturally.",
         "A few weeks later, I got the offer.",
-        "Thank you, Himanshu. You've built something that genuinely helps engineers prepare the right way. The amount of thought you've put into the DSA Sheet, System Design roadmap, and the overall learning experience really shows."
+        "Thank you, Gagan. You've built something that genuinely helps engineers prepare the right way. The amount of thought you've put into the DSA Sheet, System Design roadmap, and the overall learning experience really shows."
       ],
       author: {
         name: "Arjun Mehta",
@@ -330,7 +330,7 @@ export const fetchReviewsData = async () => {
       },
       {
         id: "rev-8",
-        text: "I rarely write reviews, but I genuinely wanted to appreciate the effort Himanshu has put into this platform. I've followed a lot of interview resources over the years, but this is probably the first one where everything feels connected. I started with the DSA Sheet, then moved to LLD and System Design.",
+        text: "I rarely write reviews, but I genuinely wanted to appreciate the effort Gagan has put into this platform. I've followed a lot of interview resources over the years, but this is probably the first one where everything feels connected. I started with the DSA Sheet, then moved to LLD and System Design.",
         author: "Neha Singh",
         subtitle: "Full Stack Developer",
         avatar: "N",
@@ -347,3 +347,410 @@ export const fetchReviewsData = async () => {
     ]
   };
 };
+
+/**
+ * Async getter function to simulate fetching Founder / 'Building Engineer, Not Just Coders' section data
+ */
+export const fetchFounderData = async () => {
+  return {
+    titlePrefix: "Building Engineer, ",
+    titleHighlight: "Not Just Coders",
+    greeting: "Hey, I'm Gagan, Engineer of Algovia.io.",
+    bio: "I started as a software engineer, then chose to build something of my own: Algovia.io, helping people master software engineering and AI Engineering interviews, systematically.",
+    quoteHeader: "Remember:",
+    quoteLines: [
+      { text: "Never play it safe.", bold: true },
+      { text: "Never play it safe.", bold: true },
+      { text: "You are in your comfort zone.", bold: false },
+      { text: "You are never going to grow.", bold: false },
+      { text: "You are never going to achieve anything.", bold: false },
+      { text: "By playing it safe, no one becomes a world champion.", bold: false },
+      { text: "By playing it safe, no one achieves anything great in life.", bold: false },
+      { text: "Don't play it safe. Take risks.", bold: true },
+      { text: "There is only one life.", bold: true }
+    ],
+    primaryCta: {
+      text: "Get Started Now",
+      url: "#"
+    },
+    secondaryButtons: [
+      { text: "Book a Session", icon: "🎥", url: "#" },
+      { text: "Buy me a Chai", icon: "☕", url: "#" }
+    ],
+    socialLinks: [
+      { id: "web", icon: "🌐", label: "Website", url: "#" },
+      { id: "linkedin", icon: "in", label: "LinkedIn", url: "#" },
+      { id: "instagram", icon: "📷", label: "Instagram", url: "#" },
+      { id: "topmate", icon: "📹", label: "Video Calls", url: "#" },
+      { id: "bookmark", icon: "🔖", label: "Bookmarks", url: "#" }
+    ]
+  };
+};
+
+/**
+ * Async getter function to simulate fetching FAQ categories and accordion Q&A pairs from backend API
+ */
+export const fetchFaqData = async () => {
+  return {
+    title: "Frequently Asked Questions",
+    categories: [
+      { id: "plans", label: "Plans & Access" },
+      { id: "curriculum", label: "Course Content & Curriculum" },
+      { id: "features", label: "Features & Functionality" },
+      { id: "account", label: "Account Management" },
+      { id: "support", label: "Course Access & Technical Support" },
+      { id: "mentorship", label: "Mentorship & Community Support" },
+      { id: "career", label: "Career Guidance" },
+      { id: "jobs", label: "Internships & Job Assistance" },
+      { id: "payments", label: "Payment & Refunds" }
+    ],
+    items: {
+      plans: [
+        {
+          id: "p1",
+          question: "What is Algovia.io?",
+          answer: "Algovia.io is a web-based learning platform for software engineers. It covers Data Structures & Algorithms, System Design (LLD & HLD), CS Core Subjects (OS, CN, DBMS, Behavioral), AI Engineering, and DevOps Engineering, all in one place, with both free and premium content so you can start learning without paying anything."
+        },
+        {
+          id: "p2",
+          question: "What plans are available and what does each one unlock?",
+          answer: "We offer Basic Access (unlocking core DSA sheets, System Design roadmaps, and article notes) and Full Access (unlocking AI Engineering, DevOps, CF-18 CP sheet, weekly live case studies, and Discord community mentorship)."
+        },
+        {
+          id: "p3",
+          question: "What can I access for free, without subscribing?",
+          answer: "You can access our free DSA-31 problem sheet, public engineering newsletter, and foundational System Design architecture articles completely for free."
+        },
+        {
+          id: "p4",
+          question: "I only care about one track (AI, DevOps, or the Newsletter). Do I have to buy Full Access?",
+          answer: "No, you can subscribe to single-track learning modules or upgrade to the Full Access plan at any time with automated pro-rated pricing."
+        },
+        {
+          id: "p5",
+          question: "What is the difference between Basic and Full Access?",
+          answer: "Basic Access gives lifetime read access to core DSA sheets and system design notes. Full Access includes ongoing content updates, live Q&A sessions, AI & DevOps tracks, and direct mentorship support."
+        },
+        {
+          id: "p6",
+          question: "Will I get access to new content released in the future?",
+          answer: "Yes! All Full Access members automatically receive every new system design module, DSA pattern update, and weekly engineering case study published on Algovia.io."
+        },
+        {
+          id: "p7",
+          question: "Can I upgrade my plan later?",
+          answer: "Yes, you can upgrade your plan at any time directly from your account dashboard by paying only the remaining price difference."
+        },
+        {
+          id: "p8",
+          question: "Can I renew after my subscription expires?",
+          answer: "Yes! Returning engineers automatically receive an exclusive renewal discount when renewing their subscription."
+        }
+      ],
+      curriculum: [
+        {
+          id: "c1",
+          question: "How is the DSA pattern content structured?",
+          answer: "Our DSA curriculum is organized pattern-by-pattern (Two Pointers, Sliding Window, Monotonic Stack, Dynamic Programming, Trees & Graphs) with step-by-step problem walkthroughs rather than random lists."
+        },
+        {
+          id: "c2",
+          question: "Does the System Design track cover both HLD and LLD?",
+          answer: "Yes! High Level Design covers microservice architecture, database sharding, caching strategies, and message queues. Low Level Design covers object-oriented design, class diagrams, design patterns, and clean code principles."
+        }
+      ],
+      features: [
+        {
+          id: "f1",
+          question: "Are the problem solutions available in multiple programming languages?",
+          answer: "Yes, code snippets and pattern solutions are provided in Java, C++, Python, JavaScript, and Go."
+        }
+      ],
+      account: [
+        {
+          id: "a1",
+          question: "Can I switch my registered email address?",
+          answer: "Yes, you can update your email address anytime under Account Settings or by reaching out to support@algovia.io."
+        }
+      ],
+      support: [
+        {
+          id: "s1",
+          question: "How do I get help if I run into technical issues?",
+          answer: "You can open a support ticket in your dashboard or message our engineering team directly via the Algovia Discord community."
+        }
+      ],
+      mentorship: [
+        {
+          id: "m1",
+          question: "How do mock interviews and mentorship sessions work?",
+          answer: "Full Access members can book 1-on-1 mock interview slots and resume reviews with experienced senior engineers."
+        }
+      ],
+      career: [
+        {
+          id: "car1",
+          question: "Is there guidance for compensation negotiation?",
+          answer: "Yes, we provide career negotiation playbooks and level-matching guides for SDE-1, SDE-2, and Staff Engineer roles."
+        }
+      ],
+      jobs: [
+        {
+          id: "j1",
+          question: "Do you offer referrals to top tech companies?",
+          answer: "Yes! Top performers on our DSA sheets and mock interviews get direct referrals to partner tech startups and MNCs."
+        }
+      ],
+      payments: [
+        {
+          id: "pay1",
+          question: "What payment methods are supported?",
+          answer: "We accept Credit/Debit Cards, UPI, NetBanking, Razorpay, and international payments via Stripe."
+        }
+      ]
+    }
+  };
+};
+
+/**
+ * Async getter function simulating backend API endpoint for Navbar Mega Menu dropdown data
+ */
+export const fetchSystemDesignDropdownData = async () => {
+  return [
+    {
+      columnId: "lld-col",
+      categoryTitle: "Low Level Design",
+      items: [
+        {
+          id: "lld-1",
+          title: "Master Low Level Design",
+          subtitle: "Classes, Patterns & OOP Design",
+          url: "#",
+          isHighlighted: false
+        },
+        {
+          id: "lld-2",
+          title: "Low Level Design Approach",
+          subtitle: "Problems of low level design, to know how to approach in an interview",
+          url: "#",
+          isHighlighted: false
+        },
+        {
+          id: "lld-3",
+          title: "Low Level Design Practice",
+          subtitle: "Practice LLD problems and see where you are lacking and evaluate your approach",
+          url: "#",
+          isHighlighted: false
+        }
+      ]
+    },
+    {
+      columnId: "hld-col",
+      categoryTitle: "High Level Design",
+      items: [
+        {
+          id: "hld-1",
+          title: "Master High Level Design",
+          subtitle: "Scalability, Architecture & Tradeoffs",
+          url: "#",
+          isHighlighted: false
+        },
+        {
+          id: "hld-2",
+          title: "High Level Design Practice Problem",
+          subtitle: "Curated HLD practice problems",
+          url: "#",
+          isHighlighted: false
+        }
+      ]
+    },
+    {
+      columnId: "edge-col",
+      categoryTitle: "System Design Edge Core",
+      items: [
+        {
+          id: "edge-1",
+          title: "System Design Scenarios",
+          subtitle: "Last-Minute Interview Revision",
+          url: "#",
+          isHighlighted: false
+        },
+        {
+          id: "edge-2",
+          title: "System Design Patterns",
+          subtitle: "Reusable In Production & Interview",
+          url: "#",
+          isHighlighted: false
+        }
+      ]
+    }
+  ];
+};
+
+/**
+ * Async getter function simulating backend API endpoint for DSA Navbar Dropdown data
+ */
+export const fetchDsaDropdownData = async () => {
+  return {
+    banner: {
+      title: "Master DSA with Patterns",
+      subtitle: "Master DSA Patterns & Core Concepts",
+      url: "#"
+    },
+    categoryHeader: "INTERVIEW SHEETS FOR DSA",
+    items: [
+      {
+        id: "dsa-sheet-31",
+        title: "DSA-31 Sheet",
+        subtitle: "Solve All Pattern Problems with Concept Maps",
+        url: "#"
+      },
+      {
+        id: "cf-sheet-18",
+        title: "CF-18 Sheet",
+        subtitle: "Solve Patterns Wise Competitive Problems",
+        url: "#"
+      },
+      {
+        id: "quick-revision",
+        title: "Quick Revision (Before Interview)",
+        subtitle: "Last-Min Interview Problems (If Less Time Remaining)",
+        url: "#"
+      },
+      {
+        id: "company-specific",
+        title: "Company-specific Problems",
+        subtitle: "Most Asked Companies DSA Problems, Pattern wise",
+        url: "#"
+      }
+    ]
+  };
+};
+
+/**
+ * Async getter function simulating backend API endpoint for Software Engineer Bucket Mega Menu data
+ */
+export const fetchSoftwareEngineerBucketData = async () => {
+  return [
+    {
+      columnId: "prog-languages",
+      categoryTitle: "Programming Languages",
+      items: [
+        {
+          id: "cpp",
+          title: "C++",
+          subtitle: "Pointers, Memory Management & Systems Interviews",
+          iconType: "cpp",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "java",
+          title: "Java",
+          subtitle: "OOP, JVM Internals & Enterprise Interviews",
+          iconType: "java",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "python",
+          title: "Python",
+          subtitle: "Scripting, Data Structures & Backend Interviews",
+          iconType: "python",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "go",
+          title: "Go",
+          subtitle: "Concurrency, Goroutines & Systems Interviews",
+          iconType: "go",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "js",
+          title: "JavaScript",
+          subtitle: "Closures, Async & Frontend Interviews",
+          iconType: "js",
+          url: "#",
+          isLocked: false
+        }
+      ]
+    },
+    {
+      columnId: "cs-fundamentals",
+      categoryTitle: "CS Fundamentals",
+      items: [
+        {
+          id: "os",
+          title: "Operating System",
+          subtitle: "Processes, Threads, Memory & Concurrency",
+          badgeBtnText: "TOP QUESTIONS →",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "cn",
+          title: "Computer Networks",
+          subtitle: "OSI, TCP/IP, DNS & Core Protocols",
+          badgeBtnText: "TOP QUESTIONS →",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "dbms",
+          title: "DBMS & SQL",
+          subtitle: "Queries, Indexing, Transactions & Normalization",
+          badgeBtnText: "TOP QUESTIONS →",
+          url: "#",
+          isLocked: false
+        }
+      ]
+    },
+    {
+      columnId: "eng-tools",
+      categoryTitle: "Engineering Tools",
+      items: [
+        {
+          id: "git",
+          title: "Git",
+          subtitle: "Branching, Merging & Version Control",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "linux",
+          title: "Linux",
+          subtitle: "Shell, Permissions & Process Management",
+          url: "#",
+          isLocked: false
+        },
+        {
+          id: "bash",
+          title: "Bash",
+          subtitle: "Scripting & Automation Basics",
+          url: "#",
+          isLocked: false
+        }
+      ]
+    },
+    {
+      columnId: "behavioural",
+      categoryTitle: "Behavioural Interview",
+      items: [
+        {
+          id: "behavioral-round",
+          title: "Behavioural Interview",
+          subtitle: "STAR Stories, Leadership & HR Round Prep",
+          badgeBtnText: "TOP QUESTIONS →",
+          url: "#",
+          isLocked: false
+        }
+      ]
+    }
+  ];
+};
+
+
+

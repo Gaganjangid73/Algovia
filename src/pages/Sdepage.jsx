@@ -7,6 +7,9 @@ import DsaSection from "../components/sde/DsaSection";
 import FeatureShowcaseSection from "../components/sde/FeatureShowcaseSection";
 import WhyUsSection from "../components/sde/WhyUsSection";
 import ReviewsSection from "../components/sde/ReviewsSection";
+import FounderSection from "../components/sde/FounderSection";
+import FaqSection from "../components/sde/FaqSection";
+import Footer from "../components/Footer";
 import "./Sdepage.css";
 
 /**
@@ -49,7 +52,12 @@ function Sdepage() {
         <FeatureShowcaseSection />
         <WhyUsSection />
         <ReviewsSection />
+        <FounderSection />
+        <FaqSection />
       </main>
+
+      {/* Global Footer Component */}
+      <Footer />
     </>
   );
 }

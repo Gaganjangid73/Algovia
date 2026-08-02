@@ -1,0 +1,287 @@
+/* AI Step Path Section Styles */
+.xlr-aistep-section {
+  width: 100%;
+  max-width: 1280px;
+  margin: 48px auto 64px;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.xlr-aistep-grid {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.xlr-aistep-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header Text Above Cards */
+.xlr-aistep-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 52px;
+}
+
+.xlr-aistep-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .xlr-aistep-badge {
+  color: #94a3b8;
+}
+
+.xlr-aistep-header-desc {
+  font-size: 11px;
+  font-weight: 400;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .xlr-aistep-header-desc {
+  color: #64748b;
+}
+
+/* Arrow Connector */
+.xlr-aistep-arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 170px;
+}
+
+.xlr-aistep-arrow-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .xlr-aistep-arrow-circle {
+  background: #1c1c1e;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+/* Step Cards */
+.xlr-aistep-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+[data-theme="dark"] .xlr-aistep-card {
+  background: #161a23;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.xlr-aistep-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: #93c5fd;
+}
+
+[data-theme="dark"] .xlr-aistep-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+}
+
+.xlr-aistep-card--step2 {
+  border-color: #bfdbfe;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+}
+
+[data-theme="dark"] .xlr-aistep-card--step2 {
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow: 0 12px 35px rgba(37, 99, 235, 0.15);
+}
+
+/* Card Preview Section & Image Fallback */
+.xlr-aistep-card-preview {
+  width: 100%;
+  height: 270px;
+  position: relative;
+  overflow: hidden;
+  background: #090b10;
+}
+
+.xlr-aistep-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.xlr-preview-mock-window {
+  background: #090b10;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 270px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xlr-mock-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 8px;
+}
+
+.xlr-mock-logo {
+  font-weight: 800;
+  color: #3b82f6;
+}
+
+.xlr-mock-hero-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.xlr-mock-tagline {
+  font-size: 8px;
+  color: #64748b;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.xlr-mock-searchbar {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 9px;
+  color: #64748b;
+  margin: 2px auto 6px;
+  width: 80%;
+  text-align: left;
+}
+
+.xlr-mock-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.xlr-mock-card-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xlr-mock-box-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.xlr-mock-hld-lines {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 16px;
+}
+
+.xlr-hld-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+.xlr-hld-line {
+  flex: 1;
+  height: 2px;
+  background: #3b82f6;
+}
+
+.xlr-mock-lld-boxes {
+  display: flex;
+  gap: 4px;
+}
+
+.xlr-lld-mini {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(168, 85, 247, 0.3);
+  border: 1px solid #a855f7;
+}
+
+/* Card Body */
+.xlr-aistep-card-body {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xlr-aistep-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.25;
+}
+
+[data-theme="dark"] .xlr-aistep-card-title {
+  color: #ffffff;
+}
+
+.xlr-aistep-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+[data-theme="dark"] .xlr-aistep-card-desc {
+  color: #94a3b8;
+}
+
+@media (max-width: 900px) {
+  .xlr-aistep-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .xlr-aistep-arrow-container {
+    transform: rotate(90deg);
+    margin-top: 0;
+  }
+}

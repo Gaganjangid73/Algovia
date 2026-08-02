@@ -1,9 +1,37 @@
 :root {
-  /* Colors */
+  /* Core Colors */
   --primary: #145bd7;
   --secondary: #586273;
   --white: #ffffff;
   --black: #152033;
+
+  /* Accent Palette & Glow Tokens */
+  --color-blue: #3b82f6;
+  --color-blue-glow: rgba(59, 130, 246, 0.45);
+
+  --color-green: #10b981;
+  --color-green-glow: rgba(16, 185, 129, 0.45);
+
+  --color-red: #ef4444;
+  --color-red-glow: rgba(239, 68, 68, 0.45);
+
+  --color-purple: #a855f7;
+  --color-purple-glow: rgba(168, 85, 247, 0.45);
+
+  --color-amber: #f59e0b;
+  --color-amber-glow: rgba(245, 158, 11, 0.45);
+
+  --color-sky: #0ea5e9;
+  --color-sky-glow: rgba(14, 165, 233, 0.45);
+
+  --color-pink: #ec4899;
+  --color-pink-glow: rgba(236, 72, 153, 0.45);
+
+  --color-emerald: #22c55e;
+  --color-emerald-glow: rgba(34, 197, 94, 0.45);
+
+  --color-indigo: #6366f1;
+  --color-indigo-glow: rgba(99, 102, 241, 0.5);
 
   /* Font Sizes */
   --fs-xxs: 8px;
@@ -15,7 +43,7 @@
   --fs-xl: 28px;
   --fs-3xl: 54px;
 
-   /* height Sizes */
+  /* Height Sizes */
   --h-xxs: 8px;
   --h-x: 10px;
   --h-xs: 12px;
@@ -26,6 +54,13 @@
   --h-2xl: 50px;
   --h-3xl: 54px;
 
+  /* Component Layout Variables */
+  --h-marquee-container: 560px;
+  --h-marquee-fade-overlay: 50px; /* Reduced height for clean subtle blur */
+  --h-avatar-md: 44px;
+  --h-avatar-sm: 34px;
+  --h-modal-max-width: 520px;
+
   /* Font Weights */
   --fw-regular: 400;
   --fw-medium: 500;
@@ -34,7 +69,7 @@
   --fw-extrabold: 800;
 
   /* Spacing */
-  --space-xxs:2px;
+  --space-xxs: 2px;
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -43,34 +78,37 @@
   --space-xxl: 40px;
   --space-3xl: 48px;
   --space-4xl: 56px;
- 
- 
-   /* padding */
-  --padding-xxs : 2px;
-  --padding-xs : 4px;
-  --padding-sm : 6px;
-  --padding-md : 8px;
-  --padding-lg : 10px;
-   --padding-xl : 12px;
 
-    /* margin */
-  --margin-xxs : 2px;
-  --margin-xs : 4px;
-  --margin-sm : 6px;
-  --margin-md : 8px;
-  --margin-lg : 10px;
-   --margin-xl : 12px;
-   --margin-2xl : 14px;
-   --margin-3xl : 16px;
+  /* Padding */
+  --padding-xxs: 2px;
+  --padding-xs: 4px;
+  --padding-sm: 6px;
+  --padding-md: 8px;
+  --padding-lg: 10px;
+  --padding-xl: 12px;
+  --padding-2xl: 24px;
+  --padding-3xl: 32px;
+
+  /* Margin */
+  --margin-xxs: 2px;
+  --margin-xs: 4px;
+  --margin-sm: 6px;
+  --margin-md: 8px;
+  --margin-lg: 10px;
+  --margin-xl: 12px;
+  --margin-2xl: 14px;
+  --margin-3xl: 16px;
 
   /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
 
   /* Shadow */
-  --shadow-sm: 0 2px 6px rgba(0,0,0,.08);
-  --shadow-md: 0 8px 20px rgba(0,0,0,.12);
-
-
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.15);
 }

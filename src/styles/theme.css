@@ -6,7 +6,7 @@
   /* Text */
   --text-primary: #152033;
   --text-secondary: #586273;
-  --text-third : oklch(37% 0.01165 258.42);
+  --text-third: oklch(37% 0.01165 258.42);
 
   /* Brand */
   --primary: #145bd7;
@@ -18,26 +18,74 @@
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   color-scheme: light;
 
-
-   --btn-bg: #000000;
+  --btn-bg: #000000;
   --btn-text: #ffffff;
-  
+
+  /* Card Variables for Light Theme */
+  --card-bg: #ffffff;
+  --card-info-bg: #ffffff;
+  --card-image-bg: #08090d;
+  --card-border: #e2e8f0;
+  --card-border-hover: #145bd7;
+  --card-shadow-hover: 0 8px 24px rgba(20, 91, 215, 0.2);
+  --badge-bg: #e6002b;
+  --badge-text: #ffffff;
 }
 
-/* Dark Theme */
-
-.dark {
-  --bg-primary: black;
+/* Explicit Dark Class or Dark Mode Media Preference */
+.dark,
+[data-theme="dark"] {
+  --bg-primary: #090a0f;
   --bg-secondary: #1e293b;
 
   --text-primary: #ffffff;
   --text-secondary: #94a3b8;
-  --text-third : oklch(0.552 0.016 285.938);
+  --text-third: oklch(0.552 0.016 285.938);
+
+  --border-color: #1a1d28;
 
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   color-scheme: dark;
 
-
-   --btn-bg: #ffffff;
+  --btn-bg: #ffffff;
   --btn-text: #000000;
+
+  /* Card Variables for Dark Theme */
+  --card-bg: #090a0f;
+  --card-info-bg: #0d0e14;
+  --card-image-bg: #06070a;
+  --card-border: #1a1d28;
+  --card-border-hover: #2563eb;
+  --card-shadow-hover: 0 0 24px rgba(37, 99, 235, 0.35);
+  --badge-bg: #e6002b;
+  --badge-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not([data-theme="light"]) {
+    --bg-primary: #090a0f;
+    --bg-secondary: #1e293b;
+
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --text-third: oklch(0.552 0.016 285.938);
+
+    --border-color: #1a1d28;
+
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+
+    --btn-bg: #ffffff;
+    --btn-text: #000000;
+
+    /* Card Variables for Dark Theme */
+    --card-bg: #090a0f;
+    --card-info-bg: #0d0e14;
+    --card-image-bg: #06070a;
+    --card-border: #1a1d28;
+    --card-border-hover: #2563eb;
+    --card-shadow-hover: 0 0 24px rgba(37, 99, 235, 0.35);
+    --badge-bg: #e6002b;
+    --badge-text: #ffffff;
+  }
 }

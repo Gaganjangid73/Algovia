@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Announcementbar from "../components/Announcementbar";
 import Navbar from "../components/navbar";
 import HldSidebar from "../components/hld/HldSidebar";
 import HldMainContent from "../components/hld/HldMainContent";
+import TopicDetailView from "../components/topicDetail/TopicDetailView";
 import { fetchHldCurriculumData } from "../data/hldContentData";
 import "./HldPage.css";
 
 const STORAGE_KEY = "algovia_hld_completed_topics";
 
 function HldPage() {
+  const { topicId: urlTopicId } = useParams();
+  const navigate = useNavigate();
+
   const [sections, setSections] = useState([]);
   const [activeSectionId, setActiveSectionId] = useState("intro-system-design");
+  const [selectedTopic, setSelectedTopic] = useState(null);
+
   const [completedTopicIds, setCompletedTopicIds] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -47,6 +54,21 @@ function HldPage() {
     };
   }, []);
 
+  // Sync URL topicId to selectedTopic state
+  useEffect(() => {
+    if (sections.length > 0 && urlTopicId) {
+      const allTopics = sections.flatMap((sec) => sec.topics || []);
+      const found = allTopics.find((t) => t.id === urlTopicId);
+      if (found) {
+        setSelectedTopic({ id: found.id, title: found.title });
+      } else {
+        setSelectedTopic({ id: urlTopicId, title: urlTopicId.replace(/-/g, " ") });
+      }
+    } else if (!urlTopicId) {
+      setSelectedTopic(null);
+    }
+  }, [sections, urlTopicId]);
+
   // Save completed topic IDs to localStorage whenever updated
   useEffect(() => {
     try {
@@ -68,6 +90,16 @@ function HldPage() {
     });
   };
 
+  const handleSelectTopic = (id, title) => {
+    setSelectedTopic({ id, title });
+    navigate(`/hld/${id}`);
+  };
+
+  const handleBackToOverview = () => {
+    setSelectedTopic(null);
+    navigate("/hld");
+  };
+
   const activeSection = sections.find((s) => s.id === activeSectionId) || sections[0];
   const safeCompletedIds = Array.isArray(completedTopicIds) ? completedTopicIds : [];
 
@@ -79,32 +111,47 @@ function HldPage() {
         <Navbar />
       </header>
 
-      {/* 2-Column HLD Workspace Layout */}
-      <div className="xlr-hld-container">
-        {!isLoading && sections.length > 0 ? (
-          <>
-            {/* Left Sidebar: Progress Rings & 26 Sections */}
-            <HldSidebar
-              sections={sections}
-              activeSectionId={activeSectionId}
-              onSelectSection={setActiveSectionId}
-              completedTopicIds={safeCompletedIds}
-            />
+      {/* Render Topic Detail Reading View OR Main Curriculum Table Overview */}
+      {selectedTopic ? (
+        <TopicDetailView
+          topicId={selectedTopic.id}
+          topicTitle={selectedTopic.title}
+          courseType="HLD"
+          sidebarTitle="MASTER HLD INTERVIEWS"
+          allSections={sections}
+          completedTopicIds={safeCompletedIds}
+          onToggleTopicStatus={handleToggleTopicStatus}
+          onSelectTopic={handleSelectTopic}
+          onBackToOverview={handleBackToOverview}
+        />
+      ) : (
+        <div className="xlr-hld-container">
+          {!isLoading && sections.length > 0 ? (
+            <>
+              {/* Left Sidebar: Progress Rings & 26 Sections */}
+              <HldSidebar
+                sections={sections}
+                activeSectionId={activeSectionId}
+                onSelectSection={setActiveSectionId}
+                completedTopicIds={safeCompletedIds}
+              />
 
-            {/* Main Content Area: Section Detail & Topics Table */}
-            <HldMainContent
-              activeSection={activeSection}
-              allSections={sections}
-              completedTopicIds={safeCompletedIds}
-              onToggleTopicStatus={handleToggleTopicStatus}
-            />
-          </>
-        ) : (
-          <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
-            <h2>Loading HLD Curriculum...</h2>
-          </div>
-        )}
-      </div>
+              {/* Main Content Area: Section Detail & Topics Table */}
+              <HldMainContent
+                activeSection={activeSection}
+                allSections={sections}
+                completedTopicIds={safeCompletedIds}
+                onToggleTopicStatus={handleToggleTopicStatus}
+                onSelectTopic={handleSelectTopic}
+              />
+            </>
+          ) : (
+            <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
+              <h2>Loading HLD Curriculum...</h2>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

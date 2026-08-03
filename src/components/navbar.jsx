@@ -91,12 +91,21 @@ function Navbar() {
     setActiveDropdown(null);
     if (e && e.preventDefault) e.preventDefault();
 
-    const url = subItem?.url;
-    if (url && url !== "#") {
-      navigate(url);
-    } else if (subItem && (subItem.id?.startsWith("lld") || subItem.title?.toLowerCase().includes("low level"))) {
+    const titleLower = (subItem?.title || "").toLowerCase();
+
+    if (titleLower.includes("master low level") || subItem?.id === "lld-1") {
       navigate("/lld");
-    } else if (subItem && (subItem.id?.startsWith("hld") || subItem.title?.toLowerCase().includes("high level"))) {
+    } else if (titleLower.includes("approach") || subItem?.id === "lld-2" || subItem?.id === "lld-3") {
+      navigate("/lld-designs");
+    } else if (titleLower.includes("master high level") || subItem?.id === "hld-1") {
+      navigate("/hld");
+    } else if (titleLower.includes("scenarios") || titleLower.includes("patterns") || subItem?.id?.startsWith("edge")) {
+      navigate("/system-design/interview-pattern");
+    } else if (subItem?.url && subItem.url !== "#") {
+      navigate(subItem.url);
+    } else if (titleLower.includes("low level")) {
+      navigate("/lld");
+    } else if (titleLower.includes("high level")) {
       navigate("/hld");
     }
   };

@@ -532,14 +532,14 @@ export const fetchSystemDesignDropdownData = async () => {
           id: "lld-2",
           title: "Low Level Design Approach",
           subtitle: "Problems of low level design, to know how to approach in an interview",
-          url: "#",
+          url: "/lld-designs",
           isHighlighted: false
         },
         {
           id: "lld-3",
           title: "Low Level Design Practice",
           subtitle: "Practice LLD problems and see where you are lacking and evaluate your approach",
-          url: "#",
+          url: "/lld-designs",
           isHighlighted: false
         }
       ]
@@ -572,14 +572,14 @@ export const fetchSystemDesignDropdownData = async () => {
           id: "edge-1",
           title: "System Design Scenarios",
           subtitle: "Last-Minute Interview Revision",
-          url: "#",
+          url: "/system-design/interview-pattern",
           isHighlighted: false
         },
         {
           id: "edge-2",
           title: "System Design Patterns",
           subtitle: "Reusable In Production & Interview",
-          url: "#",
+          url: "/system-design/interview-pattern",
           isHighlighted: false
         }
       ]

@@ -1,0 +1,1099 @@
+/* ========================================================================== */
+/* TOPIC DETAIL WORKSPACE LAYOUT (Matches Screenshots 1, 2, 3 & Reference)    */
+/* ========================================================================== */
+
+.xlr-tdv-workspace {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 92px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* ========================================================================== */
+/* 1. FIXED LEFT SIDEBAR (100% Stationary on scroll)                          */
+/* ========================================================================== */
+
+.xlr-tdv-sidebar {
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  position: fixed !important;
+  top: 104px !important;
+  left: 0 !important;
+  width: 280px !important;
+  height: calc(100vh - 104px) !important;
+  overflow: visible !important;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.xlr-tdv-sidebar--collapsed-strip {
+  width: 56px !important;
+}
+
+.xlr-tdv-toggle-sidebar-btn {
+  position: absolute;
+  top: 18px;
+  right: -13px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  transition: all 0.2s ease;
+}
+
+.xlr-tdv-toggle-sidebar-btn:hover {
+  color: #3b82f6;
+  border-color: #3b82f6;
+  transform: scale(1.08);
+}
+
+.xlr-tdv-sidebar-inner {
+  padding: 16px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.xlr-tdv-sidebar-top-fixed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+.xlr-tdv-modules-scrollable-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.xlr-tdv-modules-scrollable-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.xlr-tdv-modules-scrollable-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .xlr-tdv-modules-scrollable-container::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.xlr-tdv-sidebar-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.xlr-tdv-back-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.xlr-tdv-back-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.xlr-tdv-sidebar-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.xlr-tdv-sidebar-subtext {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Overall Progress Box */
+.xlr-tdv-progress-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+[data-theme="light"] .xlr-tdv-progress-box {
+  background: #f8fafc;
+}
+
+.xlr-tdv-progress-ring-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.xlr-tdv-progress-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.xlr-tdv-progress-bg {
+  fill: none;
+  stroke: #e2e8f0;
+}
+
+[data-theme="dark"] .xlr-tdv-progress-bg {
+  stroke: #1e293b;
+}
+
+.xlr-tdv-progress-fill {
+  fill: none;
+  stroke: #3b82f6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.xlr-tdv-progress-ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.xlr-tdv-progress-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-tdv-progress-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.xlr-tdv-progress-fraction {
+  font-size: 16px;
+  color: #94a3b8;
+
+  strong {
+    color: var(--text-primary);
+    font-size: 18px;
+  }
+}
+
+.xlr-tdv-progress-sublabel {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+/* Search Box */
+.xlr-tdv-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+[data-theme="light"] .xlr-tdv-search-box {
+  background: #f1f5f9;
+}
+
+.xlr-tdv-search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+/* Modules Accordion */
+.xlr-tdv-modules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xlr-tdv-module-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-tdv-module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  padding: 8px 6px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.xlr-tdv-module-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.xlr-tdv-module-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xlr-module-icon {
+  color: #94a3b8;
+}
+
+.xlr-arrow-rotate-90 {
+  transform: rotate(90deg);
+}
+
+.xlr-tdv-module-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 12px;
+  margin-top: 4px;
+}
+
+.xlr-tdv-topic-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.xlr-tdv-topic-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.xlr-tdv-topic-item--active {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dark"] .xlr-tdv-topic-item--active {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+.xlr-tdv-topic-item-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xlr-tdv-topic-item-indicators {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Collapsed Sidebar Strip (Screenshots 2 & 3) */
+.xlr-tdv-collapsed-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px;
+  gap: 16px;
+}
+
+.xlr-tdv-strip-back {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.xlr-tdv-strip-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xlr-tdv-strip-icon-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.xlr-tdv-strip-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #3b82f6;
+}
+
+/* ========================================================================== */
+/* 2. CENTER MAIN ARTICLE CONTAINER                                          */
+/* ========================================================================== */
+
+.xlr-tdv-main-content {
+  padding: 40px 60px 140px 60px;
+  display: flex;
+  flex-direction: column;
+  max-width: 860px;
+  margin-left: 280px;
+  margin-right: 280px;
+  width: calc(100% - 560px);
+  position: relative;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.xlr-tdv-workspace--collapsed .xlr-tdv-main-content {
+  margin-left: 56px;
+  width: calc(100% - 336px);
+}
+
+.xlr-tdv-article {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.xlr-tdv-article-title {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Author Byline: Gagan Jangid */
+.xlr-tdv-author-byline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.xlr-tdv-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.xlr-tdv-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-tdv-author-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.xlr-tdv-author-role {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Article Body Typography */
+.xlr-tdv-article-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.xlr-tdv-paragraph {
+  margin: 0;
+  color: #334155;
+}
+
+[data-theme="dark"] .xlr-tdv-paragraph {
+  color: #cbd5e1;
+}
+
+.xlr-tdv-callout-box {
+  background: #f0fdf4;
+  border-left: 4px solid #2563eb;
+  padding: 16px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 8px 0;
+}
+
+[data-theme="dark"] .xlr-tdv-callout-box {
+  background: rgba(37, 99, 235, 0.08);
+  color: #e2e8f0;
+}
+
+.xlr-tdv-heading {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 24px;
+  margin-bottom: 4px;
+  scroll-margin-top: 80px;
+}
+
+/* FLOATING BOTTOM ACTION BAR CONTROLS (Middle-Bottom 100% Guaranteed Visibility) */
+.xlr-tdv-floating-action-bar {
+  position: fixed !important;
+  top: auto !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  pointer-events: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hide / Show Pill Button sitting right on top center */
+.xlr-tdv-bar-hide-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px 20px 0 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: -1px;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .xlr-tdv-bar-hide-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.xlr-tdv-bar-hide-btn:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+[data-theme="dark"] .xlr-tdv-bar-hide-btn:hover {
+  color: #ffffff;
+  background: #334155;
+}
+
+.xlr-tdv-bar-content-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  padding: 5px 12px;
+  border-radius: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+[data-theme="dark"] .xlr-tdv-bar-content-row {
+  background: rgba(15, 23, 42, 0.94);
+  border-color: rgba(51, 65, 85, 0.8);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.xlr-tdv-bar-divider {
+  width: 1px;
+  height: 18px;
+  background: #e2e8f0;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .xlr-tdv-bar-divider {
+  background: #334155;
+}
+
+.xlr-tdv-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.xlr-tdv-action-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+[data-theme="dark"] .xlr-tdv-action-btn:hover {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+.xlr-tdv-action-btn--animate {
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 700;
+  padding: 5px 14px;
+}
+
+[data-theme="dark"] .xlr-tdv-action-btn--animate {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+
+.xlr-tdv-action-btn--nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Green Active Complete Button */
+.xlr-tdv-action-btn--complete-active {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border-color: #86efac !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dark"] .xlr-tdv-action-btn--complete-active {
+  background: rgba(34, 197, 94, 0.18) !important;
+  color: #4ade80 !important;
+  border-color: rgba(74, 222, 128, 0.3) !important;
+}
+
+/* Orange Active Revision Button */
+.xlr-tdv-action-btn--revision-active {
+  background: #ffedd5 !important;
+  color: #c2410c !important;
+  border-color: #fdba74 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dark"] .xlr-tdv-action-btn--revision-active {
+  background: rgba(249, 115, 22, 0.18) !important;
+  color: #fb923c !important;
+  border-color: rgba(251, 146, 60, 0.3) !important;
+}
+
+.xlr-tdv-action-btn--has-note {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* ========================================================================== */
+/* 4. FIXED RIGHT SIDEBAR (100% Stationary on scroll)                         */
+/* ========================================================================== */
+
+.xlr-tdv-right-sidebar {
+  border-left: 1px solid #e2e8f0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: fixed !important;
+  top: 104px !important;
+  right: 0 !important;
+  width: 290px !important;
+  height: calc(100vh - 104px) !important;
+  overflow: hidden;
+  z-index: 1000 !important;
+  background: #ffffff !important;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .xlr-tdv-right-sidebar {
+  background: #090d16 !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.xlr-tdv-right-sidebar-top-fixed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.xlr-tdv-toc-scrollable-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.xlr-tdv-toc-scrollable-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.xlr-tdv-toc-scrollable-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .xlr-tdv-toc-scrollable-container::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Member Banner */
+.xlr-tdv-brand-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xlr-tdv-brand-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+
+  span {
+    color: #2563eb;
+  }
+}
+
+.xlr-tdv-brand-sub {
+  font-size: 11.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.xlr-tdv-member-btn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s ease;
+}
+
+[data-theme="dark"] .xlr-tdv-member-btn {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.xlr-tdv-member-btn:hover {
+  opacity: 0.9;
+}
+
+/* Reading Progress with Vibrant Green Progress Bar (Screenshot 1) */
+.xlr-tdv-reading-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xlr-tdv-reading-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.xlr-tdv-reading-bar-track {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .xlr-tdv-reading-bar-track {
+  background: #1e293b;
+}
+
+.xlr-tdv-reading-bar-fill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+
+/* Table of Contents */
+.xlr-tdv-toc-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xlr-tdv-toc-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.xlr-tdv-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xlr-tdv-toc-item button {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.xlr-tdv-toc-item button:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.05);
+}
+
+/* Active Heading Green Highlight Card (Screenshot 1) */
+.xlr-tdv-toc-item--active button {
+  background: #f0fdf4 !important;
+  border-left: 3.5px solid #22c55e !important;
+  color: #16a34a !important;
+  font-weight: 700 !important;
+  padding: 8px 12px !important;
+  border-radius: 0 8px 8px 0 !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+[data-theme="dark"] .xlr-tdv-toc-item--active button {
+  background: rgba(34, 197, 94, 0.12) !important;
+  border-left: 3.5px solid #4ade80 !important;
+  color: #4ade80 !important;
+}
+
+/* ========================================================================== */
+/* 5. MODALS & DRAWERS                                                        */
+/* ========================================================================== */
+
+.xlr-tdv-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 100000 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Notes Modal */
+.xlr-tdv-notes-modal {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 480px;
+  max-width: 90vw;
+  background: #ffffff !important;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 100001 !important;
+  animation: slideInRight 0.25s ease-out;
+}
+
+[data-theme="dark"] .xlr-tdv-notes-modal {
+  background: #0f172a;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.xlr-tdv-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.xlr-tdv-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.xlr-tdv-notes-icon-wrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.xlr-tdv-modal-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.xlr-tdv-modal-subtitle {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.xlr-tdv-close-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+}
+
+.xlr-tdv-close-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+.xlr-tdv-notes-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xlr-tdv-notes-textarea {
+  width: 100%;
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  resize: none;
+  color: var(--text-primary);
+  background: #f8fafc;
+  font-family: inherit;
+}
+
+[data-theme="dark"] .xlr-tdv-notes-textarea {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.xlr-tdv-notes-footer {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Share Modal */
+.xlr-tdv-share-modal {
+  width: 440px;
+  max-width: 90vw;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: popIn 0.2s ease-out;
+}
+
+[data-theme="dark"] .xlr-tdv-share-modal {
+  background: #0f172a;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.xlr-tdv-share-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.xlr-tdv-share-url-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 8px 12px;
+  gap: 10px;
+}
+
+[data-theme="dark"] .xlr-tdv-share-url-box {
+  background: #1e293b;
+}
+
+.xlr-tdv-share-url-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xlr-tdv-copy-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.xlr-tdv-copy-btn:hover {
+  background: #1d4ed8;
+}
+
+.xlr-tdv-share-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.xlr-tdv-share-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.xlr-share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 10px;
+  border-radius: 14px;
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.xlr-share-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.xlr-share-btn--whatsapp { background: #25d366; }
+.xlr-share-btn--twitter { background: #000000; }
+.xlr-share-btn--linkedin { background: #0a66c2; }
+.xlr-share-btn--facebook { background: #1877f2; }
+.xlr-share-btn--telegram { background: #0088cc; }
+.xlr-share-btn--email { background: #475569; }
+
+.xlr-tdv-more-options-btn {
+  background: #f1f5f9;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .xlr-tdv-more-options-btn {
+  background: #1e293b;
+}

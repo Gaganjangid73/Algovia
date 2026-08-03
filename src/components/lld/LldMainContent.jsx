@@ -5,7 +5,8 @@ function LldMainContent({
   activeSection,
   allSections,
   completedTopicIds,
-  onToggleTopicStatus
+  onToggleTopicStatus,
+  onSelectTopic
 }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -138,7 +139,11 @@ function LldMainContent({
               </div>
 
               {/* Topic Name */}
-              <div className="xlr-hld-name-col">
+              <div
+                className="xlr-hld-name-col"
+                onClick={() => onSelectTopic && onSelectTopic(topic.id, topic.title)}
+                style={{ cursor: "pointer" }}
+              >
                 <span className={`xlr-hld-topic-name ${isDone ? "xlr-hld-topic-name--done" : ""}`}>
                   {topic.title}
                 </span>

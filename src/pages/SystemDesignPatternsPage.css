@@ -1,0 +1,337 @@
+/* System Design Patterns Dual-Theme (Dark & Light) Overview Styling */
+
+/* Default Dark Theme Aesthetics */
+.xlr-sdp-layout {
+  min-height: 100vh;
+  background-color: var(--bg-primary, #000000);
+  color: var(--text-primary, #ffffff);
+  font-family: inherit;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.xlr-sdp-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 120px 24px 80px 24px;
+}
+
+/* Header Section */
+.xlr-sdp-header {
+  margin-bottom: 32px;
+}
+
+.xlr-sdp-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.xlr-sdp-subtitle {
+  font-size: 15px;
+  color: var(--text-muted, #808c9c);
+  margin: 0;
+}
+
+/* Interview Tips Card */
+.xlr-sdp-tips-card {
+  background: var(--bg-card, #080a0e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-bottom: 40px;
+}
+
+.xlr-sdp-tips-header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.xlr-sdp-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.xlr-sdp-tip-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.xlr-sdp-tip-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.15);
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+.xlr-sdp-tip-text {
+  font-size: 13px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+}
+
+/* Table Container (Individual Separated Cards) */
+.xlr-sdp-table-wrapper {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-sdp-table-header {
+  display: grid;
+  grid-template-columns: 120px 1fr 140px 160px 80px 120px;
+  padding: 0 24px 16px 24px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #475569;
+  align-items: center;
+}
+
+.xlr-sdp-table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual Pattern Card Row */
+.xlr-sdp-table-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 140px 160px 80px 120px;
+  padding: 20px 24px;
+  background: var(--bg-card, #090b10);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.xlr-sdp-table-row:hover {
+  background: var(--bg-hover, #0e1118);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Pattern Badge Pill */
+.xlr-sdp-pattern-pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted, #94a3b8);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  padding: 6px 14px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+/* Pattern Info */
+.xlr-sdp-pattern-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xlr-sdp-pattern-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+  letter-spacing: -0.2px;
+}
+
+.xlr-sdp-pattern-subtitle {
+  font-size: 13px;
+  color: var(--text-muted, #808c9c);
+  line-height: 1.4;
+}
+
+/* Importance Badge */
+.xlr-sdp-imp-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* Prod Progress */
+.xlr-sdp-prod-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.xlr-sdp-prod-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.xlr-sdp-prod-bar-bg {
+  width: 60px;
+  height: 6px;
+  background: var(--track-bg, rgba(255, 255, 255, 0.1));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.xlr-sdp-prod-bar-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 4px;
+}
+
+.xlr-sdp-prod-percent {
+  font-size: 12px;
+  font-weight: 800;
+  color: #10b981;
+}
+
+/* Checkbox */
+.xlr-sdp-done-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.xlr-sdp-done-circle {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--border-color, #334155);
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.xlr-sdp-done-btn:hover .xlr-sdp-done-circle {
+  border-color: #10b981;
+}
+
+/* Access Badge */
+.xlr-sdp-access-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.xlr-sdp-access--free {
+  color: #10b981;
+}
+
+.xlr-sdp-access--premium {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  color: var(--text-muted, #94a3b8);
+}
+
+/* ========================================================================== */
+/* LIGHT THEME OVERRIDES ([data-theme="light"])                               */
+/* ========================================================================== */
+
+[data-theme="light"] .xlr-sdp-layout {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+[data-theme="light"] .xlr-sdp-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .xlr-sdp-subtitle {
+  color: #64748b;
+}
+
+[data-theme="light"] .xlr-sdp-tips-card {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .xlr-sdp-tip-num {
+  color: #2563eb;
+  background: #dbeafe;
+}
+
+[data-theme="light"] .xlr-sdp-tip-text {
+  color: #475569;
+}
+
+[data-theme="light"] .xlr-sdp-table-header {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .xlr-sdp-table-row {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .xlr-sdp-table-row:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .xlr-sdp-pattern-pill {
+  color: #64748b;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .xlr-sdp-pattern-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .xlr-sdp-pattern-subtitle {
+  color: #64748b;
+}
+
+[data-theme="light"] .xlr-sdp-prod-bar-bg {
+  background: #e2e8f0;
+}
+
+[data-theme="light"] .xlr-sdp-done-circle {
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .xlr-sdp-access--premium {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+@media (max-width: 900px) {
+  .xlr-sdp-tips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .xlr-sdp-table-header,
+  .xlr-sdp-table-row {
+    grid-template-columns: 90px 1fr 100px;
+  }
+  .xlr-sdp-col-prod,
+  .xlr-sdp-col-done,
+  .xlr-sdp-col-access {
+    display: none;
+  }
+}

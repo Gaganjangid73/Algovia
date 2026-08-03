@@ -37,6 +37,10 @@ const SdeCard = ({ item, isDsaCard = false, children }) => {
       navigate("/hld");
     } else if (id === "lld") {
       navigate("/lld");
+    } else if (id === "lld-approach" || id.includes("approach")) {
+      navigate("/lld-designs");
+    } else if (id === "scenarios" || id.includes("pattern")) {
+      navigate("/system-design/interview-pattern");
     }
   };
 

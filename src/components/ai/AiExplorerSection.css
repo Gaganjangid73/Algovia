@@ -165,7 +165,31 @@
   gap: 28px;
 }
 
+/* Image Container & Ambient Glow Behind Preview Image */
+.xlr-aiexplorer-image-container {
+  position: relative;
+  width: 100%;
+}
+
+.xlr-aiexplorer-image-glow {
+  position: absolute;
+  inset: -14px;
+  background: radial-gradient(circle, var(--active-glow-color, rgba(37, 99, 235, 0.55)) 0%, transparent 70%);
+  filter: blur(28px);
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.3s ease, filter 0.3s ease;
+}
+
+[data-theme="dark"] .xlr-aiexplorer-image-glow {
+  background: radial-gradient(circle, var(--active-glow-color, rgba(59, 130, 246, 0.65)) 0%, transparent 70%);
+  filter: blur(32px);
+}
+
 .xlr-aiexplorer-image-wrapper {
+  position: relative;
+  z-index: 1;
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
@@ -219,7 +243,9 @@
 }
 
 .xlr-aiexplorer-detail-action {
-  margin-top: 8px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 992px) {

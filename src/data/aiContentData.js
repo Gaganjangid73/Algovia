@@ -228,6 +228,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Software Development Fundamentals",
       description: "Core Data Structures, Algorithms, and System Design principles expected before starting AI Engineering.",
       image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(37, 99, 235, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -238,6 +239,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Statistics & Probability",
       description: "The math that everything else, from gradient descent to attention, is built on.",
       image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(168, 85, 247, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -248,6 +250,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "NumPy & Pandas for ML/AI Engineers",
       description: "Vectorized array computations, DataFrame manipulation, and production data preprocessing pipelines.",
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(16, 185, 129, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -258,6 +261,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Data Cleaning",
       description: "Handling missing values, outlier detection, data normalization, and dataset validation techniques.",
       image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(245, 158, 11, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -268,6 +272,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Data Visualization",
       description: "Seeing your data before, during, and after modeling, from Matplotlib basics to ML-specific plots like ROC curves and SHAP.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(6, 182, 212, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -278,6 +283,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Machine Learning Fundamentals",
       description: "Supervised and unsupervised algorithms, model evaluation, cross-validation, and hyperparameter tuning.",
       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(244, 63, 94, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -288,6 +294,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Deep Learning Fundamentals",
       description: "Perceptrons, backpropagation, activation functions, CNNs, RNNs, and Transformer architecture internals.",
       image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(139, 92, 246, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -298,6 +305,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "PyTorch",
       description: "The deep learning framework most modern AI/ML work and every LLM is built on, from tensors to production deployment.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(249, 115, 22, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -308,6 +316,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Prompting & APIs",
       description: "Getting reliable output out of foundation models: prompting technique, decoding, and API mechanics.",
       image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(59, 130, 246, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -318,6 +327,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "RAG & Vector Search",
       description: "Building production RAG pipelines with hybrid search, vector databases, reranking, and semantic retrieval.",
       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(132, 204, 22, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -328,6 +338,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Fine-Tuning",
       description: "PEFT techniques, LoRA, QLoRA, DPO, and quantization for custom LLM domain adaptation.",
       image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(236, 72, 153, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -338,6 +349,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "MCP (Model Context Protocol)",
       description: "Standardized open protocol connecting AI models to tools, databases, and local file systems.",
       image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(99, 102, 241, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -348,6 +360,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Hugging Face Ecosystem",
       description: "Navigating Hugging Face Hub, Datasets library, PEFT, TGI, and open-source AI models.",
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(234, 179, 8, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -358,6 +371,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "AI Agents & Tool Calling",
       description: "Designing autonomous agent loops with ReAct prompting, function calling, short/long-term memory, and tool execution.",
       image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(147, 51, 234, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -368,6 +382,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Orchestration Frameworks",
       description: "Building multi-agent graphs, state machines, and reliable AI workflows using LangGraph and LangChain.",
       image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(20, 184, 166, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -378,6 +393,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Deployment & LLMOps",
       description: "vLLM serving, TensorRT-LLM optimization, latency monitoring, tracing, and LLM production ops.",
       image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(239, 68, 68, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -388,6 +404,7 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "AI Safety & Evaluation",
       description: "RAGAS evaluation, LLM-as-a-judge benchmarking, hallucination metrics, and adversarial red teaming.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(56, 189, 248, 0.55)",
       exploreUrl: "#"
     },
     {
@@ -398,7 +415,81 @@ export const fetchAiExplorerStepsData = async () => {
       detailTitle: "Security",
       description: "OWASP Top 10 for LLMs, prompt injection defense, data privacy, guardrails, and compliance.",
       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+      shadowGlowColor: "rgba(225, 29, 72, 0.55)",
       exploreUrl: "#"
+    }
+  ];
+};
+
+/**
+ * Async getter function simulating backend API endpoint for AI Feature Showcase section
+ */
+export const fetchAiFeatureShowcaseData = async () => {
+  return [
+    {
+      id: "ai-engineering-complete",
+      title: "Master AI Engineering (Complete One)",
+      subtitle: "Transformers, Fine-Tuning, RAG & AI Agents.",
+      detailTitle: "Master AI Engineering (Complete One)",
+      detailDescription: "The complete curriculum: Deep Learning, Classical ML, RAG, fine-tuning, MCP, agents, evaluation, deployment and everything in between.",
+      shadowGlow: "var(--color-sky-glow)",
+      accentColor: "var(--color-sky)",
+      images: [
+        "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=800&auto=format&fit=crop"
+      ]
+    },
+    {
+      id: "llm-fine-tuning",
+      title: "LLM Fine-Tuning & RAG Systems",
+      subtitle: "Build Production-grade RAG & PEFT pipelines.",
+      detailTitle: "LLM Architecture, Fine-Tuning & RAG",
+      detailDescription: "Master embeddings, vector databases, LoRA, QLoRA, DPO optimization, and production LLM serving with vLLM.",
+      shadowGlow: "var(--color-purple-glow)",
+      accentColor: "var(--color-purple)",
+      images: [
+        "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+      ]
+    },
+    {
+      id: "ai-agents-mcp",
+      title: "AI Agents & Autonomous Workflows",
+      subtitle: "ReAct loops, LangGraph state machines & MCP.",
+      detailTitle: "AI Agents & Tool Calling (ReAct)",
+      detailDescription: "Design tool-calling autonomous agents with short/long-term memory, MCP protocol integration, and multi-agent coordination.",
+      shadowGlow: "var(--color-amber-glow)",
+      accentColor: "var(--color-amber)",
+      images: [
+        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
+      ]
+    },
+    {
+      id: "llmops-eval-safety",
+      title: "LLMOps, Evaluation & AI Safety",
+      subtitle: "Serving, latency, RAGAS & Red Teaming.",
+      detailTitle: "Production LLMOps & Evaluation",
+      detailDescription: "Deploy models with TensorRT-LLM, monitor token latency, benchmark output quality with RAGAS, and secure models against prompt injections.",
+      shadowGlow: "var(--color-emerald-glow)",
+      accentColor: "var(--color-emerald)",
+      images: [
+        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+      ]
+    },
+    {
+      id: "ai-newsletter",
+      title: "Engineering Newsletter",
+      subtitle: "LLM architecture & AI case studies, every week.",
+      detailTitle: "Weekly AI Architecture Deep Dives",
+      detailDescription: "Deep dive case studies on how OpenAI, Anthropic, Meta, and Google design, evaluate, and scale massive AI infrastructure.",
+      shadowGlow: "var(--color-pink-glow)",
+      accentColor: "var(--color-pink)",
+      images: [
+        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop"
+      ]
     }
   ];
 };

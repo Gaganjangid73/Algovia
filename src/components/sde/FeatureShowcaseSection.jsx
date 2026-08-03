@@ -8,7 +8,10 @@ const TRANSITION_DURATION_MS = 450;
 /**
  * Interactive Feature Showcase section with smooth Enter-from-Right, Exit-to-Left carousel transition
  */
-const FeatureShowcaseSection = () => {
+const FeatureShowcaseSection = ({ 
+  fetchDataFn = fetchFeatureShowcaseData,
+  sectionTitle = "Everything you need, in one place" 
+}) => {
   const [items, setItems] = useState([]);
   const [activeTabId, setActiveTabId] = useState("");
   const [exitingItem, setExitingItem] = useState(null);
@@ -24,11 +27,10 @@ const FeatureShowcaseSection = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const data = await fetchFeatureShowcaseData();
+        const data = await fetchDataFn();
         setItems(data);
-        if (data.length > 0) {
-          const defaultItem = data.find((i) => i.id === "cs-fundamentals") || data[0];
-          setActiveTabId(defaultItem.id);
+        if (data && data.length > 0) {
+          setActiveTabId(data[0].id);
         }
       } catch (err) {
         console.error("Failed to load feature showcase data:", err);
@@ -38,7 +40,7 @@ const FeatureShowcaseSection = () => {
     };
 
     loadData();
-  }, []);
+  }, [fetchDataFn]);
 
   // Function to switch tab with smooth exit-left & enter-right animation
   const switchTab = (newId) => {

@@ -4,7 +4,6 @@ import Navbar from "../components/navbar";
 import Searchbar from "../components/searchbar";
 import AiStepPathSection from "../components/ai/AiStepPathSection";
 import AiExplorerSection from "../components/ai/AiExplorerSection";
-import FeatureShowcaseSection from "../components/sde/FeatureShowcaseSection";
 import WhyUsSection from "../components/sde/WhyUsSection";
 import ReviewsSection from "../components/sde/ReviewsSection";
 import FounderSection from "../components/sde/FounderSection";
@@ -49,7 +48,6 @@ function AiPage() {
         <AiExplorerSection />
 
         {/* Reusable Platform Sections */}
-        <FeatureShowcaseSection />
         <WhyUsSection />
         <ReviewsSection />
         <FounderSection />

@@ -50,7 +50,7 @@ function AiCard({ card }) {
           <Primarybtn
             text="Explore Learning Path"
             icon={<RiArrowRightSLine size={19} />}
-            className="xlr-card-btn"
+            className="xlr-navbtn"
           />
         </div>
       </div>

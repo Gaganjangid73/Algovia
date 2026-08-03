@@ -525,7 +525,7 @@ export const fetchSystemDesignDropdownData = async () => {
           id: "lld-1",
           title: "Master Low Level Design",
           subtitle: "Classes, Patterns & OOP Design",
-          url: "#",
+          url: "/lld",
           isHighlighted: false
         },
         {
@@ -552,7 +552,7 @@ export const fetchSystemDesignDropdownData = async () => {
           id: "hld-1",
           title: "Master High Level Design",
           subtitle: "Scalability, Architecture & Tradeoffs",
-          url: "#",
+          url: "/hld",
           isHighlighted: false
         },
         {

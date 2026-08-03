@@ -25,7 +25,7 @@
 .xlr-navbar-left {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -33,7 +33,7 @@
 .xlr-navbar-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -138,6 +138,18 @@
   padding-top: 16px;
   z-index: 1100;
   animation: megaMenuFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.xlr-megamenu-dropdown::before,
+.xlr-dsa-dropdown::before,
+.xlr-devops-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: 0;
+  width: 100%;
+  height: 28px;
+  background: transparent;
 }
 
 @keyframes megaMenuFadeIn {
@@ -614,35 +626,87 @@
   cursor: pointer;
 }
 
-.xlr-Interview-roles{
+/* Role Switcher Pill Container (Matches reference screenshots 1 & 2) */
+.xlr-role-switcher {
   display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 30px;
+  background: #f1f5f9;
+  padding: 3px;
+  transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .xlr-role-switcher {
+  background: #111522;
+}
+
+.xlr-role-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 11px;
+  border-radius: 18px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .xlr-role-btn {
+  color: #94a3b8;
+}
+
+.xlr-role-btn:hover {
+  color: #0f172a;
+}
+
+[data-theme="dark"] .xlr-role-btn:hover {
+  color: #ffffff;
+}
+
+.xlr-role-btn--active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="dark"] .xlr-role-btn--active {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Global Primary "Get Started" Pill Button */
+.xlr-navbtn {
+  border-radius: 30px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+  background-color: #ffffff;
+  padding: 6px 14px;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: var(--space-sm);
-  border-radius: 30px;
-  background: oklch(0.967 0.003 264.542);
-  padding: var(--padding-xs) var(--padding-md);
-  color: var(--text-primary);
-  font-size: var(--fs-xs);
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.xlr-Interview-roles-active{
-  color: var(--bt);
-  background-color: var(--bg-primary);
-   border-radius: 30px;
-   padding: var(--padding-sm) var(--padding-md);
-   font-family: var(--fw-bold);
- box-shadow: var(--shadow-md);   
-
+[data-theme="dark"] .xlr-navbtn {
+  border: 1px solid #ffffff;
+  color: #000000;
+  background-color: #ffffff;
 }
 
-.dark .xlr-Interview-roles {
-  background: var(--text-third);
-  color: #ffffff;
+.xlr-navbtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.dark .xlr-Interview-roles-active {
-  color: #ffffff;
-  background: #000000;
-}

@@ -1,114 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Algovia from "../assets/Algovia.png";
+import Primarybtn from "./button";
 import { RiArrowDropDownLine, RiArrowRightSLine } from "react-icons/ri";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
-import { SiCplusplus, SiPython, SiGo, SiJavascript } from "react-icons/si";
-import { FaJava } from "react-icons/fa6";
-import { useTheme } from "../context/ThemeContext";
-import "./navbar.css";
-import Primarybtn from "./button";
 import { useNavDropdownData } from "../hooks/useNavDropdownData";
+import { useTheme } from "../context/ThemeContext";
+import { ROLE_NAV_ITEMS, ROLE_PATHS } from "../config/navigationConfig";
+import "./navbar.css";
 
-const Roles = ["SDE", "AI Engineer", "Devops"];
-
-const ROLE_PATHS = {
-  "SDE": "/",
-  "AI Engineer": "/ai/engineering/home",
-  "Devops": "/devops/engineering/home"
-};
-
-const ROLE_NAV_ITEMS = {
-  "SDE": [
-    {
-      id: "system-design",
-      title: "System Design",
-      subtitle: "System Design (Complete One)",
-      hasDropdown: true,
-      dropdownType: "system-design"
-    },
-    {
-      id: "dsa",
-      title: "Data Structure & Algorithms",
-      subtitle: "Master DSA Patterns & Core Concepts",
-      hasDropdown: true,
-      dropdownType: "dsa"
-    },
-    {
-      id: "swe",
-      title: "Software Engineer Bucket",
-      subtitle: "Interview Preparation & Concepts",
-      hasDropdown: true,
-      dropdownType: "swe"
-    },
-    {
-      id: "newsletter",
-      title: "Engineering Newsletter",
-      subtitle: "System Design stories, every week",
-      hasDropdown: false
-    }
-  ],
-  "AI Engineer": [
-    {
-      id: "ai-engineering",
-      title: "AI Engineering (Complete One)",
-      subtitle: "The Complete Learning Path, Step by Step",
-      hasDropdown: true,
-      dropdownType: "ai-engineering"
-    },
-    {
-      id: "newsletter",
-      title: "Engineering Newsletter",
-      subtitle: "System Design stories, every week",
-      hasDropdown: false
-    }
-  ],
-  "Devops": [
-    {
-      id: "devops-engineering",
-      title: "DevOps Engineering",
-      subtitle: "Linux to Kubernetes to Production",
-      hasDropdown: true,
-      dropdownType: "devops-engineering"
-    },
-    {
-      id: "cloud-interview",
-      title: "Cloud For Interview",
-      subtitle: "IAM to Serverless to Production",
-      hasDropdown: false
-    },
-    {
-      id: "newsletter",
-      title: "Engineering Newsletter",
-      subtitle: "System Design stories, every week",
-      hasDropdown: false
-    }
-  ]
-};
-
+// Helper function to render language icons
 const renderLangIcon = (type) => {
   switch (type) {
     case "cpp":
-      return <SiCplusplus className="xlr-lang-icon xlr-lang-icon--cpp" />;
+      return <span className="xlr-lang-icon xlr-lang-icon--cpp">C++</span>;
     case "java":
-      return <FaJava className="xlr-lang-icon xlr-lang-icon--java" />;
+      return <span className="xlr-lang-icon xlr-lang-icon--java">Java</span>;
     case "python":
-      return <SiPython className="xlr-lang-icon xlr-lang-icon--python" />;
-    case "go":
-      return <SiGo className="xlr-lang-icon xlr-lang-icon--go" />;
+      return <span className="xlr-lang-icon xlr-lang-icon--python">Py</span>;
     case "js":
-      return <SiJavascript className="xlr-lang-icon xlr-lang-icon--js" />;
+      return <span className="xlr-lang-icon xlr-lang-icon--js">JS</span>;
+    case "go":
+      return <span className="xlr-lang-icon xlr-lang-icon--go">Go</span>;
     default:
       return null;
   }
 };
 
 function Navbar() {
-  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownTimeoutRef = useRef(null);
+
   const { 
     systemDesignData, 
     dsaData, 
@@ -117,6 +42,8 @@ function Navbar() {
     devopsEngineeringData, 
     isLoading 
   } = useNavDropdownData();
+
+  const { theme, toggleTheme } = useTheme();
 
   // Determine current active role from URL location
   const getCurrentRole = () => {
@@ -131,6 +58,47 @@ function Navbar() {
   const handleRoleClick = (role) => {
     const targetPath = ROLE_PATHS[role] || "/";
     navigate(targetPath);
+  };
+
+  // Robust hover management with grace period delay to prevent premature dropdown closing
+  const handleMouseEnterItem = (itemId, hasDropdown) => {
+    if (!hasDropdown) return;
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setActiveDropdown(itemId);
+  };
+
+  const handleMouseLeaveItem = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 180);
+  };
+
+  const handleDropdownContainerMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+  };
+
+  const handleDropdownLinkClick = (subItem, e) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setActiveDropdown(null);
+    if (e && e.preventDefault) e.preventDefault();
+
+    const url = subItem?.url;
+    if (url && url !== "#") {
+      navigate(url);
+    } else if (subItem && (subItem.id?.startsWith("lld") || subItem.title?.toLowerCase().includes("low level"))) {
+      navigate("/lld");
+    } else if (subItem && (subItem.id?.startsWith("hld") || subItem.title?.toLowerCase().includes("high level"))) {
+      navigate("/hld");
+    }
   };
 
   const navItems = ROLE_NAV_ITEMS[currentRole] || ROLE_NAV_ITEMS["SDE"];
@@ -156,8 +124,8 @@ function Navbar() {
             <div
               className={`xlr-navbar-item ${activeDropdown === item.id ? "xlr-navbar-item--open" : ""}`}
               key={item.id}
-              onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.id)}
-              onMouseLeave={() => item.hasDropdown && setActiveDropdown(null)}
+              onMouseEnter={() => handleMouseEnterItem(item.id, item.hasDropdown)}
+              onMouseLeave={handleMouseLeaveItem}
             >
               <div className="xlr-navbar-item-bundle">
                 <div className="xlr-navbar-item-name">{item.title}</div>
@@ -165,9 +133,13 @@ function Navbar() {
               </div>
               {item.hasDropdown && <RiArrowDropDownLine className="arrow-icon" size={25} />}
 
-              {/* 1. Mega Menu Dropdown for System Design */}
+              {/* 1. 3-Column Mega Menu Dropdown for System Design */}
               {item.dropdownType === "system-design" && activeDropdown === item.id && (
-                <div className="xlr-megamenu-dropdown">
+                <div
+                  className="xlr-megamenu-dropdown"
+                  onMouseEnter={handleDropdownContainerMouseEnter}
+                  onMouseLeave={handleMouseLeaveItem}
+                >
                   <div className="xlr-megamenu-container">
                     {!isLoading &&
                       systemDesignData.map((col) => (
@@ -179,6 +151,7 @@ function Navbar() {
                                 href={subItem.url}
                                 className="xlr-megamenu-item-link"
                                 key={subItem.id}
+                                onClick={(e) => handleDropdownLinkClick(subItem, e)}
                               >
                                 <span className="xlr-megamenu-item-title">{subItem.title}</span>
                                 <span className="xlr-megamenu-item-subtitle">{subItem.subtitle}</span>
@@ -193,9 +166,17 @@ function Navbar() {
 
               {/* 2. Single Column Card Dropdown for DSA */}
               {item.dropdownType === "dsa" && activeDropdown === item.id && dsaData && (
-                <div className="xlr-dsa-dropdown">
+                <div
+                  className="xlr-dsa-dropdown"
+                  onMouseEnter={handleDropdownContainerMouseEnter}
+                  onMouseLeave={handleMouseLeaveItem}
+                >
                   <div className="xlr-dsa-dropdown-container">
-                    <a href={dsaData.banner.url} className="xlr-dsa-banner">
+                    <a
+                      href={dsaData.banner.url}
+                      className="xlr-dsa-banner"
+                      onClick={(e) => handleDropdownLinkClick(dsaData.banner.url, e)}
+                    >
                       <h4 className="xlr-dsa-banner-title">{dsaData.banner.title}</h4>
                       <p className="xlr-dsa-banner-subtitle">{dsaData.banner.subtitle}</p>
                     </a>
@@ -203,7 +184,12 @@ function Navbar() {
                       <h5 className="xlr-dsa-category-header">{dsaData.categoryHeader}</h5>
                       <div className="xlr-dsa-items-list">
                         {dsaData.items.map((subItem) => (
-                          <a href={subItem.url} className="xlr-dsa-item-link" key={subItem.id}>
+                          <a
+                            href={subItem.url}
+                            className="xlr-dsa-item-link"
+                            key={subItem.id}
+                            onClick={(e) => handleDropdownLinkClick(subItem.url, e)}
+                          >
                             <span className="xlr-dsa-item-title">{subItem.title}</span>
                             <span className="xlr-dsa-item-subtitle">{subItem.subtitle}</span>
                           </a>
@@ -216,7 +202,11 @@ function Navbar() {
 
               {/* 3. 4-Column Mega Menu Dropdown for Software Engineer Bucket */}
               {item.dropdownType === "swe" && activeDropdown === item.id && (
-                <div className="xlr-megamenu-dropdown xlr-megamenu-dropdown--swe">
+                <div
+                  className="xlr-megamenu-dropdown xlr-megamenu-dropdown--swe"
+                  onMouseEnter={handleDropdownContainerMouseEnter}
+                  onMouseLeave={handleMouseLeaveItem}
+                >
                   <div className="xlr-megamenu-container xlr-megamenu-container--4col">
                     {!isLoading &&
                       sweBucketData.map((col) => (
@@ -230,6 +220,7 @@ function Navbar() {
                                   subItem.isLocked ? "xlr-megamenu-item-link--locked" : ""
                                 }`}
                                 key={subItem.id}
+                                onClick={(e) => handleDropdownLinkClick(subItem.url, e)}
                               >
                                 <div className="xlr-megamenu-item-title-row">
                                   {subItem.iconType && renderLangIcon(subItem.iconType)}
@@ -255,7 +246,11 @@ function Navbar() {
 
               {/* 4. 5-Column Mega Menu Dropdown for AI Engineering */}
               {item.dropdownType === "ai-engineering" && activeDropdown === item.id && (
-                <div className="xlr-megamenu-dropdown xlr-megamenu-dropdown--ai">
+                <div
+                  className="xlr-megamenu-dropdown xlr-megamenu-dropdown--ai"
+                  onMouseEnter={handleDropdownContainerMouseEnter}
+                  onMouseLeave={handleMouseLeaveItem}
+                >
                   <div className="xlr-megamenu-container xlr-megamenu-container--5col">
                     {!isLoading &&
                       aiEngineeringData.map((col) => (
@@ -267,6 +262,7 @@ function Navbar() {
                                 href={subItem.url}
                                 className="xlr-megamenu-item-link"
                                 key={subItem.id}
+                                onClick={(e) => handleDropdownLinkClick(subItem.url, e)}
                               >
                                 <span className="xlr-megamenu-item-title">{subItem.title}</span>
                                 <span className="xlr-megamenu-item-subtitle">{subItem.subtitle}</span>
@@ -279,53 +275,79 @@ function Navbar() {
                 </div>
               )}
 
-              {/* 5. Single Column Card Dropdown for DevOps Engineering */}
+              {/* 5. DevOps Engineering Single Column Card Dropdown */}
               {item.dropdownType === "devops-engineering" && activeDropdown === item.id && (
-                <div className="xlr-devops-dropdown">
+                <div
+                  className="xlr-devops-dropdown"
+                  onMouseEnter={handleDropdownContainerMouseEnter}
+                  onMouseLeave={handleMouseLeaveItem}
+                >
                   <div className="xlr-devops-dropdown-container">
-                    <div className="xlr-devops-items-list">
-                      {!isLoading &&
-                        devopsEngineeringData.map((subItem) => (
-                          <a href={subItem.url} className="xlr-devops-item-link" key={subItem.id}>
-                            <span className="xlr-devops-item-title">{subItem.title}</span>
-                            <span className="xlr-devops-item-subtitle">{subItem.subtitle}</span>
-                          </a>
-                        ))}
+                    <div className="xlr-devops-dropdown-body">
+                      <h5 className="xlr-devops-category-header">DevOps Engineering</h5>
+                      <div className="xlr-devops-items-list">
+                        {!isLoading &&
+                          devopsEngineeringData.map((subItem) => (
+                            <a
+                              href={subItem.url}
+                              className="xlr-devops-item-link"
+                              key={subItem.id}
+                              onClick={(e) => handleDropdownLinkClick(subItem.url, e)}
+                            >
+                              <span className="xlr-devops-item-title">{subItem.title}</span>
+                              <span className="xlr-devops-item-subtitle">{subItem.subtitle}</span>
+                            </a>
+                          ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               )}
-
             </div>
           ))}
         </div>
       </div>
 
-      {/* Right Section: Role Toggle + Theme Toggle + Get Started Button */}
+      {/* Right Section: Exact Reference Layout (Role Switcher -> Theme Toggle -> Get Started Button) */}
       <div className="xlr-navbar-right">
-        <div className="xlr-Interview-roles">
-          {Roles.map((item) => (
-            <div
-              key={item}
-              className={currentRole === item ? "xlr-Interview-roles-active" : " "}
-              onClick={() => handleRoleClick(item)}
-            >
-              {item}
-            </div>
-          ))}
+        {/* Role Switcher Pill Container */}
+        <div className="xlr-role-switcher">
+          <button
+            className={`xlr-role-btn ${currentRole === "SDE" ? "xlr-role-btn--active" : ""}`}
+            onClick={() => handleRoleClick("SDE")}
+          >
+            SDE
+          </button>
+          <button
+            className={`xlr-role-btn ${currentRole === "AI Engineer" ? "xlr-role-btn--active" : ""}`}
+            onClick={() => handleRoleClick("AI Engineer")}
+          >
+            AI Engineer
+          </button>
+          <button
+            className={`xlr-role-btn ${currentRole === "Devops" ? "xlr-role-btn--active" : ""}`}
+            onClick={() => handleRoleClick("Devops")}
+          >
+            Devops
+          </button>
         </div>
 
-        <button
-          className="xlr-theme-toggle"
-          type="button"
+        {/* Theme Switcher Button */}
+        <button 
+          className="xlr-theme-toggle" 
           onClick={toggleTheme}
-          aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-          title={isDark ? "Light theme" : "Dark theme"}
+          aria-label="Toggle dark/light theme"
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
-          {isDark ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+          {theme === "dark" ? (
+            <MdOutlineDarkMode size={20} className="theme-icon dark-icon" />
+          ) : (
+            <MdOutlineLightMode size={20} className="theme-icon light-icon" />
+          )}
         </button>
 
-        <Primarybtn className="xlr-navbtn" text="Get Started" icon={<RiArrowRightSLine size={19} />} />
+        {/* Global Primary "Get Started" Button */}
+        <Primarybtn className="xlr-navbtn" text="Get Started" icon={<RiArrowRightSLine size={18} />} />
       </div>
     </div>
   );

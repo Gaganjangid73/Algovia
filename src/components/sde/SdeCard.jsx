@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HldDiagram from "./diagrams/HldDiagram";
 import LldDiagram from "./diagrams/LldDiagram";
 import ScenariosDiagram from "./diagrams/ScenariosDiagram";
@@ -12,12 +13,12 @@ const DIAGRAM_MAP = {
 
 /**
  * Modular card component for SDE roles section
- * Features smart image fallback rendering: if image is missing or fails to load,
- * automatically renders interactive custom diagram illustrations matching user design!
+ * Clicking HLD card navigates to /hld curriculum page!
  */
 const SdeCard = ({ item, isDsaCard = false, children }) => {
   const { id, title, description, badge, badgeColor, image, className } = item;
   const [imgError, setImgError] = useState(false);
+  const navigate = useNavigate();
 
   const cardClasses = [
     "Xlr-sderole-systemdesign-content-card",
@@ -31,8 +32,16 @@ const SdeCard = ({ item, isDsaCard = false, children }) => {
   // Decide whether to show image or custom diagram fallback
   const hasValidImage = image && typeof image === "string" && image.trim().length > 0 && !imgError;
 
+  const handleCardClick = () => {
+    if (id === "hld") {
+      navigate("/hld");
+    } else if (id === "lld") {
+      navigate("/lld");
+    }
+  };
+
   return (
-    <div className={cardClasses}>
+    <div className={cardClasses} onClick={handleCardClick} style={{ cursor: "pointer" }}>
       {badge && (
         <span className={`sde-card-badge ${badgeColor ? `sde-badge--${badgeColor}` : ""}`}>
           {badge}

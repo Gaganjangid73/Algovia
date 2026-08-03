@@ -65,3 +65,38 @@ export const fetchDevopsEngineeringDropdownData = async () => {
     }
   ];
 };
+
+/**
+ * Async getter function simulating backend API endpoint for DevOps Page Cards
+ */
+export const fetchDevopsPageCardsData = async () => {
+  return [
+    {
+      id: "linux-bash",
+      title: "Linux & Bash",
+      subtitle: "Shell, permissions, processes and scripting, the foundation every DevOps & cloud role builds on.",
+      badge: "",
+      badgeColor: "",
+      image: "",
+      exploreUrl: "#"
+    },
+    {
+      id: "devops-toolchain",
+      title: "DevOps",
+      subtitle: "Docker to Kubernetes to Terraform to production, the complete on-prem & hybrid DevOps toolchain.",
+      badge: "",
+      badgeColor: "",
+      image: "",
+      exploreUrl: "#"
+    },
+    {
+      id: "cloud-aws",
+      title: "Cloud (AWS)",
+      subtitle: "IAM to serverless to production, go deep on the cloud provider everyone hires for.",
+      badge: "100% INTERVIEW CONTEXT",
+      badgeColor: "red",
+      image: "",
+      exploreUrl: "#"
+    }
+  ];
+};

@@ -810,6 +810,17 @@
   font-weight: var(--fw-medium);
 }
 
+/* DevOps Featured Blue Glowing Border Card */
+.xlr-devops-card--featured {
+  border: 1.5px solid #2563eb !important;
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.4) !important;
+}
+
+[data-theme="dark"] .xlr-devops-card--featured {
+  border: 1.5px solid #3b82f6 !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.45) !important;
+}
+
 /* Main Featured Success Story Card (Light Mode: Dark Card, Dark Mode: White Card as per reference images) */
 .sde-featured-story-card {
   position: relative;

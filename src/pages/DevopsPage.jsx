@@ -2,6 +2,11 @@ import React from "react";
 import Announcementbar from "../components/Announcementbar";
 import Navbar from "../components/navbar";
 import Searchbar from "../components/searchbar";
+import DevopsSection from "../components/devops/DevopsSection";
+import WhyUsSection from "../components/sde/WhyUsSection";
+import ReviewsSection from "../components/sde/ReviewsSection";
+import FounderSection from "../components/sde/FounderSection";
+import FaqSection from "../components/sde/FaqSection";
 import Footer from "../components/Footer";
 import "./Sdepage.css";
 
@@ -17,13 +22,13 @@ function DevopsPage() {
         {/* DevOps Hero Section */}
         <section className="Xlr-sderole-headings">
           <h1 className="Xlr-sderole-title">
-            Master <span>DevOps</span> & Cloud Engineering
+            Master Your <span>DevOps Engineering</span> Interviews
           </h1>
           <p className="Xlr-sderole-subtitle">
-            Master Kubernetes, Docker, CI/CD Pipelines, AWS Cloud Infrastructure, and Production Monitoring.
+            Learn DevOps from basics to production and build the skills to crack interviews.
           </p>
           <div className="Xlr-sderole-tagline">
-            <span>CLOUD & DEVOPS ENGINEERING PATH</span>
+            <span>ONESTOP PLATFORM FOR ENGINEERS</span>
           </div>
         </section>
 
@@ -32,15 +37,17 @@ function DevopsPage() {
           className="xlr-Sderole-searchbar"
           inputClassName="xlr-Sderole-searchbar-input"
           iconClassName="xlr-Sderole-searchbar-icon"
-          placeholder="Search K8s, Docker, CI/CD & Cloud Tools"
+          placeholder="Search topics & resources..."
         />
 
-        <div style={{ padding: "80px 20px", textAlign: "center", color: "var(--text-secondary)" }}>
-          <h2>⚡ DevOps & Cloud Engineering Module Coming Soon!</h2>
-          <p style={{ marginTop: "12px", opacity: 0.8 }}>
-            Designs for DevOps roadmaps, Kubernetes guides, and infrastructure sheets will be loaded here.
-          </p>
-        </div>
+        {/* DevOps Engineering / Cloud Architecture Cards Section */}
+        <DevopsSection />
+
+        {/* Reusable Platform Sections */}
+        <WhyUsSection />
+        <ReviewsSection />
+        <FounderSection />
+        <FaqSection />
       </main>
 
       <Footer />

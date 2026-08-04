@@ -12,6 +12,10 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthModal from './components/auth/AuthModal';
 import UserProfileModal from './components/auth/UserProfileModal';
 import LoginPage from './pages/LoginPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import RefundPolicyPage from './pages/RefundPolicyPage';
+import CancellationPolicyPage from './pages/CancellationPolicyPage';
 import './App.css';
 
 function App() {
@@ -21,6 +25,11 @@ function App() {
         <Route path="/" element={<Sdepage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<LoginPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/terms-and-conditions" element={<TermsPage />} />
+        <Route path="/refund-policy" element={<RefundPolicyPage />} />
+        <Route path="/cancellation-policy" element={<CancellationPolicyPage />} />
         <Route path="/hld" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
         <Route path="/hld/:topicId" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
         <Route path="/lld" element={<ProtectedRoute><LldPage /></ProtectedRoute>} />

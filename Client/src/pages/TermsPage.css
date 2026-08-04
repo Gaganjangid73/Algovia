@@ -1,0 +1,299 @@
+/* ==========================================================================
+   TERMS OF SERVICE PAGE STYLESHEET - LIGHT & DARK THEMES
+   ========================================================================== */
+
+/* Dark Mode Variables (Default) */
+.terms-page-wrapper {
+  --trm-bg: #090d16;
+  --trm-card-bg: #111827;
+  --trm-border: #1e293b;
+  --trm-border-hover: #334155;
+  --trm-title-color: #f8fafc;
+  --trm-h2-color: #f1f5f9;
+  --trm-h3-color: #e2e8f0;
+  --trm-text-muted: #94a3b8;
+  --trm-text-strong: #cbd5e1;
+  --trm-primary: #3b82f6;
+  --trm-primary-hover: #60a5fa;
+  --trm-icon-bg: rgba(59, 130, 246, 0.12);
+  --trm-icon-border: rgba(59, 130, 246, 0.3);
+  --trm-contact-bg: rgba(30, 41, 59, 0.5);
+  --trm-contact-border: #334155;
+  --trm-dot: #475569;
+
+  min-height: 100vh;
+  background-color: var(--trm-bg);
+  color: var(--trm-title-color);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Mode Overrides ([data-theme="light"]) */
+[data-theme="light"] .terms-page-wrapper {
+  --trm-bg: #f8fafc;
+  --trm-card-bg: #ffffff;
+  --trm-border: #e2e8f0;
+  --trm-border-hover: #cbd5e1;
+  --trm-title-color: #0f172a;
+  --trm-h2-color: #1e293b;
+  --trm-h3-color: #334155;
+  --trm-text-muted: #475569;
+  --trm-text-strong: #1e293b;
+  --trm-primary: #2563eb;
+  --trm-primary-hover: #1d4ed8;
+  --trm-icon-bg: rgba(37, 99, 235, 0.08);
+  --trm-icon-border: rgba(37, 99, 235, 0.25);
+  --trm-contact-bg: #f1f5f9;
+  --trm-contact-border: #e2e8f0;
+  --trm-dot: #94a3b8;
+}
+
+/* Main Container */
+.terms-container {
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 100px 20px 80px 20px;
+  box-sizing: border-box;
+}
+
+/* Back Link */
+.terms-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--trm-text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+}
+
+.terms-back-link:hover {
+  color: var(--trm-primary);
+}
+
+/* Header Section */
+.terms-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.terms-icon-box {
+  width: 52px;
+  height: 52px;
+  background: var(--trm-icon-bg);
+  border: 1px solid var(--trm-icon-border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.terms-icon-svg {
+  color: var(--trm-primary);
+}
+
+.terms-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--trm-title-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.terms-subtitle {
+  font-size: 13px;
+  color: var(--trm-text-muted);
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Quick Links Box */
+.terms-quick-links-box {
+  background: var(--trm-card-bg);
+  border: 1px solid var(--trm-border);
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.terms-quick-label {
+  color: var(--trm-text-muted);
+  font-weight: 600;
+}
+
+.terms-quick-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.terms-quick-links a {
+  color: var(--trm-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.terms-quick-links a:hover {
+  text-decoration: underline;
+  color: var(--trm-primary-hover);
+}
+
+.terms-dot {
+  color: var(--trm-dot);
+  font-size: 10px;
+}
+
+/* Content Stack */
+.terms-content-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Terms Card */
+.terms-card {
+  background: var(--trm-card-bg);
+  border: 1px solid var(--trm-border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+.terms-card:hover {
+  border-color: var(--trm-border-hover);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.terms-card h2 {
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--trm-h2-color);
+  margin-top: 0;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.terms-card h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--trm-h3-color);
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.terms-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--trm-text-muted);
+  margin: 0 0 10px 0;
+}
+
+.terms-card p:last-child {
+  margin-bottom: 0;
+}
+
+.terms-note-text {
+  margin-top: 12px !important;
+}
+
+.terms-uppercase-text {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.01em;
+  opacity: 0.9;
+}
+
+/* Bullet List */
+.terms-bullet-list {
+  margin: 10px 0 0 0;
+  padding-left: 20px;
+  color: var(--trm-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.terms-bullet-list li {
+  margin-bottom: 6px;
+}
+
+/* Section 15 Contact Box */
+.terms-contact-box {
+  background: var(--trm-contact-bg);
+  border: 1px solid var(--trm-contact-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.terms-contact-company {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--trm-title-color);
+}
+
+.terms-contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--trm-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.terms-contact-email:hover {
+  color: var(--trm-primary-hover);
+  text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .terms-container {
+    padding: 95px 14px 60px 14px;
+  }
+
+  .terms-title {
+    font-size: 24px;
+  }
+
+  .terms-card {
+    padding: 18px 18px;
+    border-radius: 12px;
+  }
+
+  .terms-card h2 {
+    font-size: 16px;
+  }
+
+  .terms-card p,
+  .terms-bullet-list {
+    font-size: 13.5px;
+  }
+}

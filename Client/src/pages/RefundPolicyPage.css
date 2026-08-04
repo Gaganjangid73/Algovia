@@ -1,0 +1,296 @@
+/* ==========================================================================
+   REFUND POLICY PAGE STYLESHEET - LIGHT & DARK THEMES
+   ========================================================================== */
+
+/* Dark Mode Variables (Default) */
+.refund-page-wrapper {
+  --rfnd-bg: #090d16;
+  --rfnd-card-bg: #111827;
+  --rfnd-border: #1e293b;
+  --rfnd-border-hover: #334155;
+  --rfnd-title-color: #f8fafc;
+  --rfnd-h2-color: #f1f5f9;
+  --rfnd-text-muted: #94a3b8;
+  --rfnd-text-strong: #cbd5e1;
+  --rfnd-primary: #3b82f6;
+  --rfnd-primary-hover: #60a5fa;
+  --rfnd-icon-bg: rgba(59, 130, 246, 0.12);
+  --rfnd-icon-border: rgba(59, 130, 246, 0.3);
+  --rfnd-contact-bg: rgba(30, 41, 59, 0.5);
+  --rfnd-contact-border: #334155;
+  --rfnd-dot: #475569;
+
+  min-height: 100vh;
+  background-color: var(--rfnd-bg);
+  color: var(--rfnd-title-color);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Mode Overrides ([data-theme="light"]) */
+[data-theme="light"] .refund-page-wrapper {
+  --rfnd-bg: #f8fafc;
+  --rfnd-card-bg: #ffffff;
+  --rfnd-border: #e2e8f0;
+  --rfnd-border-hover: #cbd5e1;
+  --rfnd-title-color: #0f172a;
+  --rfnd-h2-color: #1e293b;
+  --rfnd-text-muted: #475569;
+  --rfnd-text-strong: #1e293b;
+  --rfnd-primary: #2563eb;
+  --rfnd-primary-hover: #1d4ed8;
+  --rfnd-icon-bg: rgba(37, 99, 235, 0.08);
+  --rfnd-icon-border: rgba(37, 99, 235, 0.25);
+  --rfnd-contact-bg: #f1f5f9;
+  --rfnd-contact-border: #e2e8f0;
+  --rfnd-dot: #94a3b8;
+}
+
+/* Main Container */
+.refund-container {
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 100px 20px 80px 20px;
+  box-sizing: border-box;
+}
+
+/* Back Link */
+.refund-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--rfnd-text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+}
+
+.refund-back-link:hover {
+  color: var(--rfnd-primary);
+}
+
+/* Header Section */
+.refund-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.refund-icon-box {
+  width: 52px;
+  height: 52px;
+  background: var(--rfnd-icon-bg);
+  border: 1px solid var(--rfnd-icon-border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.refund-icon-svg {
+  color: var(--rfnd-primary);
+}
+
+.refund-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.refund-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--rfnd-title-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.refund-subtitle {
+  font-size: 13px;
+  color: var(--rfnd-text-muted);
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Quick Links Box */
+.refund-quick-links-box {
+  background: var(--rfnd-card-bg);
+  border: 1px solid var(--rfnd-border);
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.refund-quick-label {
+  color: var(--rfnd-text-muted);
+  font-weight: 600;
+}
+
+.refund-quick-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.refund-quick-links a {
+  color: var(--rfnd-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.refund-quick-links a:hover {
+  text-decoration: underline;
+  color: var(--rfnd-primary-hover);
+}
+
+.refund-dot {
+  color: var(--rfnd-dot);
+  font-size: 10px;
+}
+
+/* Content Stack */
+.refund-content-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Refund Card */
+.refund-card {
+  background: var(--rfnd-card-bg);
+  border: 1px solid var(--rfnd-border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+.refund-card:hover {
+  border-color: var(--rfnd-border-hover);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.refund-card h2 {
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--rfnd-h2-color);
+  margin-top: 0;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.refund-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--rfnd-text-muted);
+  margin: 0 0 10px 0;
+}
+
+.refund-card p:last-child {
+  margin-bottom: 0;
+}
+
+.refund-card p strong {
+  color: var(--rfnd-text-strong);
+}
+
+.refund-inline-email {
+  color: var(--rfnd-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.refund-inline-email:hover {
+  text-decoration: underline;
+}
+
+.refund-note-text {
+  margin-top: 12px !important;
+}
+
+/* Bullet List */
+.refund-bullet-list {
+  margin: 10px 0 0 0;
+  padding-left: 20px;
+  color: var(--rfnd-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.refund-bullet-list li {
+  margin-bottom: 6px;
+}
+
+/* Section 8 Contact Box */
+.refund-contact-box {
+  background: var(--rfnd-contact-bg);
+  border: 1px solid var(--rfnd-contact-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.refund-contact-company {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--rfnd-title-color);
+}
+
+.refund-contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--rfnd-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.refund-contact-email:hover {
+  color: var(--rfnd-primary-hover);
+  text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .refund-container {
+    padding: 95px 14px 60px 14px;
+  }
+
+  .refund-title {
+    font-size: 24px;
+  }
+
+  .refund-card {
+    padding: 18px 18px;
+    border-radius: 12px;
+  }
+
+  .refund-card h2 {
+    font-size: 16px;
+  }
+
+  .refund-card p,
+  .refund-bullet-list {
+    font-size: 13.5px;
+  }
+}

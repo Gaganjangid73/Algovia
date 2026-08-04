@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import algoviaLogo from "../assets/Algovia.png";
 import { FaInstagram, FaXTwitter, FaLinkedin, FaMedium } from "react-icons/fa6";
 import "./Footer.css";
@@ -14,10 +15,10 @@ const Footer = () => {
     { label: "About", url: "#" },
     { label: "Pricing", url: "#" },
     { label: "Buy me a chai ☕", url: "#" },
-    { label: "Privacy Policy", url: "#" },
-    { label: "Terms and Conditions", url: "#" },
-    { label: "Refund Policy", url: "#" },
-    { label: "Cancellation Policy", url: "#" }
+    { label: "Privacy Policy", url: "/privacy-policy" },
+    { label: "Terms and Conditions", url: "/terms" },
+    { label: "Refund Policy", url: "/refund-policy" },
+    { label: "Cancellation Policy", url: "/cancellation-policy" }
   ];
 
   return (
@@ -29,7 +30,7 @@ const Footer = () => {
           
           {/* Brand Logo & Tagline */}
           <div className="algovia-footer-brand">
-            <a href="/" className="algovia-footer-logo-link">
+            <Link to="/" className="algovia-footer-logo-link">
               <img 
                 src={algoviaLogo} 
                 alt="Algovia.io Logo" 
@@ -43,16 +44,22 @@ const Footer = () => {
                   BUILT BY ENGINEER, FOR ENGINEERS
                 </span>
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Center Navigation Links with pipe separators */}
           <nav className="algovia-footer-nav" aria-label="Footer Navigation">
             {navLinks.map((link, index) => (
               <React.Fragment key={link.label}>
-                <a href={link.url} className="algovia-footer-nav-link">
-                  {link.label}
-                </a>
+                {link.url.startsWith("/") ? (
+                  <Link to={link.url} className="algovia-footer-nav-link">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a href={link.url} className="algovia-footer-nav-link">
+                    {link.label}
+                  </a>
+                )}
                 {index < navLinks.length - 1 && (
                   <span className="algovia-footer-pipe-separator" aria-hidden="true">
                     |

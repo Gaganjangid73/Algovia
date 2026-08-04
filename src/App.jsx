@@ -7,29 +7,46 @@ import HldPage from './pages/HldPage';
 import LldPage from './pages/LldPage';
 import LldProblemsPage from './pages/LldProblemsPage';
 import SystemDesignPatternsPage from './pages/SystemDesignPatternsPage';
+import SystemDesignScenariosPage from './pages/SystemDesignScenariosPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import AuthModal from './components/auth/AuthModal';
+import UserProfileModal from './components/auth/UserProfileModal';
+import LoginPage from './pages/LoginPage';
 import './App.css';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Sdepage />} />
-      <Route path="/hld" element={<HldPage />} />
-      <Route path="/hld/:topicId" element={<HldPage />} />
-      <Route path="/lld" element={<LldPage />} />
-      <Route path="/lld/:topicId" element={<LldPage />} />
-      <Route path="/lld-designs" element={<LldProblemsPage />} />
-      <Route path="/lld-designs/:topicId" element={<LldProblemsPage />} />
-      <Route path="/lld-problems" element={<Navigate to="/lld-designs" replace />} />
-      <Route path="/lld-problems/:topicId" element={<LldProblemsPage />} />
-      <Route path="/system-design/interview-pattern" element={<SystemDesignPatternsPage />} />
-      <Route path="/system-design/interview-pattern/:patternId" element={<SystemDesignPatternsPage />} />
-      <Route path="/ai/engineering/home" element={<AiPage />} />
-      <Route path="/devops/engineering/home" element={<DevopsPage />} />
-      {/* Friendly fallback redirects */}
-      <Route path="/ai/*" element={<Navigate to="/ai/engineering/home" replace />} />
-      <Route path="/devops/*" element={<Navigate to="/devops/engineering/home" replace />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Sdepage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<LoginPage />} />
+        <Route path="/hld" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
+        <Route path="/hld/:topicId" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
+        <Route path="/lld" element={<ProtectedRoute><LldPage /></ProtectedRoute>} />
+        <Route path="/lld/:topicId" element={<ProtectedRoute><LldPage /></ProtectedRoute>} />
+        <Route path="/lld-designs" element={<ProtectedRoute><LldProblemsPage /></ProtectedRoute>} />
+        <Route path="/lld-designs/:topicId" element={<ProtectedRoute><LldProblemsPage /></ProtectedRoute>} />
+        <Route path="/lld-problems" element={<Navigate to="/lld-designs" replace />} />
+        <Route path="/lld-problems/:topicId" element={<ProtectedRoute><LldProblemsPage /></ProtectedRoute>} />
+        <Route path="/system-design/interview-pattern" element={<ProtectedRoute><SystemDesignPatternsPage /></ProtectedRoute>} />
+        <Route path="/system-design/interview-pattern/:patternId" element={<ProtectedRoute><SystemDesignPatternsPage /></ProtectedRoute>} />
+        <Route path="/system-design/scenarios" element={<ProtectedRoute><SystemDesignScenariosPage /></ProtectedRoute>} />
+        <Route path="/system-design/scenarios/:scenarioId" element={<ProtectedRoute><SystemDesignScenariosPage /></ProtectedRoute>} />
+        <Route path="/system-design-scenario" element={<ProtectedRoute><SystemDesignScenariosPage /></ProtectedRoute>} />
+        <Route path="/system-design-scenario/:scenarioId" element={<ProtectedRoute><SystemDesignScenariosPage /></ProtectedRoute>} />
+        <Route path="/ai/engineering/home" element={<AiPage />} />
+        <Route path="/devops/engineering/home" element={<DevopsPage />} />
+        {/* Friendly fallback redirects */}
+        <Route path="/ai/*" element={<Navigate to="/ai/engineering/home" replace />} />
+        <Route path="/devops/*" element={<Navigate to="/devops/engineering/home" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      {/* Global Auth Modal & User Profile Modal */}
+      <AuthModal />
+      <UserProfileModal />
+    </>
   );
 }
 

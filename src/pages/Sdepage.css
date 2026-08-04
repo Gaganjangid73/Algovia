@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: var(--h-2xl);
+  padding-top: 130px;
+  margin-top: 0;
   gap: var(--space-sm);
 }
 

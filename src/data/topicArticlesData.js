@@ -143,9 +143,83 @@ export const getTopicArticleData = (topicId, topicTitle = "Topic Details") => {
                       (topicId || "").includes("recommendations") || 
                       (topicId || "").includes("deduplicating") || 
                       (topicId || "").includes("failure") || 
-                      (topicId || "").includes("files") || 
                       (topicId || "").includes("ids") || 
                       (typeof window !== "undefined" && window.location.pathname.includes("/interview-pattern"));
+
+  const isSdScenario = (topicId || "").startsWith("se-") || 
+                       (topicId || "").startsWith("lld-se-") || 
+                       (typeof window !== "undefined" && window.location.pathname.includes("/scenarios"));
+
+  if (isSdScenario && !isLldProblem) {
+    return {
+      id: topicId,
+      title: topicTitle,
+      author: {
+        name: "Gagan Jangid",
+        role: "Senior Software Engineer",
+        avatar: gaganAvatar
+      },
+      readingProgress: 0,
+      sectionsOnPage: [
+        { id: "context", title: "1. Scenario Breakdown & Context" },
+        { id: "root-cause", title: "2. Root Cause Analysis" },
+        { id: "architectural-mitigation", title: "3. Architectural Mitigation Strategy" },
+        { id: "tradeoffs", title: "4. Tradeoffs & Edge Cases" },
+        { id: "interview-answer", title: "5. Production-Ready Interview Talking Points" }
+      ],
+      contentBlocks: [
+        {
+          type: "callout",
+          text: `Interview Context: This scenario evaluates your capability to handle real-world system failures, edge cases, and high-concurrency degradation gracefully.`
+        },
+        {
+          type: "heading",
+          id: "context",
+          text: "1. Scenario Breakdown & Context"
+        },
+        {
+          type: "paragraph",
+          text: `In large-scale production environments, "${topicTitle}" represents a critical system event. Senior interviewers use this question to test whether you design for optimistic scenarios or build resilient systems that self-heal.`
+        },
+        {
+          type: "heading",
+          id: "root-cause",
+          text: "2. Root Cause Analysis"
+        },
+        {
+          type: "paragraph",
+          text: "• Network partition or transient packet drop between cluster nodes.\n• Resource contention, thread pool exhaustion, or DB connection starvation.\n• Unhandled cascading retries without backoff or circuit breaking."
+        },
+        {
+          type: "heading",
+          id: "architectural-mitigation",
+          text: "3. Architectural Mitigation Strategy"
+        },
+        {
+          type: "paragraph",
+          text: "1. Implement Exponential Backoff with Jitter for all client retries.\n2. Introduce Circuit Breakers (Hystrix / Resilience4j) to fail fast and prevent cascading system collapse.\n3. Enforce Rate Limiting & Graceful Degradation (serve cached static fallbacks or read-only mode).\n4. Maintain Distributed Tracing (OpenTelemetry) & Automated Alerting on p99 latency spikes."
+        },
+        {
+          type: "heading",
+          id: "tradeoffs",
+          text: "4. Tradeoffs & Edge Cases"
+        },
+        {
+          type: "paragraph",
+          text: "Tradeoff: Prioritizing Availability (AP system) ensures the service stays online, but clients may read slightly stale data until async reconciliation completes."
+        },
+        {
+          type: "heading",
+          id: "interview-answer",
+          text: "5. Production-Ready Interview Talking Points"
+        },
+        {
+          type: "paragraph",
+          text: "1. State the failure mode immediately.\n2. Explain the short-term mitigation (failover / circuit break / throttle).\n3. Outline the long-term architectural fix (sharding / replica isolation / backpressure queues)."
+        }
+      ]
+    };
+  }
 
   if (isSdPattern && !isLldProblem) {
     const cleanTitle = topicTitle.replace(/Pattern #\d+:/gi, "").trim();

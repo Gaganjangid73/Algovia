@@ -1,0 +1,329 @@
+/* User Profile Modal Layout (Matches Screenshot in Dual Theme) */
+
+.xlr-upm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 250000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.xlr-upm-card {
+  width: 100%;
+  max-width: 1140px;
+  height: min(700px, 90vh);
+  background: #0d0e11;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  animation: upmScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .xlr-upm-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes upmScale {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Header */
+.xlr-upm-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+[data-theme="light"] .xlr-upm-header {
+  border-bottom-color: #f1f5f9;
+}
+
+.xlr-upm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.xlr-upm-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xlr-upm-logo-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.xlr-upm-logo-text {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+[data-theme="light"] .xlr-upm-logo-text {
+  color: #0f172a;
+}
+
+.xlr-upm-header-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="light"] .xlr-upm-header-divider {
+  background: #e2e8f0;
+}
+
+.xlr-upm-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.xlr-upm-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.xlr-upm-user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-upm-user-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+[data-theme="light"] .xlr-upm-user-name {
+  color: #0f172a;
+}
+
+.xlr-upm-user-email {
+  font-size: 11.5px;
+  color: #8b949e;
+}
+
+.xlr-upm-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #8b949e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .xlr-upm-close-btn {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+.xlr-upm-close-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .xlr-upm-close-btn:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+/* 3-Column Body */
+.xlr-upm-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.xlr-upm-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.xlr-upm-col-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #6e7681;
+  margin: 0;
+}
+
+/* Boxes */
+.xlr-upm-box {
+  background: #13151a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-theme="light"] .xlr-upm-box {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.xlr-upm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.xlr-upm-label {
+  color: #8b949e;
+}
+
+.xlr-upm-value--bold {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+[data-theme="light"] .xlr-upm-value--bold {
+  color: #0f172a;
+}
+
+/* Language Box */
+.xlr-upm-box--lang {
+  gap: 8px;
+}
+
+.xlr-upm-lang-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8b949e;
+  margin: 0;
+}
+
+.xlr-upm-lang-sub {
+  font-size: 11.5px;
+  color: #6e7681;
+  line-height: 1.45;
+  margin: 0 0 4px 0;
+}
+
+.xlr-upm-lang-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.xlr-upm-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 18px;
+  background: #1a1c23;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c9d1d9;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .xlr-upm-pill {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.xlr-upm-pill:hover {
+  border-color: #3b82f6;
+}
+
+.xlr-upm-pill--active {
+  background: #2563eb !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+.xlr-pill-icon {
+  font-size: 12px;
+}
+
+/* CTA Button */
+.xlr-upm-cta-btn {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  font-size: 13.5px;
+  border: none;
+  cursor: pointer;
+  margin-top: auto;
+  transition: opacity 0.15s ease;
+}
+
+[data-theme="light"] .xlr-upm-cta-btn {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.xlr-upm-cta-btn:hover {
+  opacity: 0.9;
+}
+
+/* Billing Column */
+.xlr-upm-billing-text {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.5;
+}
+
+/* Payment & Footnote */
+.xlr-upm-col--payment {
+  position: relative;
+}
+
+.xlr-upm-footnote {
+  margin-top: auto;
+  font-size: 11.5px;
+  color: #484f58;
+  text-align: right;
+
+  span {
+    color: #6e7681;
+  }
+}
+
+@media (max-width: 900px) {
+  .xlr-upm-body {
+    grid-template-columns: 1fr;
+  }
+}

@@ -572,7 +572,7 @@ export const fetchSystemDesignDropdownData = async () => {
           id: "edge-1",
           title: "System Design Scenarios",
           subtitle: "Last-Minute Interview Revision",
-          url: "/system-design/interview-pattern",
+          url: "/system-design-scenario?mode=hld",
           isHighlighted: false
         },
         {

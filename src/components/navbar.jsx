@@ -1,12 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Algovia from "../assets/Algovia.png";
 import Primarybtn from "./button";
-import { RiArrowDropDownLine, RiArrowRightSLine } from "react-icons/ri";
+import gaganAvatar from "../assets/Gagan.JPG";
+import {
+  RiArrowDropDownLine,
+  RiArrowRightSLine,
+  RiUserSettingsLine,
+  RiBankCardLine,
+  RiBugLine,
+  RiLogoutBoxRLine
+} from "react-icons/ri";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
 import { useNavDropdownData } from "../hooks/useNavDropdownData";
 import { useTheme } from "../context/ThemeContext";
+import { useAuth } from "../context/AuthContext";
 import { ROLE_NAV_ITEMS, ROLE_PATHS } from "../config/navigationConfig";
 import "./navbar.css";
 
@@ -32,7 +41,9 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const dropdownTimeoutRef = useRef(null);
+  const profileMenuRef = useRef(null);
 
   const { 
     systemDesignData, 
@@ -44,6 +55,18 @@ function Navbar() {
   } = useNavDropdownData();
 
   const { theme, toggleTheme } = useTheme();
+  const { user, isAuthenticated, openAuthModal, openProfileModal, logout } = useAuth();
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Determine current active role from URL location
   const getCurrentRole = () => {
@@ -99,7 +122,9 @@ function Navbar() {
       navigate("/lld-designs");
     } else if (titleLower.includes("master high level") || subItem?.id === "hld-1") {
       navigate("/hld");
-    } else if (titleLower.includes("scenarios") || titleLower.includes("patterns") || subItem?.id?.startsWith("edge")) {
+    } else if (titleLower.includes("scenarios") || subItem?.id === "edge-1") {
+      navigate("/system-design-scenario?mode=hld");
+    } else if (titleLower.includes("patterns") || subItem?.id === "edge-2") {
       navigate("/system-design/interview-pattern");
     } else if (subItem?.url && subItem.url !== "#") {
       navigate(subItem.url);
@@ -355,8 +380,106 @@ function Navbar() {
           )}
         </button>
 
-        {/* Global Primary "Get Started" Button */}
-        <Primarybtn className="xlr-navbtn" text="Get Started" icon={<RiArrowRightSLine size={18} />} />
+        {/* User Auth Profile Dropdown / Get Started Button */}
+        {isAuthenticated ? (
+          <div className="xlr-nav-profile-container" ref={profileMenuRef}>
+            {/* Circular User Avatar with Sync Arrows Ring matching screenshot */}
+            <button
+              type="button"
+              className="xlr-nav-avatar-btn"
+              onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+              title="User Account"
+            >
+              <div className="xlr-nav-avatar-ring">
+                <svg className="xlr-avatar-ring-svg" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="46" className="ring-path" />
+                  <path d="M 96,50 A 46,46 0 0,1 50,96" className="ring-arrow-path" />
+                  <path d="M 4,50 A 46,46 0 0,1 50,4" className="ring-arrow-path" />
+                </svg>
+                <img
+                  src={gaganAvatar}
+                  alt={user?.name || "Gagan Jangid"}
+                  className="xlr-nav-avatar-img"
+                  onError={(e) => {
+                    e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Gagan";
+                  }}
+                />
+              </div>
+            </button>
+
+            {/* Profile Dropdown Popup Menu matching user screenshot */}
+            {isProfileMenuOpen && (
+              <div className="xlr-profile-dropdown-card">
+                {/* Header User Info */}
+                <div className="xlr-profile-card-header">
+                  <h4 className="xlr-profile-user-name">{user?.name || "Gagan Jangid"}</h4>
+                  <span className="xlr-profile-user-plan">Free Plan</span>
+                </div>
+
+                {/* Menu Items List */}
+                <div className="xlr-profile-card-body">
+                  <button
+                    type="button"
+                    className="xlr-profile-menu-item"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      openProfileModal();
+                    }}
+                  >
+                    <RiUserSettingsLine size={18} />
+                    <span>Profile</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="xlr-profile-menu-item"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                    }}
+                  >
+                    <RiBankCardLine size={18} />
+                    <span>Subscription</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="xlr-profile-menu-item"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                    }}
+                  >
+                    <RiBugLine size={18} />
+                    <span>Bug & Request</span>
+                  </button>
+                </div>
+
+                {/* Footer Logout Option */}
+                <div className="xlr-profile-card-footer">
+                  <button
+                    type="button"
+                    className="xlr-profile-menu-item xlr-profile-menu-item--logout"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      logout();
+                    }}
+                  >
+                    <RiLogoutBoxRLine size={18} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="xlr-nav-login-btn"
+            onClick={() => openAuthModal()}
+          >
+            <span>Sign in</span>
+            <RiArrowRightSLine size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

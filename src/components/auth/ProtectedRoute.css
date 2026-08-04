@@ -1,0 +1,85 @@
+/* Protected Route Content Gate CSS */
+
+.xlr-gate-layout {
+  min-height: 100vh;
+  background-color: var(--bg-primary, #090c15);
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-gate-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 80px 24px;
+}
+
+.xlr-gate-card {
+  max-width: 520px;
+  width: 100%;
+  background: var(--bg-primary, #0f121d);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 20px;
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: gateFadeIn 0.25s ease;
+}
+
+@keyframes gateFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.xlr-gate-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.xlr-gate-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: 12px;
+  letter-spacing: -0.4px;
+}
+
+.xlr-gate-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary, #94a3b8);
+  margin-bottom: 32px;
+}
+
+.xlr-gate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.xlr-gate-btn:hover {
+  opacity: 0.9;
+}

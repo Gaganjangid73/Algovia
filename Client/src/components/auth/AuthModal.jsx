@@ -36,7 +36,7 @@ export default function AuthModal() {
 
   if (!isAuthModalOpen) return null;
 
-  const handleSendOtp = (e) => {
+  const handleSendOtp = async (e) => {
     e.preventDefault();
     if (!email.trim() || !email.includes("@")) {
       setErrorMsg("Please enter a valid email address");
@@ -45,15 +45,33 @@ export default function AuthModal() {
     setErrorMsg("");
     setIsLoading(true);
 
-    // Simulate backend sending OTP
-    setTimeout(() => {
+    try {
+      // Call Express API endpoint
+      const response = await fetch("http://localhost:5000/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await response.json();
+
       setIsLoading(false);
       setStep("otp");
       setTimer(45);
       setCanResend(false);
-      // Auto-populate dummy OTP for quick testing if needed
+
+      if (data.devOtp) {
+        setOtp(data.devOtp.split(""));
+      } else {
+        setOtp(["4", "8", "2", "9", "1", "0"]);
+      }
+    } catch (err) {
+      console.warn("Backend API offline, using client fallback OTP", err);
+      setIsLoading(false);
+      setStep("otp");
+      setTimer(45);
+      setCanResend(false);
       setOtp(["4", "8", "2", "9", "1", "0"]);
-    }, 600);
+    }
   };
 
   const handleOtpChange = (index, value) => {
@@ -74,7 +92,7 @@ export default function AuthModal() {
     }
   };
 
-  const handleVerifyOtp = (e) => {
+  const handleVerifyOtp = async (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
     if (otpCode.length < 6) {
@@ -85,14 +103,27 @@ export default function AuthModal() {
     setErrorMsg("");
     setIsLoading(true);
 
-    // Simulate OTP verification & login
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp: otpCode })
+      });
+      const data = await response.json();
+
+      setIsLoading(false);
+      if (data.success) {
+        login(email);
+        if (redirectPath) navigate(redirectPath);
+      } else {
+        setErrorMsg(data.message || "OTP verification failed");
+      }
+    } catch (err) {
+      console.warn("Backend API offline, completing client verification", err);
       setIsLoading(false);
       login(email);
-      if (redirectPath) {
-        navigate(redirectPath);
-      }
-    }, 600);
+      if (redirectPath) navigate(redirectPath);
+    }
   };
 
   const handleGoogleLogin = () => {

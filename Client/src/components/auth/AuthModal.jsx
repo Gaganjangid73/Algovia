@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { RiCloseLine, RiArrowRightLine, RiLockPasswordLine, RiMailLine, RiCheckLine } from "react-icons/ri";
+import { RiCloseLine, RiArrowRightLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../context/AuthContext";
+import { authApi } from "../../services/authApi";
 import "./AuthModal.css";
 
 export default function AuthModal() {
@@ -15,6 +16,7 @@ export default function AuthModal() {
   const [timer, setTimer] = useState(45);
   const [canResend, setCanResend] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const otpInputsRef = useRef([]);
@@ -39,38 +41,25 @@ export default function AuthModal() {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     if (!email.trim() || !email.includes("@")) {
-      setErrorMsg("Please enter a valid email address");
+      setErrorMsg("Please enter a valid email address.");
       return;
     }
+
     setErrorMsg("");
+    setSuccessMsg("");
     setIsLoading(true);
 
     try {
-      // Call Express API endpoint
-      const response = await fetch("http://localhost:5000/api/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      });
-      const data = await response.json();
-
+      const res = await authApi.sendOtp(email);
       setIsLoading(false);
       setStep("otp");
       setTimer(45);
       setCanResend(false);
-
-      if (data.devOtp) {
-        setOtp(data.devOtp.split(""));
-      } else {
-        setOtp(["4", "8", "2", "9", "1", "0"]);
-      }
+      setOtp(["", "", "", "", "", ""]); // Clean empty 6-digit OTP inputs
+      setSuccessMsg(res.message || `A 6-digit code has been sent to ${email}`);
     } catch (err) {
-      console.warn("Backend API offline, using client fallback OTP", err);
       setIsLoading(false);
-      setStep("otp");
-      setTimer(45);
-      setCanResend(false);
-      setOtp(["4", "8", "2", "9", "1", "0"]);
+      setErrorMsg(err.message || "Failed to send OTP code. Please check your backend connection.");
     }
   };
 
@@ -80,7 +69,7 @@ export default function AuthModal() {
     newOtp[index] = value.slice(-1);
     setOtp(newOtp);
 
-    // Move to next input automatically
+    // Move focus to next input box automatically
     if (value && index < 5) {
       otpInputsRef.current[index + 1]?.focus();
     }
@@ -96,52 +85,44 @@ export default function AuthModal() {
     e.preventDefault();
     const otpCode = otp.join("");
     if (otpCode.length < 6) {
-      setErrorMsg("Please enter complete 6-digit OTP");
+      setErrorMsg("Please enter complete 6-digit verification code.");
       return;
     }
 
     setErrorMsg("");
+    setSuccessMsg("");
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: otpCode })
-      });
-      const data = await response.json();
-
+      const result = await authApi.verifyOtp(email, otpCode);
       setIsLoading(false);
-      if (data.success) {
-        login(email);
-        if (redirectPath) navigate(redirectPath);
-      } else {
-        setErrorMsg(data.message || "OTP verification failed");
-      }
-    } catch (err) {
-      console.warn("Backend API offline, completing client verification", err);
-      setIsLoading(false);
-      login(email);
-      if (redirectPath) navigate(redirectPath);
-    }
-  };
-
-  const handleGoogleLogin = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      login("user.google@algovia.io");
+      login(result.user);
       if (redirectPath) {
         navigate(redirectPath);
       }
-    }, 600);
+    } catch (err) {
+      setIsLoading(false);
+      setErrorMsg(err.message || "Invalid or expired OTP code. Please try again.");
+    }
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
     if (!canResend) return;
-    setTimer(45);
-    setCanResend(false);
-    setErrorMsg("A new 6-digit verification code has been sent!");
+    setIsLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const res = await authApi.sendOtp(email);
+      setIsLoading(false);
+      setTimer(45);
+      setCanResend(false);
+      setOtp(["", "", "", "", "", ""]);
+      setSuccessMsg(res.message || "A new verification code has been dispatched!");
+    } catch (err) {
+      setIsLoading(false);
+      setErrorMsg(err.message || "Failed to resend verification code.");
+    }
   };
 
   return (
@@ -169,10 +150,16 @@ export default function AuthModal() {
             </p>
           </div>
 
-          {/* Error / Success Message Callout */}
+          {/* Error / Success Callout Banners */}
           {errorMsg && (
-            <div className={`xlr-auth-msg-banner ${errorMsg.includes("sent") ? "xlr-auth-msg--success" : "xlr-auth-msg--error"}`}>
+            <div className="xlr-auth-msg-banner xlr-auth-msg--error">
               {errorMsg}
+            </div>
+          )}
+
+          {successMsg && !errorMsg && (
+            <div className="xlr-auth-msg-banner xlr-auth-msg--success">
+              {successMsg}
             </div>
           )}
 
@@ -180,7 +167,7 @@ export default function AuthModal() {
             /* STEP 1: EMAIL INPUT FORM */
             <div className="xlr-auth-form-container">
               {/* Google Auth Button */}
-              <button type="button" className="xlr-auth-google-btn" onClick={handleGoogleLogin}>
+              <button type="button" className="xlr-auth-google-btn">
                 <FcGoogle size={20} />
                 <span>Continue with Google</span>
               </button>

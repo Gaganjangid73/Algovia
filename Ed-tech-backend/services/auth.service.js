@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/user.repository.js";
+import { sendOtpEmail } from "../config/mail.config.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "algovia_super_secret_jwt_key_production_2026";
 const JWT_EXPIRES_IN = "7d";
@@ -29,12 +30,14 @@ export class AuthService {
     // 4. Save to SQL database
     await UserRepository.saveOtp(normalizedEmail, otpHash, expiresAt);
 
-    console.log(`[AuthService] Generated OTP ${rawOtp} for ${normalizedEmail} (Expires in 5 mins)`);
+    // 5. Send OTP via Zoho Mail SMTP from gaganjangid11@zohomail.in
+    await sendOtpEmail(normalizedEmail, rawOtp);
+
+    console.log(`[AuthService] Generated & dispatched OTP email to ${normalizedEmail}`);
 
     return {
-      message: "OTP sent successfully",
-      email: normalizedEmail,
-      devOtp: process.env.NODE_ENV !== "production" ? rawOtp : undefined
+      message: `OTP sent successfully to ${normalizedEmail}`,
+      email: normalizedEmail
     };
   }
 

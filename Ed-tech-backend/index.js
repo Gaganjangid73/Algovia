@@ -12,13 +12,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || "development";
 
-// 1. Security Middleware
-app.use(helmet());
-
-// 2. CORS Middleware Configuration (Production vs Development)
-const allowedOrigins = [
+// 1. Explicit CORS Whitelist Configuration
+const ALLOWED_ORIGINS = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "http://localhost:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174",
   "https://algovia.io",
   "https://algorithmxlr8.io"
 ];
@@ -26,13 +26,26 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin) || NODE_ENV === "development") {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS policy violation: Origin not allowed."));
+      // Allow non-browser calls (Postman / mobile native apps / server-to-server)
+      if (!origin) return callback(null, true);
+
+      if (ALLOWED_ORIGINS.includes(origin) || NODE_ENV === "development") {
+        return callback(null, origin);
       }
+      callback(new Error(`CORS Error: Origin ${origin} is not allowed by security policy.`));
     },
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    optionsSuccessStatus: 200
+  })
+);
+
+// 2. Security Headers
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false
   })
 );
 

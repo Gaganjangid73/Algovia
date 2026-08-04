@@ -1,16 +1,44 @@
 import knex from "knex";
 import knexConfig from "../knexfile.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const environment = process.env.NODE_ENV || "development";
-const config = knexConfig[environment] || knexConfig.development;
+let config = knexConfig[environment] || knexConfig.development;
 
-export const db = knex(config);
+export let db = knex(config);
 
 /**
  * Auto-initialize database tables for instant development/production setup
+ * Features automatic fallback to SQLite if local MySQL is offline
  */
 export async function initializeDatabase() {
-  console.log(`[Database] Initializing SQL Database connection pool (${environment})...`);
+  console.log(`[Database] Connecting to SQL Database (${config.client})...`);
+
+  try {
+    // Test database connectivity
+    await db.raw("SELECT 1");
+    console.log(`[Database] Connection established with ${config.client}.`);
+  } catch (err) {
+    if (config.client !== "sqlite3") {
+      console.warn(`[Database Warning] Could not connect to ${config.client} (${err.message}). Falling back to local SQLite database.`);
+      
+      // Fallback to SQLite
+      config = {
+        client: "sqlite3",
+        connection: {
+          filename: path.join(__dirname, "../dev.sqlite3")
+        },
+        useNullAsDefault: true
+      };
+      db = knex(config);
+    } else {
+      throw err;
+    }
+  }
 
   // 1. Users Table
   const hasUsers = await db.schema.hasTable("users");

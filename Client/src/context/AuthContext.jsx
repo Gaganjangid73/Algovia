@@ -1,13 +1,12 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
+import { authApi, USER_STORAGE_KEY, TOKEN_STORAGE_KEY } from "../services/authApi";
 
 const AuthContext = createContext();
-
-const AUTH_STORAGE_KEY = "algovia_auth_user";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem(AUTH_STORAGE_KEY);
+      const saved = localStorage.getItem(USER_STORAGE_KEY);
       return saved ? JSON.parse(saved) : null;
     } catch {
       return null;
@@ -21,28 +20,37 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!user;
 
-  const login = useCallback((email) => {
-    const userObj = {
-      email,
-      name: email.includes("gaganjangid") ? "Gagan Jangid" : email.split("@")[0],
-      loggedInAt: new Date().toISOString()
-    };
-    setUser(userObj);
-    try {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userObj));
-    } catch (e) {
-      console.error("Failed to save auth state", e);
+  // Hydrate user profile on page load if JWT token exists
+  useEffect(() => {
+    async function checkAuthStatus() {
+      const token = authApi.getToken();
+      if (token) {
+        try {
+          const res = await authApi.getMe();
+          if (res.user) {
+            setUser(res.user);
+            if (res.user.preferredLanguage) {
+              setPreferredLanguage(res.user.preferredLanguage);
+            }
+          }
+        } catch (e) {
+          console.warn("[AuthContext] Expired or invalid token. Clearing auth session.");
+          authApi.logout();
+          setUser(null);
+        }
+      }
     }
+    checkAuthStatus();
+  }, []);
+
+  const login = useCallback((userObj) => {
+    setUser(userObj);
     setIsAuthModalOpen(false);
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await authApi.logout();
     setUser(null);
-    try {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-    } catch (e) {
-      console.error("Failed to clear auth state", e);
-    }
     setIsProfileModalOpen(false);
   }, []);
 

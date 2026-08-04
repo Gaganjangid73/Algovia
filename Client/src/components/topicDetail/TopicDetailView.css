@@ -1097,3 +1097,362 @@
 [data-theme="dark"] .xlr-tdv-more-options-btn {
   background: #1e293b;
 }
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE REFACTORING (@media (max-width: 767px))
+   GUARANTEES DESKTOP VIEW (min-width: 768px) REMAINS 100% UNCHANGED
+   ========================================================================== */
+@media (max-width: 767px) {
+  .xlr-tdv-workspace {
+    flex-direction: column;
+    padding-top: 140px;
+  }
+
+  /* 1. Top Header Navigation Bar */
+  .xlr-tdv-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg-primary, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    position: fixed;
+    top: 92px;
+    left: 0;
+    right: 0;
+    height: 48px;
+    z-index: 990;
+  }
+
+  .xlr-tdv-mobile-back-btn,
+  .xlr-tdv-mobile-topics-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary, #0f172a);
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+
+  .xlr-tdv-mobile-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .xlr-tdv-mobile-progress-badge {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .xlr-tdv-mobile-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--text-primary, #0f172a);
+    pointer-events: none;
+  }
+
+  /* Hide Desktop Fixed Sidebars on Mobile */
+  .xlr-tdv-sidebar,
+  .xlr-tdv-right-sidebar {
+    display: none !important;
+  }
+
+  /* 2. Left Topics Slide-Over Drawer Modal */
+  .xlr-tdv-drawer-backdrop {
+    position: fixed;
+    top: 92px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 92px);
+    height: calc(100dvh - 92px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1200;
+    display: flex;
+    justify-content: flex-start;
+    animation: fadeInOverlay 0.2s ease-out;
+  }
+
+  .xlr-tdv-drawer-modal {
+    width: 85%;
+    max-width: 340px;
+    height: 100%;
+    background: var(--bg-primary, #ffffff);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.3);
+    animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  .xlr-tdv-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+  }
+
+  .xlr-tdv-drawer-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary, #0f172a);
+    margin: 0;
+  }
+
+  .xlr-tdv-drawer-close-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+  }
+
+  .xlr-tdv-drawer-topics-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px 24px 16px;
+  }
+
+  /* Main Article Body on Mobile (Full 100% Width Readability) */
+  .xlr-tdv-main-content,
+  .xlr-tdv-workspace--collapsed .xlr-tdv-main-content {
+    padding: 20px 16px 100px 16px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .xlr-tdv-article {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .xlr-tdv-article-title {
+    font-size: 22px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 14px !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .xlr-tdv-article-body {
+    width: 100% !important;
+    font-size: 15.5px !important;
+    line-height: 1.65 !important;
+  }
+
+  .xlr-tdv-paragraph {
+    width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .xlr-tdv-callout-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    padding: 14px 16px !important;
+  }
+
+  .xlr-tdv-heading {
+    width: 100% !important;
+    font-size: 20px !important;
+    line-height: 1.35 !important;
+    word-break: break-word !important;
+  }
+
+  .xlr-tdv-author-byline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    margin-bottom: 20px;
+  }
+
+  .xlr-tdv-author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .xlr-tdv-author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary, #0f172a);
+  }
+
+  .xlr-tdv-author-role {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  /* 3. Compact Bottom Action Toolbar (Mobile Mode - Icon Only) */
+  .xlr-tdv-floating-action-bar {
+    position: fixed !important;
+    bottom: 16px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    width: auto !important;
+  }
+
+  .xlr-tdv-bar-content-row {
+    border-radius: 999px !important;
+    padding: 6px 10px !important;
+    gap: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* Hide all text labels on mobile screens */
+  .xlr-tdv-action-btn span,
+  .xlr-tdv-bar-hide-btn span {
+    display: none !important;
+  }
+
+  .xlr-tdv-action-btn {
+    padding: 8px !important;
+    border-radius: 50% !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    justify-content: center !important;
+  }
+
+  .xlr-tdv-bar-divider {
+    height: 14px !important;
+    margin: 0 2px !important;
+  }
+
+  /* 4. Compact Notes Modal Card */
+  .xlr-tdv-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 16px !important;
+  }
+
+  .xlr-tdv-notes-modal {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    width: 90% !important;
+    max-width: 340px !important;
+    height: 55vh !important;
+    max-height: 420px !important;
+    border-radius: 16px !important;
+    z-index: 10001 !important;
+    background: var(--bg-primary, #ffffff) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    animation: zoomInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  @keyframes zoomInModal {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  .xlr-tdv-notes-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .xlr-tdv-notes-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .xlr-tdv-save-note-btn {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .xlr-tdv-save-note-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .xlr-tdv-clear-note-btn {
+    background: #f1f5f9;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .xlr-tdv-clear-note-btn:hover {
+    background: #fee2e2;
+  }
+
+  .xlr-tdv-word-count {
+    font-size: 11.5px;
+    color: #94a3b8;
+  }
+}
+
+/* Hide Mobile Top Header on Desktop (>= 768px) */
+@media (min-width: 768px) {
+  .xlr-tdv-mobile-header {
+    display: none !important;
+  }
+}

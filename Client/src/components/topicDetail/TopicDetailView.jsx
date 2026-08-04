@@ -64,7 +64,9 @@ import {
   RiMusic2Line,
   RiTruckLine,
   RiTerminalBoxLine,
-  RiBroadcastLine
+  RiBroadcastLine,
+  RiMenuLine,
+  RiDeleteBinLine
 } from "react-icons/ri";
 
 const renderTopicIcon = (topicId) => {
@@ -162,6 +164,9 @@ function TopicDetailView({
   const [searchFilter, setSearchFilter] = useState("");
   const [expandedSectionIds, setExpandedSectionIds] = useState([]);
 
+  // Mobile Drawer state
+  const [isTopicsDrawerOpen, setIsTopicsDrawerOpen] = useState(false);
+
   // Fetch safe topic article object
   const article = getTopicArticleData(topicId, topicTitle) || {};
   const safeAuthor = article.author || { name: "Gagan Jangid", role: "Senior Software Engineer", avatar: "" };
@@ -190,6 +195,27 @@ function TopicDetailView({
 
   // Note text per topic
   const [noteText, setNoteText] = useState("");
+
+  // Save & Clear Note Handlers
+  const handleSaveNote = () => {
+    if (!topicId) return;
+    try {
+      localStorage.setItem(`algovia_note_${topicId}`, noteText);
+      setIsNotesOpen(false);
+    } catch (err) {
+      console.error("Failed to save note:", err);
+    }
+  };
+
+  const handleClearNote = () => {
+    setNoteText("");
+    if (!topicId) return;
+    try {
+      localStorage.removeItem(`algovia_note_${topicId}`);
+    } catch (err) {
+      console.error("Failed to clear note:", err);
+    }
+  };
 
   // Flattened topic list across all sections for Prev/Next navigation
   const allFlatTopics = (allSections || []).flatMap((sec) =>
@@ -388,6 +414,164 @@ function TopicDetailView({
 
   return (
     <div className={`xlr-tdv-workspace ${isSidebarCollapsed ? "xlr-tdv-workspace--collapsed" : ""}`}>
+      {/* ========================================================================= */}
+      {/* 0. MOBILE TOP HEADER NAVIGATION BAR (< 768px)                              */}
+      {/* ========================================================================= */}
+      <div className="xlr-tdv-mobile-header">
+        <button
+          type="button"
+          className="xlr-tdv-mobile-back-btn"
+          onClick={() => (onBackToOverview ? onBackToOverview() : window.history.back())}
+        >
+          <RiArrowLeftSLine size={20} />
+          <span>Back</span>
+        </button>
+
+        <div className="xlr-tdv-mobile-header-right">
+          {/* Circular Reading Scroll Progress Badge */}
+          <div className="xlr-tdv-mobile-progress-badge" title={`Reading Progress ${scrollProgress}%`}>
+            <svg width="26" height="26" viewBox="0 0 26 26">
+              <circle cx="13" cy="13" r="10" fill="none" stroke="#e2e8f0" strokeWidth="2.5" />
+              <circle
+                cx="13"
+                cy="13"
+                r="10"
+                fill="none"
+                stroke="#f97316"
+                strokeWidth="2.5"
+                strokeDasharray={2 * Math.PI * 10}
+                strokeDashoffset={2 * Math.PI * 10 * (1 - scrollProgress / 100)}
+                transform="rotate(-90 13 13)"
+              />
+            </svg>
+            <span className="xlr-tdv-mobile-progress-text">{scrollProgress}%</span>
+          </div>
+
+          <button
+            type="button"
+            className="xlr-tdv-mobile-topics-btn"
+            onClick={() => setIsTopicsDrawerOpen(true)}
+          >
+            <RiMenuLine size={18} />
+            <span>Topics</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Left Topics Slide-Over Drawer Modal */}
+      {isTopicsDrawerOpen && (
+        <div className="xlr-tdv-drawer-backdrop" onClick={() => setIsTopicsDrawerOpen(false)}>
+          <div className="xlr-tdv-drawer-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="xlr-tdv-drawer-header">
+              <h3 className="xlr-tdv-drawer-title">{computedSidebarTitle}</h3>
+              <button
+                type="button"
+                className="xlr-tdv-drawer-close-btn"
+                onClick={() => setIsTopicsDrawerOpen(false)}
+              >
+                <RiCloseLine size={22} />
+              </button>
+            </div>
+
+            {/* Overall Progress Box */}
+            <div className="xlr-tdv-progress-box" style={{ margin: "16px 20px" }}>
+              <div className="xlr-tdv-progress-ring-wrapper">
+                <svg className="xlr-tdv-progress-svg" viewBox="0 0 60 60">
+                  <circle className="xlr-tdv-progress-bg" cx="30" cy="30" r="24" strokeWidth="4.5" />
+                  <circle
+                    className="xlr-tdv-progress-fill"
+                    cx="30"
+                    cy="30"
+                    r="24"
+                    strokeWidth="4.5"
+                    strokeDasharray={2 * Math.PI * 24}
+                    strokeDashoffset={2 * Math.PI * 24 * (1 - overallProgressPercent / 100)}
+                  />
+                </svg>
+                <span className="xlr-tdv-progress-ring-text">{overallProgressPercent}%</span>
+              </div>
+              <div className="xlr-tdv-progress-text">
+                <span className="xlr-tdv-progress-label">OVERALL PROGRESS</span>
+                <span className="xlr-tdv-progress-fraction">
+                  <strong>{completedDocsCount}</strong> /{totalDocs}
+                </span>
+                <span className="xlr-tdv-progress-sublabel">{progressFractionLabel}</span>
+              </div>
+            </div>
+
+            {/* Search Input Box */}
+            <div className="xlr-tdv-search-box" style={{ margin: "0 20px 16px 20px" }}>
+              <RiSearchLine size={15} color="#94a3b8" />
+              <input
+                type="text"
+                placeholder="Search topics..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value || "")}
+              />
+            </div>
+
+            {/* Scrollable Accordion Topics List */}
+            <div className="xlr-tdv-drawer-topics-list">
+              {(allSections || []).map((sec) => {
+                if (!sec || !sec.id) return null;
+                const isSecExpanded = expandedSectionIds.includes(sec.id);
+                const matchingTopics = (sec.topics || []).filter((t) =>
+                  t && t.title && t.title.toLowerCase().includes((searchFilter || "").toLowerCase())
+                );
+                if (searchFilter.trim() !== "" && matchingTopics.length === 0) return null;
+
+                return (
+                  <div key={sec.id} className="xlr-tdv-module-group">
+                    <button
+                      type="button"
+                      className="xlr-tdv-module-header"
+                      onClick={() => toggleSectionExpand(sec.id)}
+                    >
+                      <div className="xlr-tdv-module-header-title">
+                        {renderModuleIcon(sec.title)}
+                        <span>{sec.title}</span>
+                      </div>
+                      {isSecExpanded ? <RiArrowRightSLine className="xlr-arrow-rotate-90" size={16} /> : <RiArrowRightSLine size={16} />}
+                    </button>
+
+                    {(isSecExpanded || searchFilter.trim() !== "") && (
+                      <div className="xlr-tdv-module-topics">
+                        {(searchFilter.trim() !== "" ? matchingTopics : sec.topics || []).map((t) => {
+                          if (!t || !t.id) return null;
+                          const isTopicActive = t.id === topicId;
+                          const isTopicDone = safeCompletedList.includes(t.id);
+                          const isTopicRev = revisionTopicIds.includes(t.id);
+
+                          return (
+                            <button
+                              key={t.id}
+                              type="button"
+                              className={`xlr-tdv-topic-item ${isTopicActive ? "xlr-tdv-topic-item--active" : ""}`}
+                              onClick={() => {
+                                setIsTopicsDrawerOpen(false);
+                                onSelectTopic && onSelectTopic(t.id, t.title);
+                              }}
+                            >
+                              <RiFileTextLine size={15} className="xlr-topic-doc-icon" />
+                              <span className="xlr-tdv-topic-item-title">{t.title}</span>
+                              <div className="xlr-tdv-topic-item-indicators">
+                                {isTopicRev && <RiStarFill size={13} color="#f97316" title="Marked for revision" />}
+                                {isTopicDone && <RiCheckLine size={14} color="#16a34a" title="Completed" />}
+                                {t.isLocked && <RiLockLine size={13} color="#94a3b8" />}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ========================================================================= */}
       {/* 1. FIXED LEFT SIDEBAR                                                     */}
       {/* ========================================================================= */}
@@ -802,7 +986,7 @@ function TopicDetailView({
                   <RiEditLine size={20} color="#3b82f6" />
                 </div>
                 <div>
-                  <h3 className="xlr-tdv-modal-title">My Note</h3>
+                  <h3 className="xlr-tdv-modal-title">Topic Notes</h3>
                   <span className="xlr-tdv-modal-subtitle">{topicTitle}</span>
                 </div>
               </div>
@@ -820,7 +1004,16 @@ function TopicDetailView({
                 autoFocus
               />
               <div className="xlr-tdv-notes-footer">
-                <span>{wordCount}/1000 words</span>
+                <div className="xlr-tdv-notes-actions">
+                  <button type="button" className="xlr-tdv-save-note-btn" onClick={handleSaveNote}>
+                    Save Note
+                  </button>
+                  <button type="button" className="xlr-tdv-clear-note-btn" onClick={handleClearNote}>
+                    <RiDeleteBinLine size={14} />
+                    <span>Clear</span>
+                  </button>
+                </div>
+                <span className="xlr-tdv-word-count">{wordCount}/1000 words</span>
               </div>
             </div>
           </div>
@@ -894,3 +1087,4 @@ function TopicDetailView({
 }
 
 export default TopicDetailView;
+export { TopicDetailView as TopicViewDetails };

@@ -1,12 +1,101 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
 import { UserRepository } from "../repositories/user.repository.js";
 import { sendOtpEmail } from "../config/mail.config.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "algovia_super_secret_jwt_key_production_2026";
 const JWT_EXPIRES_IN = "7d";
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export class AuthService {
+  /**
+   * Production Google OAuth2 ID Token Verification & User Linking
+   */
+  static async handleGoogleAuth(idToken) {
+    if (!idToken) {
+      throw new Error("Google idToken parameter is required.");
+    }
+
+    let payload;
+    try {
+      const ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID
+      });
+      payload = ticket.getPayload();
+    } catch (err) {
+      console.error("[AuthService] Google verifyIdToken failed:", err.message);
+      throw new Error("Invalid or expired Google OAuth ID Token.");
+    }
+
+    if (!payload) {
+      throw new Error("Invalid Google token payload.");
+    }
+
+    if (!payload.email_verified) {
+      throw new Error("Google account email address is not verified.");
+    }
+
+    const { sub: googleId, email, name, picture: avatar } = payload;
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check Case 1: User with google_id already exists
+    let user = await UserRepository.findByGoogleId(googleId);
+
+    if (!user) {
+      // Check Case 2: User with email exists -> Link google_id and update Google avatar & name
+      user = await UserRepository.findByEmail(normalizedEmail);
+
+      if (user) {
+        user = await UserRepository.linkGoogleAccount(user.id, googleId, avatar);
+        if (name && user.name !== name) {
+          user = await UserRepository.update(user.id, { name });
+        }
+      } else {
+        // Case 3: Brand new Google user -> Create record
+        user = await UserRepository.createGoogleUser({
+          email: normalizedEmail,
+          name: name || normalizedEmail.split("@")[0],
+          googleId,
+          avatar
+        });
+      }
+    } else {
+      // Existing Google user -> Always sync latest Google avatar & name if provided
+      const updateData = {};
+      if (avatar && user.avatar !== avatar) updateData.avatar = avatar;
+      if (name && user.name !== name) updateData.name = name;
+
+      if (Object.keys(updateData).length > 0) {
+        user = await UserRepository.update(user.id, updateData);
+      }
+    }
+
+    // Sign JWT Token
+    const accessToken = jwt.sign(
+      {
+        userId: user.id,
+        email: user.email,
+        role: user.role
+      },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+
+    return {
+      message: "Google authentication successful",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        plan: user.plan,
+        preferredLanguage: user.preferred_language
+      },
+      accessToken
+    };
+  }
   /**
    * Request 6-digit OTP code for email
    */
@@ -69,11 +158,10 @@ export class AuthService {
     // 4. Find or Create User in SQL DB
     let user = await UserRepository.findByEmail(normalizedEmail);
     if (!user) {
-      const isGagan = normalizedEmail.includes("gaganjangid");
       user = await UserRepository.create({
         email: normalizedEmail,
-        name: isGagan ? "Gagan Jangid" : normalizedEmail.split("@")[0],
-        avatar: isGagan ? "/assets/Gagan.JPG" : null
+        name: normalizedEmail.split("@")[0],
+        avatar: null
       });
     }
 

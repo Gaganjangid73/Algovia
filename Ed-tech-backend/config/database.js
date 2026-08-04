@@ -47,7 +47,9 @@ export async function initializeDatabase() {
       table.string("id").primary();
       table.string("email").unique().notNullable();
       table.string("name").notNullable();
-      table.string("avatar");
+      table.string("google_id").nullable().index();
+      table.string("avatar").nullable();
+      table.boolean("is_verified").defaultTo(false);
       table.string("role").defaultTo("USER");
       table.string("plan").defaultTo("Free Plan");
       table.string("preferred_language").defaultTo("cpp");
@@ -55,6 +57,22 @@ export async function initializeDatabase() {
       table.timestamp("updated_at").defaultTo(db.fn.now());
     });
     console.log("[Database] Created 'users' table.");
+  } else {
+    // Check and add missing columns dynamically
+    const hasGoogleId = await db.schema.hasColumn("users", "google_id");
+    if (!hasGoogleId) {
+      await db.schema.table("users", (table) => {
+        table.string("google_id").nullable().index();
+      });
+      console.log("[Database] Added 'google_id' column to 'users' table.");
+    }
+    const hasIsVerified = await db.schema.hasColumn("users", "is_verified");
+    if (!hasIsVerified) {
+      await db.schema.table("users", (table) => {
+        table.boolean("is_verified").defaultTo(false);
+      });
+      console.log("[Database] Added 'is_verified' column to 'users' table.");
+    }
   }
 
   // 2. OTP Verification Table

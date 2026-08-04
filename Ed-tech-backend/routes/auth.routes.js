@@ -5,6 +5,7 @@ import { authenticateToken } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // Public Authentication Endpoints
+router.post("/google", AuthController.googleAuth);
 router.post("/send-otp", AuthController.sendOtp);
 router.post("/verify-otp", AuthController.verifyOtp);
 

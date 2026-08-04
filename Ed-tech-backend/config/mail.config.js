@@ -23,7 +23,7 @@ export async function sendOtpEmail(toEmail, otpCode) {
   const mailOptions = {
     from: process.env.SMTP_FROM || `"Algovia Tech" <${smtpUser}>`,
     to: toEmail,
-    subject: `🔐 ${otpCode} is your Algovia Verification Code`,
+    subject: ` Your Algovia.io sign-in code`,
     html: `
       <!DOCTYPE html>
       <html>

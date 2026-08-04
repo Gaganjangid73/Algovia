@@ -6,6 +6,10 @@ import { useAuth } from "../../context/AuthContext";
 import { authApi } from "../../services/authApi";
 import "./AuthModal.css";
 
+const GOOGLE_CLIENT_ID =
+  import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+  "685500519772-qclv720jl87orrus88li3mbfmg2j51e8.apps.googleusercontent.com";
+
 export default function AuthModal() {
   const { isAuthModalOpen, closeAuthModal, login, redirectPath } = useAuth();
   const navigate = useNavigate();
@@ -20,6 +24,98 @@ export default function AuthModal() {
   const [isLoading, setIsLoading] = useState(false);
 
   const otpInputsRef = useRef([]);
+
+  // Reset modal state cleanly whenever modal is opened
+  useEffect(() => {
+    if (isAuthModalOpen) {
+      setStep("email");
+      setEmail("");
+      setOtp(["", "", "", "", "", ""]);
+      setTimer(45);
+      setCanResend(false);
+      setErrorMsg("");
+      setSuccessMsg("");
+      setIsLoading(false);
+    }
+  }, [isAuthModalOpen]);
+
+  // Load Google Identity Services SDK script dynamically
+  useEffect(() => {
+    if (!isAuthModalOpen) return;
+
+    const loadGoogleSdk = () => {
+      if (window.google?.accounts?.id) {
+        initializeGoogleId();
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        initializeGoogleId();
+      };
+      document.body.appendChild(script);
+    };
+
+    const initializeGoogleId = () => {
+      try {
+        if (window.google?.accounts?.id) {
+          window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleResponse
+          });
+        }
+      } catch (e) {
+        console.warn("[AuthModal] Failed to initialize Google ID SDK:", e);
+      }
+    };
+
+    loadGoogleSdk();
+  }, [isAuthModalOpen]);
+
+  // Handle Google OAuth Response
+  const handleGoogleResponse = async (response) => {
+    if (!response || !response.credential) {
+      setErrorMsg("Google login failed. No credential received.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      // Call backend API POST /api/auth/google
+      const result = await authApi.loginWithGoogle(response.credential);
+      setIsLoading(false);
+      login(result.user);
+      if (redirectPath) {
+        navigate(redirectPath);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      setErrorMsg(err.message || "Google authentication failed.");
+    }
+  };
+
+  // Trigger Google Account Selector Prompt
+  const handleGoogleClick = () => {
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          // Fallback to standard Google OAuth popup if One Tap is blocked
+          console.warn("[GoogleAuth] One-Tap prompt closed or skipped.");
+        }
+      });
+    } else {
+      setErrorMsg("Google Sign-In is initializing. Please try again in a moment.");
+    }
+  };
 
   // Countdown timer for OTP resend
   useEffect(() => {
@@ -167,7 +263,7 @@ export default function AuthModal() {
             /* STEP 1: EMAIL INPUT FORM */
             <div className="xlr-auth-form-container">
               {/* Google Auth Button */}
-              <button type="button" className="xlr-auth-google-btn">
+              <button type="button" className="xlr-auth-google-btn" onClick={handleGoogleClick}>
                 <FcGoogle size={20} />
                 <span>Continue with Google</span>
               </button>

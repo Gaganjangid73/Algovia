@@ -275,10 +275,10 @@
 
 [data-theme="light"] .xlr-sds-subtitle {
   color: #64748b;
+}
 
-  strong {
-    color: #0f172a;
-  }
+[data-theme="light"] .xlr-sds-subtitle strong {
+  color: #0f172a;
 }
 
 [data-theme="light"] .xlr-sds-tab-toggle {

@@ -104,6 +104,21 @@
   object-fit: cover;
 }
 
+.xlr-upm-avatar-initial {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
 .xlr-upm-user-meta {
   display: flex;
   flex-direction: column;

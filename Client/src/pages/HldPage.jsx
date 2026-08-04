@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Announcementbar from "../components/Announcementbar";
 import Navbar from "../components/navbar";
-import HldSidebar from "../components/hld/HldSidebar";
-import HldMainContent from "../components/hld/HldMainContent";
+import LLDDashboard from "../components/lld/LLDDashboard";
 import TopicDetailView from "../components/topicDetail/TopicDetailView";
 import { fetchHldCurriculumData } from "../data/hldContentData";
 import "./HldPage.css";
@@ -15,7 +14,6 @@ function HldPage() {
   const navigate = useNavigate();
 
   const [sections, setSections] = useState([]);
-  const [activeSectionId, setActiveSectionId] = useState("intro-system-design");
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   const [completedTopicIds, setCompletedTopicIds] = useState(() => {
@@ -37,9 +35,6 @@ function HldPage() {
         const data = await fetchHldCurriculumData();
         if (isMounted) {
           setSections(data || []);
-          if (data && data.length > 0) {
-            setActiveSectionId(data[0].id);
-          }
           setIsLoading(false);
         }
       } catch (err) {
@@ -90,9 +85,11 @@ function HldPage() {
     });
   };
 
-  const handleSelectTopic = (id, title) => {
-    setSelectedTopic({ id, title });
-    navigate(`/hld/${id}`);
+  const handleSelectTopic = (topic) => {
+    const topicId = typeof topic === "string" ? topic : topic.id;
+    const topicTitle = typeof topic === "string" ? topic : topic.title;
+    setSelectedTopic({ id: topicId, title: topicTitle });
+    navigate(`/hld/${topicId}`);
   };
 
   const handleBackToOverview = () => {
@@ -100,7 +97,6 @@ function HldPage() {
     navigate("/hld");
   };
 
-  const activeSection = sections.find((s) => s.id === activeSectionId) || sections[0];
   const safeCompletedIds = Array.isArray(completedTopicIds) ? completedTopicIds : [];
 
   return (
@@ -111,7 +107,7 @@ function HldPage() {
         <Navbar />
       </header>
 
-      {/* Render Topic Detail Reading View OR Main Curriculum Table Overview */}
+      {/* Render Topic Detail Reading View OR Full HLD Course Dashboard Overview */}
       {selectedTopic ? (
         <TopicDetailView
           topicId={selectedTopic.id}
@@ -121,35 +117,21 @@ function HldPage() {
           allSections={sections}
           completedTopicIds={safeCompletedIds}
           onToggleTopicStatus={handleToggleTopicStatus}
-          onSelectTopic={handleSelectTopic}
+          onSelectTopic={(id, title) => handleSelectTopic({ id, title })}
           onBackToOverview={handleBackToOverview}
         />
+      ) : !isLoading && sections.length > 0 ? (
+        <LLDDashboard
+          categories={sections}
+          courseTitle="MASTER HIGH LEVEL DESIGN"
+          drawerTitle="HLD Course Topics"
+          weeksLabel="SECTIONS"
+          onNavigateHome={() => navigate("/")}
+          onTopicSelect={(topic) => handleSelectTopic(topic)}
+        />
       ) : (
-        <div className="xlr-hld-container">
-          {!isLoading && sections.length > 0 ? (
-            <>
-              {/* Left Sidebar: Progress Rings & 26 Sections */}
-              <HldSidebar
-                sections={sections}
-                activeSectionId={activeSectionId}
-                onSelectSection={setActiveSectionId}
-                completedTopicIds={safeCompletedIds}
-              />
-
-              {/* Main Content Area: Section Detail & Topics Table */}
-              <HldMainContent
-                activeSection={activeSection}
-                allSections={sections}
-                completedTopicIds={safeCompletedIds}
-                onToggleTopicStatus={handleToggleTopicStatus}
-                onSelectTopic={handleSelectTopic}
-              />
-            </>
-          ) : (
-            <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
-              <h2>Loading HLD Curriculum...</h2>
-            </div>
-          )}
+        <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
+          <h2>Loading HLD Curriculum...</h2>
         </div>
       )}
     </div>

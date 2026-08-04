@@ -808,6 +808,23 @@
   z-index: 2;
 }
 
+.xlr-nav-avatar-initial {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+  user-select: none;
+}
+
 /* Floating Profile Dropdown Card (Dual Theme Support - Sleek Compact Size) */
 .xlr-profile-dropdown-card {
   position: absolute;
@@ -920,5 +937,383 @@
 
 .xlr-profile-menu-item--logout:hover {
   background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* Hamburger Toggle Button - hidden by default on desktop */
+.xlr-mobile-hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 4px;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .xlr-mobile-hamburger-btn {
+  color: #0f172a;
+}
+
+.xlr-mobile-hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .xlr-mobile-hamburger-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile Drawer Overlay Backdrop */
+.xlr-mobile-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 9998;
+}
+
+/* Mobile Drawer Sidebar Container matching Screenshot 2 - Compact Width & Smooth Scroll */
+.xlr-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 84vw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  background: #ffffff;
+  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .xlr-mobile-drawer {
+  background: #121216;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.6);
+}
+
+.xlr-mobile-drawer--open {
+  transform: translateX(0);
+}
+
+/* Header inside Drawer - Compact */
+.xlr-mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px 18px;
+  flex-shrink: 0;
+}
+
+.xlr-mobile-drawer-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+[data-theme="dark"] .xlr-mobile-drawer-title {
+  color: #ffffff;
+}
+
+.xlr-mobile-drawer-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Drawer Body Inner Scroll Container */
+.xlr-mobile-drawer-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 0 4px 32px 4px;
+}
+
+.xlr-mobile-drawer-theme-btn,
+.xlr-mobile-drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+[data-theme="dark"] .xlr-mobile-drawer-theme-btn,
+[data-theme="dark"] .xlr-mobile-drawer-close-btn {
+  color: #94a3b8;
+}
+
+.xlr-mobile-drawer-theme-btn:hover,
+.xlr-mobile-drawer-close-btn:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .xlr-mobile-drawer-theme-btn:hover,
+[data-theme="dark"] .xlr-mobile-drawer-close-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Role Switcher Pill Container matching Screenshot 2 - Compact */
+.xlr-mobile-role-switcher-pill {
+  display: flex;
+  margin: 0 14px 10px 14px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  padding: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="dark"] .xlr-mobile-role-switcher-pill {
+  background: #1c1c22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.xlr-mobile-role-tab {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+[data-theme="dark"] .xlr-mobile-role-tab {
+  color: #94a3b8;
+}
+
+.xlr-mobile-role-tab--active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .xlr-mobile-role-tab--active {
+  background: #2b2b36 !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Menu items list matching Screenshot 2 - Compact Typography */
+.xlr-mobile-menu-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 16px 10px;
+}
+
+.xlr-mobile-menu-group {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+[data-theme="dark"] .xlr-mobile-menu-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.xlr-mobile-menu-item-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 6px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.xlr-mobile-menu-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.xlr-mobile-menu-item-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+[data-theme="dark"] .xlr-mobile-menu-item-title {
+  color: #f8fafc;
+}
+
+.xlr-mobile-menu-item-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+[data-theme="dark"] .xlr-mobile-menu-item-sub {
+  color: #94a3b8;
+}
+
+.xlr-mobile-chevron {
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+}
+
+.xlr-mobile-accordion-body {
+  padding: 6px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f8fafc;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+[data-theme="dark"] .xlr-mobile-accordion-body {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.xlr-mobile-subcat-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 4px 0 2px 0;
+}
+
+[data-theme="dark"] .xlr-mobile-subcat-title {
+  color: #818cf8;
+}
+
+.xlr-mobile-subitem {
+  font-size: 12.5px;
+  color: #475569;
+  text-decoration: none;
+  padding: 3px 0;
+  transition: color 0.15s ease;
+}
+
+[data-theme="dark"] .xlr-mobile-subitem {
+  color: #cbd5e1;
+}
+
+.xlr-mobile-subitem:hover {
+  color: #2563eb;
+}
+
+[data-theme="dark"] .xlr-mobile-subitem:hover {
+  color: #818cf8;
+}
+
+/* Special Membership Link in Drawer */
+.xlr-mobile-menu-group--membership {
+  border-bottom: none;
+  padding-top: 4px;
+}
+
+.xlr-mobile-membership-link {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 10px 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .xlr-mobile-membership-link {
+  color: #6366f1;
+}
+
+.xlr-mobile-logout-link {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 10px 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ef4444;
+  cursor: pointer;
+}
+
+/* Breakpoint Media Queries for Mobile/Tablet */
+@media (max-width: 1080px) {
+  .xlr-navbar-item-list,
+  .xlr-role-switcher,
+  .xlr-theme-toggle {
+    display: none !important;
+  }
+
+  .xlr-navbar-right {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .xlr-mobile-hamburger-btn {
+    display: flex !important;
+  }
+
+  .xlr-navbar {
+    padding: 8px 16px;
+    justify-content: space-between;
+  }
+
+  .xlr-logoicon {
+    width: 36px;
+    height: 34px;
+  }
+
+  .xlr-brandname {
+    font-size: 15px;
+  }
+
+  .xlr-tagline {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 600px) {
+  .xlr-tagline {
+    display: none !important;
+  }
+
+  .xlr-navbar {
+    padding: 8px 12px;
+  }
+
+  .xlr-nav-login-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
 }
 

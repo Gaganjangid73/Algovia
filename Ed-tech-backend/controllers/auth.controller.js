@@ -2,6 +2,35 @@ import { AuthService } from "../services/auth.service.js";
 
 export class AuthController {
   /**
+   * POST /api/auth/google
+   * Verifies Google OAuth2 ID Token and logs in/registers user
+   */
+  static async googleAuth(req, res, next) {
+    try {
+      const { idToken, credential } = req.body;
+      const tokenToVerify = idToken || credential;
+
+      if (!tokenToVerify) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing Google ID Token (idToken / credential) in request body."
+        });
+      }
+
+      const result = await AuthService.handleGoogleAuth(tokenToVerify);
+      return res.status(200).json({
+        success: true,
+        ...result
+      });
+    } catch (err) {
+      console.error("[AuthController] googleAuth error:", err.message);
+      return res.status(401).json({
+        success: false,
+        message: err.message || "Google authentication failed."
+      });
+    }
+  }
+  /**
    * POST /api/auth/send-otp
    */
   static async sendOtp(req, res, next) {

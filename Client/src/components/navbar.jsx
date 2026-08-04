@@ -9,7 +9,13 @@ import {
   RiUserSettingsLine,
   RiBankCardLine,
   RiBugLine,
-  RiLogoutBoxRLine
+  RiLogoutBoxRLine,
+  RiMenu3Line,
+  RiCloseLine,
+  RiAddLine,
+  RiSubtractLine,
+  RiArrowDownSLine,
+  RiArrowUpSLine
 } from "react-icons/ri";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
@@ -42,6 +48,8 @@ function Navbar() {
   const location = useLocation();
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeMobileAccordion, setActiveMobileAccordion] = useState(null);
   const dropdownTimeoutRef = useRef(null);
   const profileMenuRef = useRef(null);
 
@@ -56,6 +64,29 @@ function Navbar() {
 
   const { theme, toggleTheme } = useTheme();
   const { user, isAuthenticated, openAuthModal, openProfileModal, logout } = useAuth();
+  const [avatarError, setAvatarError] = useState(false);
+
+  useEffect(() => {
+    setAvatarError(false);
+  }, [user?.avatar]);
+
+  // Close mobile menu and accordions on location change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setActiveMobileAccordion(null);
+  }, [location.pathname]);
+
+  // Lock background body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -396,14 +427,18 @@ function Navbar() {
                   <path d="M 96,50 A 46,46 0 0,1 50,96" className="ring-arrow-path" />
                   <path d="M 4,50 A 46,46 0 0,1 50,4" className="ring-arrow-path" />
                 </svg>
-                <img
-                  src={gaganAvatar}
-                  alt={user?.name || "Gagan Jangid"}
-                  className="xlr-nav-avatar-img"
-                  onError={(e) => {
-                    e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Gagan";
-                  }}
-                />
+                {user?.avatar && !avatarError ? (
+                  <img
+                    src={user.avatar}
+                    alt={user?.name || "User Account"}
+                    className="xlr-nav-avatar-img"
+                    onError={() => setAvatarError(true)}
+                  />
+                ) : (
+                  <div className="xlr-nav-avatar-initial">
+                    {(user?.name || user?.email || "U").trim().charAt(0).toUpperCase()}
+                  </div>
+                )}
               </div>
             </button>
 
@@ -412,8 +447,8 @@ function Navbar() {
               <div className="xlr-profile-dropdown-card">
                 {/* Header User Info */}
                 <div className="xlr-profile-card-header">
-                  <h4 className="xlr-profile-user-name">{user?.name || "Gagan Jangid"}</h4>
-                  <span className="xlr-profile-user-plan">Free Plan</span>
+                  <h4 className="xlr-profile-user-name">{user?.name || "User"}</h4>
+                  <span className="xlr-profile-user-plan">{user?.plan || "Free Plan"}</span>
                 </div>
 
                 {/* Menu Items List */}
@@ -480,6 +515,271 @@ function Navbar() {
             <RiArrowRightSLine size={18} />
           </button>
         )}
+
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          type="button"
+          className="xlr-mobile-hamburger-btn"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+        >
+          {isMobileMenuOpen ? <RiCloseLine size={26} /> : <RiMenu3Line size={26} />}
+        </button>
+      </div>
+
+      {/* Mobile Drawer Backdrop Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="xlr-mobile-drawer-overlay"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Drawer Sidebar */}
+      <div className={`xlr-mobile-drawer ${isMobileMenuOpen ? "xlr-mobile-drawer--open" : ""}`}>
+        {/* Drawer Header: Title "Menu" + Theme & Close Buttons */}
+        <div className="xlr-mobile-drawer-header">
+          <h3 className="xlr-mobile-drawer-title">Menu</h3>
+          <div className="xlr-mobile-drawer-header-actions">
+            <button
+              type="button"
+              className="xlr-mobile-drawer-theme-btn"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {theme === "dark" ? (
+                <MdOutlineDarkMode size={22} />
+              ) : (
+                <MdOutlineLightMode size={22} />
+              )}
+            </button>
+            <button
+              type="button"
+              className="xlr-mobile-drawer-close-btn"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <RiCloseLine size={24} />
+            </button>
+          </div>
+        </div>
+
+        <div className="xlr-mobile-drawer-body">
+          {/* Role Switcher Pills Segment */}
+          <div className="xlr-mobile-role-switcher-pill">
+            <button
+              type="button"
+              className={`xlr-mobile-role-tab ${currentRole === "SDE" ? "xlr-mobile-role-tab--active" : ""}`}
+              onClick={() => {
+                handleRoleClick("SDE");
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              SDE
+            </button>
+            <button
+              type="button"
+              className={`xlr-mobile-role-tab ${currentRole === "AI Engineer" ? "xlr-mobile-role-tab--active" : ""}`}
+              onClick={() => {
+                handleRoleClick("AI Engineer");
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              AI Engineer
+            </button>
+            <button
+              type="button"
+              className={`xlr-mobile-role-tab ${currentRole === "Devops" ? "xlr-mobile-role-tab--active" : ""}`}
+              onClick={() => {
+                handleRoleClick("Devops");
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              Devops
+            </button>
+          </div>
+
+          {/* Menu Items List matching reference layout */}
+          <div className="xlr-mobile-menu-list">
+            {/* 1. System Design */}
+            <div className="xlr-mobile-menu-group">
+              <button
+                type="button"
+                className="xlr-mobile-menu-item-row"
+                onClick={() => setActiveMobileAccordion(activeMobileAccordion === "sd" ? null : "sd")}
+              >
+                <div className="xlr-mobile-menu-text">
+                  <span className="xlr-mobile-menu-item-title">System Design</span>
+                  <span className="xlr-mobile-menu-item-sub">System Design (Complete One)</span>
+                </div>
+                <span className="xlr-mobile-chevron">
+                  {activeMobileAccordion === "sd" ? <RiArrowUpSLine size={20} /> : <RiArrowDownSLine size={20} />}
+                </span>
+              </button>
+
+              {activeMobileAccordion === "sd" && (
+                <div className="xlr-mobile-accordion-body">
+                  {!isLoading &&
+                    systemDesignData.map((col) => (
+                      <div key={col.columnId} className="xlr-mobile-subcat-section">
+                        <h6 className="xlr-mobile-subcat-title">{col.categoryTitle}</h6>
+                        {col.items.map((subItem) => (
+                          <a
+                            key={subItem.id}
+                            href={subItem.url}
+                            className="xlr-mobile-subitem"
+                            onClick={(e) => {
+                              handleDropdownLinkClick(subItem, e);
+                              setIsMobileMenuOpen(false);
+                            }}
+                          >
+                            {subItem.title}
+                          </a>
+                        ))}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+
+            {/* 2. Data Structures & Algorithms */}
+            <div className="xlr-mobile-menu-group">
+              <button
+                type="button"
+                className="xlr-mobile-menu-item-row"
+                onClick={() => setActiveMobileAccordion(activeMobileAccordion === "dsa" ? null : "dsa")}
+              >
+                <div className="xlr-mobile-menu-text">
+                  <span className="xlr-mobile-menu-item-title">Data Structures & Algorithms</span>
+                  <span className="xlr-mobile-menu-item-sub">Master DSA Patterns & Core Concepts</span>
+                </div>
+                <span className="xlr-mobile-chevron">
+                  {activeMobileAccordion === "dsa" ? <RiArrowUpSLine size={20} /> : <RiArrowDownSLine size={20} />}
+                </span>
+              </button>
+
+              {activeMobileAccordion === "dsa" && dsaData && (
+                <div className="xlr-mobile-accordion-body">
+                  {dsaData.items.map((subItem) => (
+                    <a
+                      key={subItem.id}
+                      href={subItem.url}
+                      className="xlr-mobile-subitem"
+                      onClick={(e) => {
+                        handleDropdownLinkClick(subItem.url, e);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      {subItem.title}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* 3. Software Engineer Bucket */}
+            <div className="xlr-mobile-menu-group">
+              <button
+                type="button"
+                className="xlr-mobile-menu-item-row"
+                onClick={() => setActiveMobileAccordion(activeMobileAccordion === "swe" ? null : "swe")}
+              >
+                <div className="xlr-mobile-menu-text">
+                  <span className="xlr-mobile-menu-item-title">Software Engineer Bucket</span>
+                  <span className="xlr-mobile-menu-item-sub">Interview Preparation & Concepts</span>
+                </div>
+                <span className="xlr-mobile-chevron">
+                  {activeMobileAccordion === "swe" ? <RiArrowUpSLine size={20} /> : <RiArrowDownSLine size={20} />}
+                </span>
+              </button>
+
+              {activeMobileAccordion === "swe" && (
+                <div className="xlr-mobile-accordion-body">
+                  {!isLoading &&
+                    sweBucketData.map((col) => (
+                      <div key={col.columnId} className="xlr-mobile-subcat-section">
+                        <h6 className="xlr-mobile-subcat-title">{col.categoryTitle}</h6>
+                        {col.items.map((subItem) => (
+                          <a
+                            key={subItem.id}
+                            href={subItem.url}
+                            className="xlr-mobile-subitem"
+                            onClick={(e) => {
+                              handleDropdownLinkClick(subItem.url, e);
+                              setIsMobileMenuOpen(false);
+                            }}
+                          >
+                            {subItem.title}
+                          </a>
+                        ))}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+
+            {/* 4. Engineering Newsletter */}
+            <div className="xlr-mobile-menu-group">
+              <a
+                href="/newsletter"
+                className="xlr-mobile-menu-item-row xlr-mobile-menu-item-row--link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <div className="xlr-mobile-menu-text">
+                  <span className="xlr-mobile-menu-item-title">Engineering Newsletter</span>
+                  <span className="xlr-mobile-menu-item-sub">System Design stories, every week</span>
+                </div>
+              </a>
+            </div>
+
+            {/* 5. Bug Report */}
+            <div className="xlr-mobile-menu-group">
+              <button
+                type="button"
+                className="xlr-mobile-menu-item-row xlr-mobile-menu-item-row--link"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openProfileModal();
+                }}
+              >
+                <div className="xlr-mobile-menu-text">
+                  <span className="xlr-mobile-menu-item-title">Bug Report</span>
+                  <span className="xlr-mobile-menu-item-sub">Report an issue or get help</span>
+                </div>
+              </button>
+            </div>
+
+            {/* 6. Membership */}
+            <div className="xlr-mobile-menu-group xlr-mobile-menu-group--membership">
+              <button
+                type="button"
+                className="xlr-mobile-membership-link"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (!isAuthenticated) openAuthModal();
+                }}
+              >
+                Membership
+              </button>
+            </div>
+
+            {isAuthenticated && (
+              <div className="xlr-mobile-menu-group xlr-mobile-menu-group--logout">
+                <button
+                  type="button"
+                  className="xlr-mobile-logout-link"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    logout();
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

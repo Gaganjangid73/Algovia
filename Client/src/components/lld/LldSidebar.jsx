@@ -105,10 +105,10 @@ function LldSidebar({
               className={`xlr-hld-section-btn ${isActive ? "xlr-hld-section-btn--active" : ""}`}
               onClick={() => onSelectSection(sec.id)}
             >
-              <span>{sec.title}</span>
+              <span className="xlr-hld-section-title-text">{sec.title}</span>
               <div className="xlr-hld-section-badge">
                 <span>{doneInSec}/{totalInSec}</span>
-                {isActive && <RiArrowRightSLine size={14} />}
+                {isActive && <RiArrowRightSLine size={16} />}
               </div>
             </button>
           );

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Announcementbar from "../components/Announcementbar";
 import Navbar from "../components/navbar";
-import LldSidebar from "../components/lld/LldSidebar";
-import LldMainContent from "../components/lld/LldMainContent";
+import LLDDashboard from "../components/lld/LLDDashboard";
 import TopicDetailView from "../components/topicDetail/TopicDetailView";
 import { fetchLldCurriculumData } from "../data/lldContentData";
-import "./HldPage.css"; // Shares the exact same aesthetic dual-theme styling architecture
+import "./HldPage.css";
 
 const STORAGE_KEY = "algovia_lld_completed_topics";
 
@@ -15,7 +14,6 @@ function LldPage() {
   const navigate = useNavigate();
 
   const [sections, setSections] = useState([]);
-  const [activeSectionId, setActiveSectionId] = useState("lld-introduction");
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   const [completedTopicIds, setCompletedTopicIds] = useState(() => {
@@ -37,9 +35,6 @@ function LldPage() {
         const data = await fetchLldCurriculumData();
         if (isMounted) {
           setSections(data || []);
-          if (data && data.length > 0) {
-            setActiveSectionId(data[0].id);
-          }
           setIsLoading(false);
         }
       } catch (err) {
@@ -90,9 +85,11 @@ function LldPage() {
     });
   };
 
-  const handleSelectTopic = (id, title) => {
-    setSelectedTopic({ id, title });
-    navigate(`/lld/${id}`);
+  const handleSelectTopic = (topic) => {
+    const topicId = typeof topic === "string" ? topic : topic.id;
+    const topicTitle = typeof topic === "string" ? topic : topic.title;
+    setSelectedTopic({ id: topicId, title: topicTitle });
+    navigate(`/lld/${topicId}`);
   };
 
   const handleBackToOverview = () => {
@@ -100,7 +97,6 @@ function LldPage() {
     navigate("/lld");
   };
 
-  const activeSection = sections.find((s) => s.id === activeSectionId) || sections[0];
   const safeCompletedIds = Array.isArray(completedTopicIds) ? completedTopicIds : [];
 
   return (
@@ -111,7 +107,7 @@ function LldPage() {
         <Navbar />
       </header>
 
-      {/* Render Topic Detail Reading View OR Main Curriculum Table Overview */}
+      {/* Render Topic Detail Reading View OR Full LLD Course Dashboard Overview */}
       {selectedTopic ? (
         <TopicDetailView
           topicId={selectedTopic.id}
@@ -121,35 +117,18 @@ function LldPage() {
           allSections={sections}
           completedTopicIds={safeCompletedIds}
           onToggleTopicStatus={handleToggleTopicStatus}
-          onSelectTopic={handleSelectTopic}
+          onSelectTopic={(id, title) => handleSelectTopic({ id, title })}
           onBackToOverview={handleBackToOverview}
         />
+      ) : !isLoading && sections.length > 0 ? (
+        <LLDDashboard
+          categories={sections}
+          onNavigateHome={() => navigate("/")}
+          onTopicSelect={(topic) => handleSelectTopic(topic)}
+        />
       ) : (
-        <div className="xlr-hld-container">
-          {!isLoading && sections.length > 0 ? (
-            <>
-              {/* Left Sidebar: Progress Rings & 16 LLD Weeks */}
-              <LldSidebar
-                sections={sections}
-                activeSectionId={activeSectionId}
-                onSelectSection={setActiveSectionId}
-                completedTopicIds={safeCompletedIds}
-              />
-
-              {/* Main Content Area: Section Detail & Topics Table */}
-              <LldMainContent
-                activeSection={activeSection}
-                allSections={sections}
-                completedTopicIds={safeCompletedIds}
-                onToggleTopicStatus={handleToggleTopicStatus}
-                onSelectTopic={handleSelectTopic}
-              />
-            </>
-          ) : (
-            <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
-              <h2>Loading LLD Curriculum...</h2>
-            </div>
-          )}
+        <div style={{ padding: "80px 20px", textAlign: "center", width: "100%", color: "#94a3b8" }}>
+          <h2>Loading LLD Curriculum...</h2>
         </div>
       )}
     </div>

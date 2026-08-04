@@ -1,23 +1,56 @@
 .announcement {
-    background: oklch(0.546 0.245 262.881);
-    color: white;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    z-index: 1000;
-   
+  background: oklch(0.546 0.245 262.881);
+  color: white;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 1000;
+  overflow: hidden;
 }
-.xlr-access{
-  font: bold;
-  margin-left: 5px;
+
+.announcement-text {
+  display: inline;
+}
+
+.xlr-access {
+  font-weight: 700;
+  margin-left: 6px;
   border-bottom: 1px solid white;
   display: inline-flex;
   align-items: center;
   gap: 4px;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 680px) {
+  .announcement {
+    padding: 5px 8px;
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+
+  .xlr-access {
+    font-size: 10.5px;
+    margin-left: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .announcement {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+
+  .xlr-access {
+    font-size: 10px;
+  }
 }
 

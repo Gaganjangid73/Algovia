@@ -25,13 +25,7 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  position: relative;
-  animation: authScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes authScaleIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
 }
 
 /* Left Panel: Auth Form */

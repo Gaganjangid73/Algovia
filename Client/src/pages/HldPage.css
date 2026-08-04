@@ -287,17 +287,22 @@
 
 .xlr-hld-main-header-text {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 780px;
+.xlr-hld-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 8px;
 }
 
 .xlr-hld-section-title {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 800;
   color: #ffffff;
   margin: 0;
   letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 [data-theme="light"] .xlr-hld-section-title {
@@ -305,40 +310,36 @@
 }
 
 .xlr-hld-section-description {
-  font-size: 14.5px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.55;
   color: #94a3b8;
   margin: 0;
 }
 
 [data-theme="light"] .xlr-hld-section-description {
-  color: #475569;
+  color: #64748b;
 }
 
 /* Search Controls */
-.xlr-hld-search-wrapper {
-  display: flex;
-  align-items: center;
-}
-
 .xlr-hld-search-icon-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   color: #94a3b8;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
 [data-theme="light"] .xlr-hld-search-icon-btn {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
 }
 
 .xlr-hld-search-icon-btn:hover {
@@ -347,7 +348,7 @@
 }
 
 [data-theme="light"] .xlr-hld-search-icon-btn:hover {
-  background: #e2e8f0;
+  background: #f1f5f9;
   color: #0f172a;
 }
 
@@ -357,16 +358,16 @@
   gap: 10px;
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 30px;
-  padding: 8px 18px;
-  width: 320px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 8px 14px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 [data-theme="light"] .xlr-hld-search-input-box {
   background: #ffffff;
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .xlr-hld-search-input {
@@ -386,37 +387,42 @@
   color: #64748b;
 }
 
-/* Section Progress Bar */
+/* Section Progress Bar Track & Fraction Row matching Screenshot 1 */
 .xlr-hld-progress-section {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 520px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-top: 14px;
+  margin-bottom: 16px;
 }
 
 .xlr-hld-progress-bar-track {
-  width: 100%;
-  height: 4px;
+  flex: 1;
+  height: 6px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 [data-theme="light"] .xlr-hld-progress-bar-track {
-  background: #e2e8f0;
+  background: #f1f5f9;
 }
 
 .xlr-hld-progress-bar-fill {
   height: 100%;
   background: #3b82f6;
-  border-radius: 2px;
+  border-radius: 3px;
   transition: width 0.4s ease;
 }
 
 .xlr-hld-progress-count {
-  font-size: 12.5px;
+  font-size: 13px;
   color: #64748b;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 /* Topics Table */
@@ -564,6 +570,7 @@
 @media (max-width: 992px) {
   .xlr-hld-container {
     flex-direction: column;
+    padding-top: 130px;
   }
   .xlr-hld-sidebar {
     width: 100%;

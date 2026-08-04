@@ -96,7 +96,8 @@ function HldSidebar({
       <div className="xlr-hld-sections-list">
         {sections.map((sec) => {
           const isActive = sec.id === activeSectionId;
-          const count = sec.topics.length;
+          const totalInSec = sec.topics.length;
+          const doneInSec = sec.topics.filter((t) => (completedTopicIds || []).includes(t.id)).length;
           return (
             <button
               key={sec.id}
@@ -104,10 +105,10 @@ function HldSidebar({
               className={`xlr-hld-section-btn ${isActive ? "xlr-hld-section-btn--active" : ""}`}
               onClick={() => onSelectSection(sec.id)}
             >
-              <span>{sec.title}</span>
+              <span className="xlr-hld-section-title-text">{sec.title}</span>
               <div className="xlr-hld-section-badge">
-                <span>{count}</span>
-                {isActive && <RiArrowRightSLine size={14} />}
+                <span>{doneInSec}/{totalInSec}</span>
+                {isActive && <RiArrowRightSLine size={16} />}
               </div>
             </button>
           );

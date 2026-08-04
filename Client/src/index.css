@@ -6,11 +6,14 @@ html,
 body,
 #root {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-body{
+body {
   font-family: "Nunito", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.25s ease, color 0.25s ease;
+  width: 100%;
 }

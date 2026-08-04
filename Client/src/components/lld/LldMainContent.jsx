@@ -69,7 +69,7 @@ function LldMainContent({
         <div className="xlr-hld-search-wrapper">
           {isSearchOpen ? (
             <div className="xlr-hld-search-input-box">
-              <RiSearchLine size={16} color="#94a3b8" />
+              <RiSearchLine size={18} color="#94a3b8" />
               <input
                 type="text"
                 autoFocus

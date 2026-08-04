@@ -48,6 +48,23 @@ class AuthApiService {
   }
 
   /**
+   * Google OAuth2 Authentication
+   */
+  async loginWithGoogle(idToken) {
+    const result = await this._request("/google", {
+      method: "POST",
+      body: JSON.stringify({ idToken })
+    });
+
+    if (result.accessToken) {
+      localStorage.setItem(TOKEN_STORAGE_KEY, result.accessToken);
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(result.user));
+    }
+
+    return result;
+  }
+
+  /**
    * Request 6-digit OTP code for user email
    */
   async sendOtp(email) {

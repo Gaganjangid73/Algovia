@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RiCloseLine, RiCodeSSlashLine } from "react-icons/ri";
 import { useAuth } from "../../context/AuthContext";
-import gaganAvatar from "../../assets/Gagan.JPG";
 import AlgoviaLogo from "../../assets/Algovia.png";
 import "./UserProfileModal.css";
 
@@ -14,10 +13,17 @@ export default function UserProfileModal() {
     setPreferredLanguage
   } = useAuth();
 
+  const [avatarError, setAvatarError] = useState(false);
+
+  useEffect(() => {
+    setAvatarError(false);
+  }, [user?.avatar]);
+
   if (!isProfileModalOpen) return null;
 
-  const userName = user?.name || "Gagan Jangid";
-  const userEmail = user?.email || "gaganjangid02@gmail.com";
+  const userName = user?.name || "User";
+  const userEmail = user?.email || "";
+  const userInitial = (userName !== "User" ? userName : userEmail || "U").trim().charAt(0).toUpperCase();
 
   return (
     <div className="xlr-upm-overlay" onClick={closeProfileModal}>
@@ -33,14 +39,18 @@ export default function UserProfileModal() {
             </div>
             <div className="xlr-upm-header-divider" />
             <div className="xlr-upm-user-badge">
-              <img
-                src={gaganAvatar}
-                alt={userName}
-                className="xlr-upm-avatar"
-                onError={(e) => {
-                  e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Gagan";
-                }}
-              />
+              {user?.avatar && !avatarError ? (
+                <img
+                  src={user.avatar}
+                  alt={userName}
+                  className="xlr-upm-avatar"
+                  onError={() => setAvatarError(true)}
+                />
+              ) : (
+                <div className="xlr-upm-avatar-initial">
+                  {userInitial}
+                </div>
+              )}
               <div className="xlr-upm-user-meta">
                 <span className="xlr-upm-user-name">{userName}</span>
                 <span className="xlr-upm-user-email">{userEmail}</span>

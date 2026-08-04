@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   RiArrowLeftLine,
   RiMenuLine,
@@ -6,8 +7,10 @@ import {
   RiSearchLine,
   RiCheckLine,
   RiLockLine,
+  RiLockUnlockLine,
   RiArrowRightSLine
 } from "react-icons/ri";
+import { useAuth } from "../../context/AuthContext";
 import "./LLDDashboard.css";
 
 // 3-Bar Signal Strength Icon matching user reference screenshot
@@ -154,6 +157,8 @@ function LLDDashboard({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, checkTopicAccess } = useAuth();
   const [completedTopicIds, setCompletedTopicIds] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
 
@@ -192,7 +197,12 @@ function LLDDashboard({
     );
   };
 
-  const handleSelectTopicRow = (topic) => {
+  const handleSelectTopicRow = (topic, isUnlocked) => {
+    if (!isUnlocked) {
+      // Locked topic access attempt -> Redirect to checkout page!
+      navigate("/payment/checkout");
+      return;
+    }
     setSelectedTopicId(topic.id);
     if (onTopicSelect) onTopicSelect(topic);
     // Close mobile drawer if open
@@ -412,22 +422,24 @@ function LLDDashboard({
             </div>
 
             {/* Topic Item Rows */}
-            {filteredTopics.map((topic) => {
+            {filteredTopics.map((topic, index) => {
               const isDone = completedTopicIds.includes(topic.id);
               const isSelected = selectedTopicId === topic.id;
+              const isUnlocked = checkTopicAccess(index, "lld");
 
               return (
                 <div
                   key={topic.id}
-                  className={`lld-topic-row ${isSelected ? "lld-topic-row--selected" : ""}`}
+                  className={`lld-topic-row ${isSelected ? "lld-topic-row--selected" : ""} ${!isUnlocked ? "lld-topic-row--locked" : ""}`}
                 >
                   {/* Radio / Status Checkbox Circle */}
                   <div className="lld-col-status">
                     <button
                       type="button"
                       className={`lld-status-circle ${isDone ? "lld-status-circle--done" : ""}`}
-                      onClick={() => handleToggleTopic(topic.id)}
-                      title={isDone ? "Mark as uncompleted" : "Mark as completed"}
+                      onClick={() => isUnlocked && handleToggleTopic(topic.id)}
+                      title={isDone ? "Mark as uncompleted" : (isUnlocked ? "Mark as completed" : "Locked for free tier")}
+                      disabled={!isUnlocked}
                     >
                       {isDone && <RiCheckLine size={13} />}
                     </button>
@@ -436,7 +448,7 @@ function LLDDashboard({
                   {/* Topic Title */}
                   <div
                     className="lld-col-topic"
-                    onClick={() => handleSelectTopicRow(topic)}
+                    onClick={() => handleSelectTopicRow(topic, isUnlocked)}
                   >
                     <span className={`lld-topic-title-text ${isDone ? "lld-topic-title-text--done" : ""}`}>
                       {topic.title}
@@ -458,10 +470,13 @@ function LLDDashboard({
                     <span className="lld-open-text">{topic.openPercent || "50.00%"}</span>
                   </div>
 
-                  {/* Progress & Lock Icon Column */}
-                  <div className="lld-col-progress">
-                    <span className="lld-desktop-dash">—</span>
-                    <RiLockLine className="lld-lock-icon" size={16} />
+                  {/* Progress & Lock/Unlock Icon Column */}
+                  <div className="lld-col-progress" onClick={() => handleSelectTopicRow(topic, isUnlocked)}>
+                    {isUnlocked ? (
+                      <RiLockUnlockLine className="lld-unlock-icon" size={16} color="#10b981" title="Unlocked" />
+                    ) : (
+                      <RiLockLine className="lld-lock-icon lld-lock-icon--locked" size={16} color="#ef4444" title="Subscription required — Click to unlock" />
+                    )}
                   </div>
                 </div>
               );

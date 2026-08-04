@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { authApi, USER_STORAGE_KEY, TOKEN_STORAGE_KEY } from "../services/authApi";
+import { getUserPlanType, isTopicUnlocked } from "../utils/subscriptionUtils";
 
 const AuthContext = createContext();
 
@@ -19,6 +20,11 @@ export function AuthProvider({ children }) {
   const [redirectPath, setRedirectPath] = useState(null);
 
   const isAuthenticated = !!user;
+  const userPlan = useMemo(() => getUserPlanType(user), [user]);
+
+  const checkTopicAccess = useCallback((topicIndex, category) => {
+    return isTopicUnlocked(topicIndex, category, user);
+  }, [user]);
 
   // Hydrate user profile on page load if JWT token exists
   useEffect(() => {
@@ -75,6 +81,8 @@ export function AuthProvider({ children }) {
   const contextValue = useMemo(() => ({
     user,
     isAuthenticated,
+    userPlan,
+    checkTopicAccess,
     isAuthModalOpen,
     isProfileModalOpen,
     preferredLanguage,
@@ -89,6 +97,8 @@ export function AuthProvider({ children }) {
   }), [
     user,
     isAuthenticated,
+    userPlan,
+    checkTopicAccess,
     isAuthModalOpen,
     isProfileModalOpen,
     preferredLanguage,

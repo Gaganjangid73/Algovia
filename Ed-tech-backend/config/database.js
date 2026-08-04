@@ -73,6 +73,21 @@ export async function initializeDatabase() {
       });
       console.log("[Database] Added 'is_verified' column to 'users' table.");
     }
+
+    // Subscription Columns
+    const hasIsSubscribed = await db.schema.hasColumn("users", "is_subscribed");
+    if (!hasIsSubscribed) {
+      await db.schema.table("users", (table) => {
+        table.boolean("is_subscribed").defaultTo(false);
+        table.string("subscription_plan").defaultTo("FREE"); // FREE, FULL_MONTHLY, FULL_YEARLY, BASIC_MONTHLY, BASIC_YEARLY, STUDENT_MONTHLY, TEAM
+        table.string("subscription_billing").defaultTo("none"); // monthly, yearly, team, student, none
+        table.timestamp("subscription_expires_at").nullable();
+        table.integer("team_seats").defaultTo(1);
+        table.string("razorpay_subscription_id").nullable();
+        table.string("razorpay_payment_id").nullable();
+      });
+      console.log("[Database] Added subscription columns to 'users' table.");
+    }
   }
 
   // 2. OTP Verification Table

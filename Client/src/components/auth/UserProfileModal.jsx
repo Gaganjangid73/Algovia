@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { RiCloseLine, RiCodeSSlashLine } from "react-icons/ri";
 import { useAuth } from "../../context/AuthContext";
 import AlgoviaLogo from "../../assets/Algovia.png";
 import "./UserProfileModal.css";
 
 export default function UserProfileModal() {
+  const navigate = useNavigate();
   const {
     user,
     isProfileModalOpen,
@@ -20,6 +22,11 @@ export default function UserProfileModal() {
   }, [user?.avatar]);
 
   if (!isProfileModalOpen) return null;
+
+  const handleBecomeMember = () => {
+    closeProfileModal();
+    navigate("/payment/checkout");
+  };
 
   const userName = user?.name || "User";
   const userEmail = user?.email || "";
@@ -126,7 +133,7 @@ export default function UserProfileModal() {
             </div>
 
             {/* Become a Member CTA */}
-            <button type="button" className="xlr-upm-cta-btn">
+            <button type="button" className="xlr-upm-cta-btn" onClick={handleBecomeMember}>
               Become a Member
             </button>
           </div>
@@ -164,7 +171,7 @@ export default function UserProfileModal() {
             </div>
 
             <div className="xlr-upm-footnote">
-              Issues? <span>{userEmail}</span>
+              Issues? <span>gaganjangid11@zohomail.in</span>
             </div>
           </div>
         </div>

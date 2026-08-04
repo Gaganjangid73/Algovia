@@ -16,6 +16,17 @@ import "./Sdepage.css";
  * Main SDE Interview Preparation Page
  */
 function Sdepage() {
+  React.useEffect(() => {
+    if (window.location.hash === "#founder") {
+      setTimeout(() => {
+        const el = document.getElementById("founder");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, []);
+
   return (
     <>
       <header className="xlr-sticky-header">

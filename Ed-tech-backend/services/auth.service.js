@@ -91,6 +91,10 @@ export class AuthService {
         email: user.email,
         avatar: user.avatar,
         plan: user.plan,
+        isSubscribed: Boolean(user.is_subscribed),
+        subscriptionPlan: user.subscription_plan || "FREE",
+        subscriptionBilling: user.subscription_billing || "none",
+        teamSeats: user.team_seats || 1,
         preferredLanguage: user.preferred_language
       },
       accessToken
@@ -184,6 +188,10 @@ export class AuthService {
         name: user.name,
         avatar: user.avatar,
         plan: user.plan,
+        isSubscribed: Boolean(user.is_subscribed),
+        subscriptionPlan: user.subscription_plan || "FREE",
+        subscriptionBilling: user.subscription_billing || "none",
+        teamSeats: user.team_seats || 1,
         preferredLanguage: user.preferred_language
       },
       accessToken
@@ -205,6 +213,10 @@ export class AuthService {
       name: user.name,
       avatar: user.avatar,
       plan: user.plan,
+      isSubscribed: Boolean(user.is_subscribed),
+      subscriptionPlan: user.subscription_plan || "FREE",
+      subscriptionBilling: user.subscription_billing || "none",
+      teamSeats: user.team_seats || 1,
       preferredLanguage: user.preferred_language,
       createdAt: user.created_at
     };

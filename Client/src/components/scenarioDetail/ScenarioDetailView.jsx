@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowLeftLine, RiCheckLine, RiExternalLinkLine, RiMoonLine, RiSunLine } from "react-icons/ri";
+import { useAuth } from "../../context/AuthContext";
 import { getScenarioDialogue } from "../../data/scenarioDialoguesData";
 import "./ScenarioDetailView.css";
 
 export default function ScenarioDetailView({ scenarioId, scenarioTitle, mode = "hld" }) {
   const navigate = useNavigate();
+  const { checkTopicAccess } = useAuth();
   const [isStudied, setIsStudied] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return document.documentElement.getAttribute("data-theme") === "dark";
   });
 
   const dialogue = getScenarioDialogue(scenarioId, scenarioTitle);
+
+  // Protect locked scenarios: redirect to /payment/checkout
+  useEffect(() => {
+    if (scenarioId) {
+      // Find position of scenario in dataset
+      const isUnlocked = checkTopicAccess(3, "scenarios"); // Check if user has scenario access
+      if (!isUnlocked) {
+        navigate("/payment/checkout", { replace: true });
+      }
+    }
+  }, [scenarioId, checkTopicAccess, navigate]);
 
   // Sync theme attribute with document root
   const toggleTheme = () => {

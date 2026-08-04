@@ -1,0 +1,909 @@
+/* ==========================================================================
+   CHECKOUT PAGE STYLESHEET - SPLIT SCREEN DARK/LIGHT DESIGN
+   ========================================================================== */
+
+.chk-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .chk-wrapper {
+  background-color: #0b0f17;
+  color: #f8fafc;
+}
+
+/* ==========================================================================
+   1. LEFT SIDEBAR (Dark Black Theme #000000) - FIXED
+   ========================================================================== */
+.chk-sidebar {
+  width: 380px;
+  min-width: 340px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-right: 1px solid #1e293b;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* Back Link */
+.chk-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s ease;
+}
+
+.chk-back-btn:hover {
+  color: #3b82f6;
+}
+
+/* Sidebar Header & Price */
+.chk-sidebar-header {
+  margin-bottom: 24px;
+}
+
+.chk-sidebar-subtitle {
+  font-size: 12px;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.chk-sidebar-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.chk-sidebar-amount {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.chk-sidebar-period {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.chk-sidebar-note {
+  font-size: 12px;
+  color: #10b981;
+  margin: 6px 0 0 0;
+  font-weight: 500;
+}
+
+/* Currency Toggle */
+.chk-currency-toggle {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.chk-currency-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.chk-currency-btn--active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chk-flag {
+  font-size: 14px;
+}
+
+/* Billing Cycle Tabs Container */
+.chk-tabs-container {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.chk-tab-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 7px 5px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.chk-tab-btn--active {
+  background: #1f2937;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chk-badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Plan Radio Cards */
+.chk-plan-radios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.chk-radio-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chk-radio-card:hover {
+  border-color: #374151;
+}
+
+.chk-radio-card--selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.chk-radio-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chk-radio-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.chk-radio-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.chk-radio-dot-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chk-radio-outer-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chk-radio-card--selected .chk-radio-outer-dot {
+  border-color: #3b82f6;
+}
+
+.chk-radio-inner-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+/* Breakdown & Subtotal */
+.chk-sidebar-breakdown {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chk-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.chk-breakdown-divider {
+  height: 1px;
+  background: #1f2937;
+  margin: 6px 0;
+}
+
+.chk-breakdown-total {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.chk-sidebar-footer-info {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================================
+   2. RIGHT MAIN CONTENT AREA
+   ========================================================================== */
+.chk-main-content {
+  flex: 1;
+  height: 100vh;
+  padding: 48px 60px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.chk-main-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Sections */
+.chk-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.chk-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: inherit;
+  margin: 0 0 14px 0;
+}
+
+.chk-trusted-subtitle {
+  font-size: 11.5px;
+  color: #64748b;
+  margin: -8px 0 18px 0;
+}
+
+/* Contact Inputs Box */
+.chk-contact-inputs-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-theme="dark"] .chk-contact-inputs-box {
+  background: #111827;
+  border-color: #1f2937;
+}
+
+.chk-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chk-input-row label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.chk-input-row input {
+  background: transparent;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: inherit;
+  text-align: right;
+  outline: none;
+  width: 280px;
+}
+
+/* Unauthenticated Contact Box */
+.chk-unauth-box {
+  cursor: pointer;
+  padding: 14px 20px;
+  transition: all 0.2s ease;
+}
+
+.chk-unauth-box:hover {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.03);
+}
+
+.chk-unauth-label {
+  font-size: 12.5px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.chk-unauth-signin-btn {
+  background: transparent;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: color 0.2s ease;
+}
+
+.chk-unauth-signin-btn:hover {
+  color: #2563eb;
+}
+
+[data-theme="dark"] .chk-unauth-signin-btn {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .chk-unauth-signin-btn:hover {
+  color: #60a5fa;
+}
+
+/* Plan Detail Card */
+.chk-plan-detail-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+[data-theme="dark"] .chk-plan-detail-card {
+  background: #111827;
+  border-color: #1f2937;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.chk-plan-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.chk-plan-card-name {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.chk-plan-card-price-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chk-original-crossed {
+  font-size: 12px;
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.chk-current-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.chk-big-number {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.chk-mo-label {
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+.chk-gst-label {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.chk-badge-pill {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+[data-theme="dark"] .chk-badge-pill {
+  background: #1f2937;
+  color: #94a3b8;
+}
+
+.chk-ideal-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+/* Features List */
+.chk-features-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chk-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+[data-theme="dark"] .chk-feature-item {
+  color: #cbd5e1;
+}
+
+.chk-feature-item svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Savings Banner */
+.chk-yearly-savings-banner {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+[data-theme="dark"] .chk-yearly-savings-banner {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e2e8f0;
+}
+
+/* Subscribe Action Button */
+.chk-submit-btn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.chk-submit-btn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .chk-submit-btn {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .chk-submit-btn:hover {
+  background: #2563eb;
+}
+
+.chk-btn-note {
+  font-size: 11.5px;
+  color: #94a3b8;
+  text-align: center;
+  margin: -12px 0 0 0;
+}
+
+/* TEAM PLAN STYLES */
+.chk-team-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chk-team-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chk-plan-tag {
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.chk-team-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.chk-team-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.chk-team-price-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.chk-team-big-price {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.chk-team-big-price small {
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.chk-team-per-seat {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Stepper Box */
+.chk-seats-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-theme="dark"] .chk-seats-box {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.chk-seats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chk-seats-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.chk-seats-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chk-seats-controls button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.chk-seats-count {
+  font-size: 16px;
+  font-weight: 800;
+  width: 24px;
+  text-align: center;
+}
+
+.chk-seats-slider {
+  width: 100%;
+  accent-color: #3b82f6;
+}
+
+.chk-seats-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.chk-seats-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.chk-seat-pill {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chk-seat-pill--active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* Teammates Box */
+.chk-teammates-box {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+[data-theme="dark"] .chk-teammates-box {
+  background: #1f2937;
+}
+
+.chk-avatars-row {
+  display: flex;
+}
+
+.chk-avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  margin-left: -8px;
+}
+
+.chk-avatar-circle:first-child {
+  margin-left: 0;
+}
+
+.chk-teammates-text {
+  font-size: 12.5px;
+  color: #475569;
+}
+
+[data-theme="dark"] .chk-teammates-text {
+  color: #cbd5e1;
+}
+
+.chk-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.chk-seat-summary-box {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chk-seat-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* FAQ Section */
+.chk-faq-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chk-faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chk-faq-q {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.chk-faq-a {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.chk-faq-link {
+  color: #3b82f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chk-faq-link:hover {
+  text-decoration: underline;
+}
+
+/* Main Footer Links */
+.chk-main-footer {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 13px;
+}
+
+[data-theme="dark"] .chk-main-footer {
+  border-color: #1f2937;
+}
+
+.chk-support-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chk-chai-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ef4444;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chk-support-link {
+  color: #64748b;
+  text-decoration: none;
+}
+
+.chk-view-expenses a {
+  color: #3b82f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chk-legal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chk-legal-row a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.chk-dot {
+  color: #cbd5e1;
+  font-size: 10px;
+}
+
+.chk-socials-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #94a3b8;
+}
+
+.chk-socials-row a {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.chk-socials-row a:hover {
+  color: #3b82f6;
+}
+
+/* Responsive Layout */
+@media (max-width: 900px) {
+  .chk-wrapper {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .chk-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid #1e293b;
+    padding: 32px 20px;
+    overflow-y: visible;
+  }
+
+  .chk-main-content {
+    height: auto;
+    padding: 32px 20px;
+    overflow-y: visible;
+  }
+
+  .chk-features-grid {
+    grid-template-columns: 1fr;
+  }
+}

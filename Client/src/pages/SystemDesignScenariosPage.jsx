@@ -16,8 +16,11 @@ import {
   RiExchangeDollarLine,
   RiRocketLine,
   RiBrainLine,
-  RiQuestionnaireLine
+  RiQuestionnaireLine,
+  RiLock2Line,
+  RiLockUnlockLine
 } from "react-icons/ri";
+import { useAuth } from "../context/AuthContext";
 import Announcementbar from "../components/announcementbar";
 import Navbar from "../components/navbar";
 import TopicDetailView from "../components/topicDetail/TopicDetailView";
@@ -34,6 +37,7 @@ const SCENARIOS_COMPLETED_KEY = "algovia_sd_scenarios_completed_ids";
 export default function SystemDesignScenariosPage() {
   const { scenarioId } = useParams();
   const navigate = useNavigate();
+  const { checkTopicAccess } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const rawMode = (searchParams.get("mode") || "hld").toLowerCase();
@@ -58,13 +62,17 @@ export default function SystemDesignScenariosPage() {
       try {
         localStorage.setItem(SCENARIOS_COMPLETED_KEY, JSON.stringify(next));
       } catch (e) {
-        console.error("Failed to save scenario completion", e);
+        console.error(e);
       }
       return next;
     });
   };
 
-  const handleScenarioClick = (scId, scTitle) => {
+  const handleScenarioClick = (scId, scTitle, isUnlocked) => {
+    if (!isUnlocked) {
+      navigate("/payment/checkout");
+      return;
+    }
     navigate(`/system-design-scenario/${scId}?mode=${activeTab.toLowerCase()}`);
   };
 
@@ -211,17 +219,21 @@ export default function SystemDesignScenariosPage() {
                 </div>
 
                 <div className="xlr-sds-table-body">
-                  {cat.scenarios.map((sc) => {
+                  {cat.scenarios.map((sc, scIdx) => {
                     const isDone = completedIds.includes(sc.id);
+                    const isUnlocked = checkTopicAccess(scIdx, "scenarios");
                     return (
                       <div
                         key={sc.id}
-                        className={`xlr-sds-row ${isDone ? "xlr-sds-row--done" : ""}`}
-                        onClick={() => handleScenarioClick(sc.id, sc.title)}
+                        className={`xlr-sds-row ${isDone ? "xlr-sds-row--done" : ""} ${!isUnlocked ? "xlr-sds-row--locked" : ""}`}
+                        onClick={() => handleScenarioClick(sc.id, sc.title, isUnlocked)}
                       >
                         <span className="xlr-sds-col-code">{sc.code}</span>
 
-                        <span className="xlr-sds-col-title">{sc.title}</span>
+                        <span className="xlr-sds-col-title">
+                          {sc.title}
+                          {!isUnlocked && <RiLock2Line size={14} color="#ef4444" style={{ marginLeft: "8px", verticalAlign: "middle" }} title="Subscription required — Click to unlock" />}
+                        </span>
 
                         <div className="xlr-sds-col-imp">{renderImportance(sc.importance)}</div>
 
@@ -230,15 +242,20 @@ export default function SystemDesignScenariosPage() {
                         <div
                           className="xlr-sds-col-done"
                           onClick={(e) => {
+                            if (!isUnlocked) return;
                             e.stopPropagation();
                             handleToggleDone(sc.id);
                           }}
                         >
-                          <button type="button" className="xlr-sds-done-btn">
-                            <div className={`xlr-sds-done-circle ${isDone ? "xlr-sds-done-circle--active" : ""}`}>
-                              {isDone && <RiCheckLine size={13} color="#10b981" />}
-                            </div>
-                          </button>
+                          {isUnlocked ? (
+                            <button type="button" className="xlr-sds-done-btn">
+                              <div className={`xlr-sds-done-circle ${isDone ? "xlr-sds-done-circle--active" : ""}`}>
+                                {isDone && <RiCheckLine size={13} color="#10b981" />}
+                              </div>
+                            </button>
+                          ) : (
+                            <RiLock2Line size={16} color="#ef4444" title="Locked" />
+                          )}
                         </div>
                       </div>
                     );

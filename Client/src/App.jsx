@@ -16,6 +16,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import RefundPolicyPage from './pages/RefundPolicyPage';
 import CancellationPolicyPage from './pages/CancellationPolicyPage';
+import CheckoutPage from './pages/CheckoutPage';
 import './App.css';
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
         <Route path="/terms-and-conditions" element={<TermsPage />} />
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/cancellation-policy" element={<CancellationPolicyPage />} />
+        <Route path="/payment/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/hld" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
         <Route path="/hld/:topicId" element={<ProtectedRoute><HldPage /></ProtectedRoute>} />
         <Route path="/lld" element={<ProtectedRoute><LldPage /></ProtectedRoute>} />

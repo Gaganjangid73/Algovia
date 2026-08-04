@@ -108,6 +108,8 @@ const renderTopicIcon = (topicId) => {
   return <RiBox3Line size={15} className="xlr-topic-doc-icon" color="#94a3b8" />;
 };
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { getTopicArticleData } from "../../data/topicArticlesData";
 import "./TopicDetailView.css";
 
@@ -217,6 +219,9 @@ function TopicDetailView({
     }
   };
 
+  const navigate = useNavigate();
+  const { checkTopicAccess } = useAuth();
+
   // Flattened topic list across all sections for Prev/Next navigation
   const allFlatTopics = (allSections || []).flatMap((sec) =>
     (sec?.topics || []).filter(Boolean).map((t) => ({ ...t, sectionTitle: sec?.title || "" }))
@@ -224,6 +229,17 @@ function TopicDetailView({
   const currentTopicIndex = allFlatTopics.findIndex((t) => t.id === topicId);
   const prevTopic = currentTopicIndex > 0 ? allFlatTopics[currentTopicIndex - 1] : null;
   const nextTopic = currentTopicIndex >= 0 && currentTopicIndex < allFlatTopics.length - 1 ? allFlatTopics[currentTopicIndex + 1] : null;
+
+  // Protect locked topics: redirect to /payment/checkout
+  useEffect(() => {
+    if (currentTopicIndex >= 0) {
+      const catKey = isHldCourse ? "hld" : (isSdPatterns ? "patterns" : (isLldProblems ? "lld-designs" : "lld"));
+      const isUnlocked = checkTopicAccess(currentTopicIndex, catKey);
+      if (!isUnlocked) {
+        navigate("/payment/checkout", { replace: true });
+      }
+    }
+  }, [currentTopicIndex, isHldCourse, isSdPatterns, isLldProblems, checkTopicAccess, navigate]);
 
   // Track page scroll progress & active heading for TOC safely
   useEffect(() => {

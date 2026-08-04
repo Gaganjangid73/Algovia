@@ -34,7 +34,7 @@ const FounderSection = () => {
   if (loading || !data) return null;
 
   return (
-    <section className="sde-founder-section" aria-labelledby="founder-title">
+    <section id="founder" className="sde-founder-section" aria-labelledby="founder-title">
       <div className="sde-founder-container">
         
         {/* Left Side: Story & Quote Content */}

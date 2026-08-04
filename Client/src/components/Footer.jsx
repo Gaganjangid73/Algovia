@@ -12,14 +12,26 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { label: "About", url: "#" },
-    { label: "Pricing", url: "#" },
+    { label: "About", url: "/#founder" },
+    { label: "Pricing", url: "/payment/checkout" },
     { label: "Buy me a chai ☕", url: "#" },
     { label: "Privacy Policy", url: "/privacy-policy" },
     { label: "Terms and Conditions", url: "/terms" },
     { label: "Refund Policy", url: "/refund-policy" },
     { label: "Cancellation Policy", url: "/cancellation-policy" }
   ];
+
+  const handleLinkClick = (e, link) => {
+    if (link.label === "About" || link.url.includes("#founder")) {
+      if (window.location.pathname === "/") {
+        e.preventDefault();
+        const el = document.getElementById("founder");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   return (
     <footer className="algovia-global-footer">
@@ -52,11 +64,19 @@ const Footer = () => {
             {navLinks.map((link, index) => (
               <React.Fragment key={link.label}>
                 {link.url.startsWith("/") ? (
-                  <Link to={link.url} className="algovia-footer-nav-link">
+                  <Link 
+                    to={link.url} 
+                    className="algovia-footer-nav-link"
+                    onClick={(e) => handleLinkClick(e, link)}
+                  >
                     {link.label}
                   </Link>
                 ) : (
-                  <a href={link.url} className="algovia-footer-nav-link">
+                  <a 
+                    href={link.url} 
+                    className="algovia-footer-nav-link"
+                    onClick={(e) => handleLinkClick(e, link)}
+                  >
                     {link.label}
                   </a>
                 )}

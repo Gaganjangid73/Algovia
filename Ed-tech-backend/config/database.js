@@ -195,7 +195,43 @@ export async function initializeDatabase() {
     console.log("[Database] Created 'subscriptions' table.");
   }
 
-  // 7. Seed Default Super Admin User (Gagan@0123)
+  // 7. Curriculum Topics Table
+  const hasCurriculumTopics = await db.schema.hasTable("curriculum_topics");
+  if (!hasCurriculumTopics) {
+    await db.schema.createTable("curriculum_topics", (table) => {
+      table.increments("id").primary();
+      table.string("track").notNullable().defaultTo("sde").index(); // sde, devops, ai
+      table.string("category").notNullable().index(); // HLD, LLD, Scenarios, Docker, Kubernetes, LLM Apps
+      table.string("title").notNullable();
+      table.string("slug").notNullable().unique().index();
+      table.text("summary").nullable();
+      table.text("content", "longtext").nullable();
+      table.string("difficulty").defaultTo("Intermediate"); // Beginner, Intermediate, Advanced
+      table.integer("estimated_minutes").defaultTo(20);
+      table.boolean("is_premium").defaultTo(true);
+      table.integer("order_index").defaultTo(0);
+      table.timestamp("created_at").defaultTo(db.fn.now());
+      table.timestamp("updated_at").defaultTo(db.fn.now());
+    });
+    console.log("[Database] Created 'curriculum_topics' table.");
+
+    // Seed Initial Production Topics
+    const initialTopics = [
+      { track: "sde", category: "LLD", title: "What is Low Level Design (LLD)?", slug: "what-is-lld", summary: "Fundamentals of Object Oriented Analysis & Design and SOLID principles.", difficulty: "Beginner", estimated_minutes: 15, is_premium: false, order_index: 1 },
+      { track: "sde", category: "LLD", title: "Encapsulation & Abstraction Deep Dive", slug: "encapsulation-abstraction", summary: "Mastering OOP encapsulation, access modifiers, and abstraction boundaries.", difficulty: "Intermediate", estimated_minutes: 25, is_premium: true, order_index: 2 },
+      { track: "sde", category: "HLD", title: "System Architecture Basics & Scaling", slug: "system-architecture-basics", summary: "Monolith vs Microservices, Vertical vs Horizontal scaling, Load Balancers.", difficulty: "Beginner", estimated_minutes: 20, is_premium: false, order_index: 1 },
+      { track: "sde", category: "HLD", title: "Database Sharding & Partitioning", slug: "database-sharding", summary: "Consistent Hashing, Range Sharding, and Distributed Query Execution.", difficulty: "Advanced", estimated_minutes: 35, is_premium: true, order_index: 2 },
+      { track: "sde", category: "Scenarios", title: "Designing Distributed Rate Limiter", slug: "design-distributed-rate-limiter", summary: "Token Bucket, Leaky Bucket, Sliding Window Counter algorithms with Redis.", difficulty: "Advanced", estimated_minutes: 40, is_premium: true, order_index: 1 },
+      { track: "devops", category: "Docker", title: "Containerization Fundamentals", slug: "docker-containerization", summary: "Dockerfile optimization, multi-stage builds, container isolation.", difficulty: "Beginner", estimated_minutes: 20, is_premium: false, order_index: 1 },
+      { track: "devops", category: "Kubernetes", title: "Production K8s Architecture & Pod Scheduling", slug: "kubernetes-architecture", summary: "Control Plane, Worker Nodes, Ingress Controllers, StatefulSets.", difficulty: "Advanced", estimated_minutes: 45, is_premium: true, order_index: 2 },
+      { track: "ai", category: "AI Systems", title: "RAG Pipeline Architecture (Retrieval Augmented Generation)", slug: "rag-architecture", summary: "Vector Databases, Embedding Generation, Hybrid Search & Reranking.", difficulty: "Advanced", estimated_minutes: 50, is_premium: true, order_index: 1 }
+    ];
+
+    await db("curriculum_topics").insert(initialTopics);
+    console.log("[Database] Seeded initial curriculum topics across SDE, DevOps, and AI tracks.");
+  }
+
+  // 8. Seed Default Super Admin User (Gagan@0123)
   try {
     const bcrypt = await import("bcryptjs");
     const adminEmail = "admin@algovia.io";

@@ -101,6 +101,50 @@ export class AdminApiService {
   }
 
   /**
+   * Fetch Curriculum Topics across SDE, DevOps, AI tracks
+   */
+  async getCurriculumTopics({ track, category } = {}) {
+    const params = new URLSearchParams();
+    if (track) params.append("track", track);
+    if (category) params.append("category", category);
+
+    const response = await api.get(`/curriculum?${params.toString()}`);
+    return response.data;
+  }
+
+  /**
+   * Create New Curriculum Topic (Admin)
+   */
+  async createCurriculumTopic(topicData) {
+    const response = await api.post("/curriculum/admin/topics", topicData);
+    return response.data;
+  }
+
+  /**
+   * Update Existing Curriculum Topic (Admin)
+   */
+  async updateCurriculumTopic(id, topicData) {
+    const response = await api.put(`/curriculum/admin/topics/${id}`, topicData);
+    return response.data;
+  }
+
+  /**
+   * Toggle Curriculum Topic Access Level (Free Preview vs Premium)
+   */
+  async toggleCurriculumTopicVisibility(id) {
+    const response = await api.patch(`/curriculum/admin/topics/${id}/visibility`);
+    return response.data;
+  }
+
+  /**
+   * Delete Curriculum Topic (Admin)
+   */
+  async deleteCurriculumTopic(id) {
+    const response = await api.delete(`/curriculum/admin/topics/${id}`);
+    return response.data;
+  }
+
+  /**
    * Check Backend Server Health
    */
   async getHealthStatus() {

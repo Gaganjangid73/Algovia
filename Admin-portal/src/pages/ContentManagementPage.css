@@ -1,0 +1,156 @@
+/* ==========================================================================
+   ContentManagementPage.css - Pure Vanilla CSS (Strictly NO Tailwind CSS)
+   Professional Curriculum Authoring & Management Console
+   ========================================================================== */
+
+.admin-track-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 16px;
+}
+
+.admin-track-tab {
+  background: var(--admin-surface-card);
+  color: var(--admin-text-secondary);
+  border: 1px solid var(--admin-border);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.admin-track-tab:hover {
+  background: var(--admin-surface-hover);
+  color: var(--admin-text-primary);
+}
+
+.admin-track-tab--active {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* Category Filter Bar */
+.admin-category-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.admin-category-chip {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-secondary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.admin-category-chip:hover {
+  background: var(--admin-surface-hover);
+  color: var(--admin-text-primary);
+}
+
+.admin-category-chip--active {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: var(--admin-primary) !important;
+  border-color: var(--admin-border-accent) !important;
+  font-weight: 700;
+}
+
+/* Modal Form Styles */
+.admin-author-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 15, 25, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: authorModalFade 0.2s ease;
+}
+
+@keyframes authorModalFade {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.admin-author-modal-card {
+  background: var(--admin-surface-dark);
+  border: 1px solid var(--admin-border-accent);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+[data-theme="light"] .admin-author-modal-card {
+  background: #ffffff;
+}
+
+.admin-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.admin-field-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.admin-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--admin-text-secondary);
+}
+
+.admin-field-input, .admin-field-textarea, .admin-field-select {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.admin-field-input:focus, .admin-field-textarea:focus, .admin-field-select:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.admin-field-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}

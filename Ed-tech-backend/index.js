@@ -9,6 +9,7 @@ import subscriptionRoutes from "./routes/subscription.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import studentVerifyRoutes from "./routes/studentVerify.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import curriculumRoutes from "./routes/curriculum.routes.js";
 
 dotenv.config();
 
@@ -75,6 +76,7 @@ app.use("/api/subscription", subscriptionRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/student-verify", studentVerifyRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/curriculum", curriculumRoutes);
 
 // Health Check Endpoint
 app.get("/api/health", (req, res) => {

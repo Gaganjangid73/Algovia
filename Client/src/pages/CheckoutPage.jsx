@@ -23,6 +23,7 @@ import PaymentSuccessModal from "../components/payment/PaymentSuccessModal";
 import PaymentFailedModal from "../components/payment/PaymentFailedModal";
 import UpgradePlanModal from "../components/subscription/UpgradePlanModal";
 import SubscriptionAlertModal from "../components/subscription/SubscriptionAlertModal";
+import StudentVerifyModal from "../components/subscription/StudentVerifyModal";
 import "./CheckoutPage.css";
 
 const getPlanTier = (planId) => {
@@ -53,13 +54,18 @@ const CheckoutPage = () => {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertData, setAlertData] = useState({ code: "", message: "", daysRemaining: 0 });
 
+  // Student Verification States
+  const [isStudentVerified, setIsStudentVerified] = useState(Boolean(user?.is_student_verified));
+  const [studentEmail, setStudentEmail] = useState(user?.student_email || "");
+  const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
+
   // Selected State Options
   const [currency, setCurrency] = useState("INR"); // "INR" | "USD"
   const [billingCycle, setBillingCycle] = useState("monthly"); // "monthly" | "yearly" | "student" | "team"
   const [planType, setPlanType] = useState("full"); // "full" | "basic"
   const [teamSeats, setTeamSeats] = useState(5); // Minimum 2
 
-  // Fetch active subscription protection status from backend
+  // Fetch active subscription protection status & student status from backend
   useEffect(() => {
     if (isAuthenticated) {
       authApi
@@ -70,6 +76,16 @@ const CheckoutPage = () => {
           }
         })
         .catch((err) => console.warn("[CheckoutPage] Status fetch warning:", err));
+
+      authApi
+        .getStudentVerifyStatus()
+        .then((res) => {
+          if (res.isStudentVerified) {
+            setIsStudentVerified(true);
+            if (res.studentEmail) setStudentEmail(res.studentEmail);
+          }
+        })
+        .catch((err) => console.warn("[CheckoutPage] Student verify status warning:", err));
     }
   }, [isAuthenticated]);
 
@@ -200,6 +216,12 @@ const CheckoutPage = () => {
 
     if (isUpgradeAllowed) {
       setIsUpgradeModalOpen(true);
+      return;
+    }
+
+    // Check Student Status Verification
+    if (billingCycle === "student" && !isStudentVerified) {
+      setIsStudentModalOpen(true);
       return;
     }
 
@@ -681,6 +703,17 @@ const CheckoutPage = () => {
                   let btnClass = "chk-submit-btn";
                   let isBtnDisabled = isProcessing;
 
+                  if (billingCycle === "student") {
+                    if (!isStudentVerified) {
+                      btnLabel = "Verify Student Status";
+                      btnClass = "chk-submit-btn chk-submit-btn--student";
+                      isBtnDisabled = false;
+                    } else {
+                      btnLabel = `Pay ${symbol}${unitPrice.toLocaleString()}/mo (Student)`;
+                      btnClass = "chk-submit-btn";
+                    }
+                  }
+
                   if (isDuplicateBlocked) {
                     btnLabel = "Current Active Plan";
                     btnClass = "chk-submit-btn chk-submit-btn--disabled";
@@ -703,7 +736,13 @@ const CheckoutPage = () => {
                     <button 
                       type="button" 
                       className={btnClass} 
-                      onClick={handleSubscribe}
+                      onClick={() => {
+                        if (billingCycle === "student" && !isStudentVerified) {
+                          setIsStudentModalOpen(true);
+                        } else {
+                          handleSubscribe();
+                        }
+                      }}
                       disabled={isBtnDisabled}
                     >
                       {btnLabel}
@@ -810,6 +849,17 @@ const CheckoutPage = () => {
         code={alertData.code}
         message={alertData.message}
         daysRemaining={alertData.daysRemaining}
+      />
+
+      {/* Student Status Verification Modal */}
+      <StudentVerifyModal
+        isOpen={isStudentModalOpen}
+        onClose={() => setIsStudentModalOpen(false)}
+        onVerificationSuccess={(emailVerified) => {
+          setIsStudentVerified(true);
+          setStudentEmail(emailVerified);
+          setIsStudentModalOpen(false);
+        }}
       />
     </div>
   );

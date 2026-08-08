@@ -1,0 +1,237 @@
+/* ==========================================================================
+   StudentVerifyModal.css - Pure Vanilla CSS (Strictly NO Tailwind CSS)
+   Aesthetic Student Verification Modal Component for Algovia.io
+   ========================================================================== */
+
+.algovia-student-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+  padding: 20px;
+  animation: studentModalFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes studentModalFade {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.algovia-student-card {
+  background: #0f172a;
+  color: #f8fafc;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(59, 130, 246, 0.15);
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+[data-theme="light"] .algovia-student-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.algovia-student-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.algovia-student-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+[data-theme="light"] .algovia-student-close-btn {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* Icon Header */
+.algovia-student-header-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.algovia-student-icon-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  border: 2px solid rgba(59, 130, 246, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
+.algovia-student-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.algovia-student-subtitle {
+  font-size: 13.5px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.45;
+}
+
+[data-theme="light"] .algovia-student-subtitle {
+  color: #64748b;
+}
+
+/* Form Controls */
+.algovia-student-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.algovia-student-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.algovia-student-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+[data-theme="light"] .algovia-student-label {
+  color: #475569;
+}
+
+.algovia-student-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .algovia-student-input {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.algovia-student-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.algovia-student-otp-input {
+  letter-spacing: 0.3em;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Primary CTA Button */
+.algovia-student-submit-btn {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  margin-top: 4px;
+}
+
+.algovia-student-submit-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.algovia-student-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Secondary Actions */
+.algovia-student-resend-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 4px;
+}
+
+.algovia-student-resend-btn:hover {
+  text-decoration: underline;
+}
+
+.algovia-student-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+/* Fallback Notice Footer */
+.algovia-student-fallback-box {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.45;
+  text-align: center;
+}
+
+[data-theme="light"] .algovia-student-fallback-box {
+  border-top-color: #e2e8f0;
+}

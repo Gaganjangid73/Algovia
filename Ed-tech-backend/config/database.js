@@ -88,9 +88,32 @@ export async function initializeDatabase() {
       });
       console.log("[Database] Added subscription columns to 'users' table.");
     }
+
+    // Student Verification Columns
+    const hasStudentVerified = await db.schema.hasColumn("users", "is_student_verified");
+    if (!hasStudentVerified) {
+      await db.schema.table("users", (table) => {
+        table.boolean("is_student_verified").defaultTo(false);
+        table.string("student_email").nullable();
+      });
+      console.log("[Database] Added 'is_student_verified' and 'student_email' columns to 'users' table.");
+    }
   }
 
-  // 2. OTP Verification Table
+  // 2. OTP Verification Table for Student Status
+  const hasStudentOtpTable = await db.schema.hasTable("otp_verifications");
+  if (!hasStudentOtpTable) {
+    await db.schema.createTable("otp_verifications", (table) => {
+      table.increments("id").primary();
+      table.string("email").notNullable().index();
+      table.string("otp_code").notNullable();
+      table.timestamp("expires_at").notNullable();
+      table.timestamp("created_at").defaultTo(db.fn.now());
+    });
+    console.log("[Database] Created 'otp_verifications' table.");
+  }
+
+  // 3. OTPs Table
   const hasOtps = await db.schema.hasTable("otps");
   if (!hasOtps) {
     await db.schema.createTable("otps", (table) => {

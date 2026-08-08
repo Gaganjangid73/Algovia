@@ -7,6 +7,7 @@ import { initializeDatabase } from "./config/database.js";
 import authRoutes from "./routes/auth.routes.js";
 import subscriptionRoutes from "./routes/subscription.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import studentVerifyRoutes from "./routes/studentVerify.routes.js";
 
 dotenv.config();
 
@@ -69,6 +70,7 @@ const authRateLimiter = rateLimit({
 app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/subscription", subscriptionRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/student-verify", studentVerifyRoutes);
 
 // Health Check Endpoint
 app.get("/api/health", (req, res) => {

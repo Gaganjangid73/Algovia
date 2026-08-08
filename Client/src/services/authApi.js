@@ -282,6 +282,74 @@ class AuthApiService {
   }
 
   /**
+   * Send 6-Digit Student Status OTP Code
+   */
+  async sendStudentOtp({ email }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/student-verify/send-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to send verification code.");
+    }
+    return data;
+  }
+
+  /**
+   * Verify Student Status OTP Code
+   */
+  async verifyStudentOtp({ email, otpCode }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/student-verify/verify-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({ email, otp_code: otpCode })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Verification failed. Please check the code.");
+    }
+    return data;
+  }
+
+  /**
+   * Get Student Verification Status
+   */
+  async getStudentVerifyStatus() {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/student-verify/status`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      }
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch student verification status.");
+    }
+    return data;
+  }
+
+  /**
    * Retrieve stored access token
    */
   getToken() {

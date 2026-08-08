@@ -17,6 +17,8 @@ import {
   FaLinkedin 
 } from "react-icons/fa6";
 import { useAuth } from "../context/AuthContext";
+import { loadRazorpayScript } from "../utils/loadRazorpay";
+import { authApi, USER_STORAGE_KEY } from "../services/authApi";
 import "./CheckoutPage.css";
 
 /**
@@ -93,13 +95,147 @@ const CheckoutPage = () => {
   const incrementSeats = () => setTeamSeats((prev) => Math.min(100, prev + 1));
   const decrementSeats = () => setTeamSeats((prev) => Math.max(2, prev - 1));
 
-  // Payment Handler (Placeholder integration for Razorpay)
-  const handleSubscribe = () => {
+  // Processing state
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
+
+  // Payment Handler (Razorpay Integration)
+  const handleSubscribe = async () => {
     if (!isAuthenticated || !user) {
       openAuthModal("/payment/checkout");
       return;
     }
-    alert(`Initiating Razorpay Checkout for ${totalText} (${billingCycle} - ${planType === "full" ? "Full Access" : "Basic Plan"})...`);
+
+    setPaymentError("");
+    setIsProcessing(true);
+
+    try {
+      // 1. Dynamically Load Razorpay Checkout SDK Script
+      const isLoaded = await loadRazorpayScript();
+      if (!isLoaded) {
+        throw new Error("Failed to load Razorpay Payment Gateway. Please check internet connection.");
+      }
+
+      // 2. Determine Plan Identifier
+      let planId = "FULL_MONTHLY";
+      if (billingCycle === "team") {
+        planId = "TEAM";
+      } else if (billingCycle === "student") {
+        planId = "STUDENT_MONTHLY";
+      } else if (billingCycle === "yearly") {
+        planId = planType === "full" ? "FULL_YEARLY" : "BASIC_YEARLY";
+      } else {
+        planId = planType === "full" ? "FULL_MONTHLY" : "BASIC_MONTHLY";
+      }
+
+      // 3. Request Server-side Razorpay Order Creation
+      const orderRes = await authApi.createPaymentOrder({
+        amount: unitPrice,
+        currency,
+        planId,
+        billingCycle,
+        teamSeats: billingCycle === "team" ? teamSeats : 1
+      });
+
+      const { orderId, amount: amountInPaise, keyId } = orderRes;
+
+      // 4. Configure Razorpay Popup Modal Options
+      const options = {
+        key: keyId || "rzp_test_algovia_key_2026",
+        amount: amountInPaise,
+        currency: currency.toUpperCase(),
+        name: "Algovia.io",
+        description: `${planType === "full" ? "Full Access" : "Basic Plan"} (${billingCycle.toUpperCase()})`,
+        image: "/assets/Algovia.png",
+        order_id: orderId.includes("mock") ? undefined : orderId,
+        handler: async function (response) {
+          try {
+            // 5. Verify Signature & Upgrade Subscription
+            const verifyPayload = {
+              razorpay_order_id: response.razorpay_order_id || orderId,
+              razorpay_payment_id: response.razorpay_payment_id || `pay_mock_${Date.now()}`,
+              razorpay_signature: response.razorpay_signature || "mock_sig",
+              planId,
+              billingCycle,
+              teamSeats: billingCycle === "team" ? teamSeats : 1
+            };
+
+            const verifyRes = await authApi.verifyPaymentSignature(verifyPayload);
+
+            if (verifyRes.success && verifyRes.user) {
+              // Update local storage user state
+              const updatedUser = {
+                ...user,
+                ...verifyRes.user,
+                isSubscribed: true,
+                plan: planType === "full" ? "Full Access" : "Basic Plan"
+              };
+              localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+              localStorage.setItem("algovia_subscribed", "true");
+
+              alert(`🎉 Payment Successful! Welcome to Algovia.io ${updatedUser.plan}. All topics are now UNLOCKED!`);
+              navigate("/");
+              window.location.reload();
+            } else {
+              throw new Error(verifyRes.message || "Payment verification failed.");
+            }
+          } catch (err) {
+            console.error("[Razorpay] Verification Error:", err);
+            setPaymentError(err.message || "Payment verification failed.");
+            alert(`Payment Error: ${err.message}`);
+          } finally {
+            setIsProcessing(false);
+          }
+        },
+        prefill: {
+          name: userName,
+          email: userEmail
+        },
+        notes: {
+          plan: planId,
+          billingCycle
+        },
+        theme: {
+          color: "#3b82f6"
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+          }
+        }
+      };
+
+      // 6. Handle Mock Mode vs Live Razorpay Popup
+      if (orderId.includes("mock") || !window.Razorpay) {
+        // Fallback for instant mock payment testing
+        const confirmMock = window.confirm(
+          `[Algovia Payment Gateway]\nProceeding with test transaction of ${totalText} for ${options.description}?\n\nClick OK to simulate successful payment and unlock full access!`
+        );
+
+        if (confirmMock) {
+          options.handler({
+            razorpay_order_id: orderId,
+            razorpay_payment_id: `pay_test_${Date.now()}`,
+            razorpay_signature: "test_signature_valid"
+          });
+        } else {
+          setIsProcessing(false);
+        }
+      } else {
+        const rzp = new window.Razorpay(options);
+        rzp.on("payment.failed", function (resp) {
+          setIsProcessing(false);
+          setPaymentError(resp.error.description || "Payment failed.");
+          alert(`Payment Failed: ${resp.error.description}`);
+        });
+        rzp.open();
+      }
+    } catch (err) {
+      console.error("[Razorpay] Order Error:", err);
+      setIsProcessing(false);
+      setPaymentError(err.message || "Failed to initialize payment.");
+      alert(`Payment Initialization Error: ${err.message}`);
+    }
   };
 
   return (
@@ -375,8 +511,13 @@ const CheckoutPage = () => {
                   </div>
                 </div>
 
-                <button type="button" className="chk-submit-btn" onClick={handleSubscribe}>
-                  Get Team Plan {symbol}{unitPrice.toLocaleString()}/mo
+                <button 
+                  type="button" 
+                  className="chk-submit-btn" 
+                  onClick={handleSubscribe}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Processing Payment..." : `Get Team Plan ${symbol}${unitPrice.toLocaleString()}/mo`}
                 </button>
                 <p className="chk-btn-note">You'll be redirected to invite your team by email right after payment</p>
               </div>
@@ -436,8 +577,13 @@ const CheckoutPage = () => {
                   </div>
                 )}
 
-                <button type="button" className="chk-submit-btn" onClick={handleSubscribe}>
-                  {billingCycle === "yearly" ? "Subscribe Yearly" : "Subscribe"}
+                <button 
+                  type="button" 
+                  className="chk-submit-btn" 
+                  onClick={handleSubscribe}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Processing Payment..." : (billingCycle === "yearly" ? "Subscribe Yearly" : "Subscribe")}
                 </button>
               </div>
             )}

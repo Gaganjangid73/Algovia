@@ -115,6 +115,52 @@ class AuthApiService {
   }
 
   /**
+   * Create Razorpay Payment Order
+   */
+  async createPaymentOrder({ amount, currency, planId, billingCycle, teamSeats }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/payment/create-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({ amount, currency, planId, billingCycle, teamSeats })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create payment order.");
+    }
+    return data;
+  }
+
+  /**
+   * Verify Razorpay Payment Signature
+   */
+  async verifyPaymentSignature(payload) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/payment/verify-signature`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Payment signature verification failed.");
+    }
+    return data;
+  }
+
+  /**
    * Retrieve stored access token
    */
   getToken() {

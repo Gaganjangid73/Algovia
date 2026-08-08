@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import { initializeDatabase } from "./config/database.js";
 import authRoutes from "./routes/auth.routes.js";
 import subscriptionRoutes from "./routes/subscription.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
 dotenv.config();
 
@@ -67,6 +68,7 @@ const authRateLimiter = rateLimit({
 // 5. Routes
 app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/subscription", subscriptionRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // Health Check Endpoint
 app.get("/api/health", (req, res) => {

@@ -32,6 +32,39 @@ export default function UserProfileModal() {
   const userEmail = user?.email || "";
   const userInitial = (userName !== "User" ? userName : userEmail || "U").trim().charAt(0).toUpperCase();
 
+  const isSubscribed = Boolean(
+    user?.isSubscribed ||
+    user?.is_subscribed ||
+    (user?.plan && user.plan.toLowerCase() !== "free plan" && user.plan.toLowerCase() !== "free")
+  );
+
+  const activePlanName = isSubscribed
+    ? user?.plan || "Full Access"
+    : "Free Plan";
+
+  const billingCycleLabel = (
+    user?.subscriptionBilling ||
+    user?.subscription_billing ||
+    (user?.subscriptionPlan?.toLowerCase().includes("yearly") ? "yearly" : "monthly")
+  ).toUpperCase();
+
+  const formatDate = (dateInput, fallback = "Aug 8, 2026") => {
+    if (!dateInput) return fallback;
+    try {
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return fallback;
+      return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    } catch {
+      return fallback;
+    }
+  };
+
+  const memberSinceDate = formatDate(user?.createdAt || user?.created_at, "Jun 29, 2026");
+  const expiresDate = formatDate(
+    user?.subscriptionExpiresAt || user?.subscription_expires_at,
+    isSubscribed ? "Aug 8, 2027" : null
+  );
+
   return (
     <div className="xlr-upm-overlay" onClick={closeProfileModal}>
       <div className="xlr-upm-card" onClick={(e) => e.stopPropagation()}>
@@ -88,11 +121,13 @@ export default function UserProfileModal() {
               </div>
               <div className="xlr-upm-row">
                 <span className="xlr-upm-label">Plan</span>
-                <span className="xlr-upm-value xlr-upm-value--bold">Free Plan</span>
+                <span className={`xlr-upm-value xlr-upm-value--bold ${isSubscribed ? "xlr-upm-plan-tag" : ""}`}>
+                  {activePlanName}
+                </span>
               </div>
               <div className="xlr-upm-row">
                 <span className="xlr-upm-label">Member since</span>
-                <span className="xlr-upm-value xlr-upm-value--bold">Jun 29, 2026</span>
+                <span className="xlr-upm-value xlr-upm-value--bold">{memberSinceDate}</span>
               </div>
             </div>
 
@@ -132,18 +167,39 @@ export default function UserProfileModal() {
               </div>
             </div>
 
-            {/* Become a Member CTA */}
+            {/* Become a Member / Manage Plan CTA */}
             <button type="button" className="xlr-upm-cta-btn" onClick={handleBecomeMember}>
-              Become a Member
+              {isSubscribed ? "Manage / Upgrade Plan" : "Become a Member"}
             </button>
           </div>
 
           {/* COLUMN 2: BILLING */}
           <div className="xlr-upm-col xlr-upm-col--billing">
             <h5 className="xlr-upm-col-title">BILLING</h5>
-            <p className="xlr-upm-billing-text">
-              Get full access to all premium content and topics. Become a member to unlock everything.
-            </p>
+            {isSubscribed ? (
+              <div className="xlr-upm-box">
+                <div className="xlr-upm-row">
+                  <span className="xlr-upm-label">Status</span>
+                  <span className="xlr-upm-status-badge">Active</span>
+                </div>
+                <div className="xlr-upm-row">
+                  <span className="xlr-upm-label">Plan Access</span>
+                  <span className="xlr-upm-value xlr-upm-value--bold">{activePlanName}</span>
+                </div>
+                <div className="xlr-upm-row">
+                  <span className="xlr-upm-label">Billing Cycle</span>
+                  <span className="xlr-upm-value xlr-upm-value--bold">{billingCycleLabel}</span>
+                </div>
+                <div className="xlr-upm-row">
+                  <span className="xlr-upm-label">Expires / Renews</span>
+                  <span className="xlr-upm-value xlr-upm-value--bold">{expiresDate}</span>
+                </div>
+              </div>
+            ) : (
+              <p className="xlr-upm-billing-text">
+                Get full access to all premium content and topics. Become a member to unlock everything.
+              </p>
+            )}
           </div>
 
           {/* COLUMN 3: PAYMENT & ACTIONS */}

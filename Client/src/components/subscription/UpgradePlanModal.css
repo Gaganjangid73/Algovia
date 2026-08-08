@@ -1,0 +1,254 @@
+/* ==========================================================================
+   UpgradePlanModal.css - Pure Vanilla CSS (No Tailwind CSS)
+   Algovia.io Prorated Subscription Upgrade Modal
+   ========================================================================== */
+
+.algovia-upgrade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+  padding: 16px;
+  animation: upgradeModalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes upgradeModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.algovia-upgrade-card {
+  background: var(--bg-card, #ffffff);
+  color: var(--text-primary, #0f172a);
+  width: 100%;
+  max-width: 540px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="dark"] .algovia-upgrade-card {
+  background: #0f172a;
+  color: #f8fafc;
+  border-color: #1e293b;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* Header */
+.algovia-upgrade-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[data-theme="dark"] .algovia-upgrade-header {
+  border-color: #1e293b;
+}
+
+.algovia-upgrade-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.algovia-upgrade-close-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.algovia-upgrade-close-btn:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: #0f172a;
+}
+
+[data-theme="dark"] .algovia-upgrade-close-btn:hover {
+  color: #f8fafc;
+}
+
+/* Body Content */
+.algovia-upgrade-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Current Active Subscription Banner */
+.algovia-current-sub-banner {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(37, 99, 235, 0.12) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.algovia-current-sub-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.algovia-current-sub-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #3b82f6;
+  letter-spacing: 0.5px;
+}
+
+.algovia-current-sub-name {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.algovia-days-badge {
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Pro-rata Calculation Breakdown Table Box */
+.algovia-prorated-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-theme="dark"] .algovia-prorated-box {
+  background: #090d16;
+  border-color: #1e293b;
+}
+
+.algovia-prorated-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+[data-theme="dark"] .algovia-prorated-row {
+  color: #94a3b8;
+}
+
+.algovia-prorated-row--credit {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.algovia-prorated-row--total {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+[data-theme="dark"] .algovia-prorated-row--total {
+  border-color: #1e293b;
+  color: #f8fafc;
+}
+
+.algovia-prorated-amount {
+  font-size: 20px;
+  color: #2563eb;
+}
+
+/* Upgrade Action Button */
+.algovia-upgrade-btn {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.algovia-upgrade-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
+.algovia-upgrade-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Guarantee Footnote */
+.algovia-upgrade-footnote {
+  font-size: 11px;
+  color: #64748b;
+  text-align: center;
+  margin: 0;
+}
+
+/* Loading & Status Screens */
+.algovia-upgrade-loading {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.algovia-upgrade-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: upgradeSpin 0.8s linear infinite;
+}
+
+@keyframes upgradeSpin {
+  to { transform: rotate(360deg); }
+}

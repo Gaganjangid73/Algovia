@@ -118,5 +118,41 @@ export async function initializeDatabase() {
     console.log("[Database] Created 'refresh_tokens' table.");
   }
 
+  // 4. Payments Table
+  const hasPayments = await db.schema.hasTable("payments");
+  if (!hasPayments) {
+    await db.schema.createTable("payments", (table) => {
+      table.increments("id").primary();
+      table.string("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
+      table.string("razorpay_order_id").notNullable().unique().index();
+      table.string("razorpay_payment_id").nullable();
+      table.string("razorpay_signature").nullable();
+      table.decimal("amount", 12, 2).notNullable();
+      table.string("currency").defaultTo("INR");
+      table.string("status").defaultTo("created"); // created, paid, failed, cancelled
+      table.text("failure_reason").nullable();
+      table.timestamp("created_at").defaultTo(db.fn.now());
+      table.timestamp("updated_at").defaultTo(db.fn.now());
+    });
+    console.log("[Database] Created 'payments' table.");
+  }
+
+  // 5. Subscriptions Table
+  const hasSubscriptions = await db.schema.hasTable("subscriptions");
+  if (!hasSubscriptions) {
+    await db.schema.createTable("subscriptions", (table) => {
+      table.increments("id").primary();
+      table.string("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
+      table.string("plan_id").notNullable();
+      table.decimal("amount_paid", 12, 2).notNullable();
+      table.timestamp("start_date").notNullable().defaultTo(db.fn.now());
+      table.timestamp("end_date").notNullable();
+      table.string("status").defaultTo("active"); // active, upgraded, expired
+      table.timestamp("created_at").defaultTo(db.fn.now());
+      table.timestamp("updated_at").defaultTo(db.fn.now());
+    });
+    console.log("[Database] Created 'subscriptions' table.");
+  }
+
   console.log("[Database] SQL Schema initialization complete.");
 }

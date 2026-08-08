@@ -470,6 +470,7 @@ function Navbar() {
                     className="xlr-profile-menu-item"
                     onClick={() => {
                       setIsProfileMenuOpen(false);
+                      navigate("/payment/checkout");
                     }}
                   >
                     <RiBankCardLine size={18} />
@@ -757,7 +758,7 @@ function Navbar() {
                 className="xlr-mobile-membership-link"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  if (!isAuthenticated) openAuthModal();
+                  navigate("/payment/checkout");
                 }}
               >
                 Membership

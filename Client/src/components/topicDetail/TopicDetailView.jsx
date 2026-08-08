@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getTopicArticleData } from "../../data/topicArticlesData";
+import "./TopicDetailView.css";
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
@@ -107,11 +111,6 @@ const renderTopicIcon = (topicId) => {
 
   return <RiBox3Line size={15} className="xlr-topic-doc-icon" color="#94a3b8" />;
 };
-
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { getTopicArticleData } from "../../data/topicArticlesData";
-import "./TopicDetailView.css";
 
 const REVISION_STORAGE_KEY = "algovia_revision_topics";
 
@@ -230,16 +229,8 @@ function TopicDetailView({
   const prevTopic = currentTopicIndex > 0 ? allFlatTopics[currentTopicIndex - 1] : null;
   const nextTopic = currentTopicIndex >= 0 && currentTopicIndex < allFlatTopics.length - 1 ? allFlatTopics[currentTopicIndex + 1] : null;
 
-  // Protect locked topics: redirect to /payment/checkout
-  useEffect(() => {
-    if (currentTopicIndex >= 0) {
-      const catKey = isHldCourse ? "hld" : (isSdPatterns ? "patterns" : (isLldProblems ? "lld-designs" : "lld"));
-      const isUnlocked = checkTopicAccess(currentTopicIndex, catKey);
-      if (!isUnlocked) {
-        navigate("/payment/checkout", { replace: true });
-      }
-    }
-  }, [currentTopicIndex, isHldCourse, isSdPatterns, isLldProblems, checkTopicAccess, navigate]);
+  const catKey = isHldCourse ? "hld" : (isSdPatterns ? "patterns" : (isLldProblems ? "lld-designs" : "lld"));
+  const isCurrentTopicUnlocked = currentTopicIndex >= 0 ? checkTopicAccess(currentTopicIndex, catKey) : true;
 
   // Track page scroll progress & active heading for TOC safely
   useEffect(() => {
@@ -810,27 +801,78 @@ function TopicDetailView({
 
           {/* Formatted Article Content Blocks */}
           <div className="xlr-tdv-article-body">
-            {safeContentBlocks.map((block, idx) => {
-              if (!block) return null;
-              if (block.type === "paragraph") {
-                return <p key={idx} className="xlr-tdv-paragraph">{block.text}</p>;
-              }
-              if (block.type === "callout") {
-                return (
-                  <div key={idx} className="xlr-tdv-callout-box">
-                    <p>{block.text}</p>
-                  </div>
-                );
-              }
-              if (block.type === "heading") {
-                return (
-                  <h2 key={idx} id={block.id} className="xlr-tdv-heading">
-                    {block.text}
-                  </h2>
-                );
-              }
-              return null;
-            })}
+            {!isCurrentTopicUnlocked ? (
+              <div className="xlr-tdv-locked-overlay-card" style={{
+                background: "rgba(15, 23, 42, 0.95)",
+                border: "1px solid rgba(245, 158, 11, 0.4)",
+                borderRadius: "16px",
+                padding: "32px 24px",
+                textAlign: "center",
+                margin: "24px 0",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
+              }}>
+                <div style={{
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "50%",
+                  background: "rgba(245, 158, 11, 0.15)",
+                  border: "2px solid rgba(245, 158, 11, 0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#f59e0b",
+                  fontSize: "28px",
+                  margin: "0 auto 16px auto"
+                }}>
+                  <RiLockLine />
+                </div>
+                <h3 style={{ fontSize: "20px", fontWeight: "800", color: "#f8fafc", margin: "0 0 8px 0" }}>
+                  Unlock Premium Topic Access
+                </h3>
+                <p style={{ fontSize: "14px", color: "#94a3b8", maxWidth: "460px", margin: "0 auto 20px auto", lineHeight: "1.5" }}>
+                  This topic is part of our advanced engineering curriculum. Upgrade your plan to unlock complete articles, code walkthroughs, and system design diagrams.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigate("/payment/checkout")}
+                  style={{
+                    background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                    color: "#ffffff",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "10px",
+                    fontWeight: "800",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 14px rgba(37, 99, 235, 0.4)"
+                  }}
+                >
+                  Unlock Access Now
+                </button>
+              </div>
+            ) : (
+              safeContentBlocks.map((block, idx) => {
+                if (!block) return null;
+                if (block.type === "paragraph") {
+                  return <p key={idx} className="xlr-tdv-paragraph">{block.text}</p>;
+                }
+                if (block.type === "callout") {
+                  return (
+                    <div key={idx} className="xlr-tdv-callout-box">
+                      <p>{block.text}</p>
+                    </div>
+                  );
+                }
+                if (block.type === "heading") {
+                  return (
+                    <h2 key={idx} id={block.id} className="xlr-tdv-heading">
+                      {block.text}
+                    </h2>
+                  );
+                }
+                return null;
+              })
+            )}
           </div>
         </article>
 

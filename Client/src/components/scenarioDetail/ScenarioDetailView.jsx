@@ -15,16 +15,7 @@ export default function ScenarioDetailView({ scenarioId, scenarioTitle, mode = "
 
   const dialogue = getScenarioDialogue(scenarioId, scenarioTitle);
 
-  // Protect locked scenarios: redirect to /payment/checkout
-  useEffect(() => {
-    if (scenarioId) {
-      // Find position of scenario in dataset
-      const isUnlocked = checkTopicAccess(3, "scenarios"); // Check if user has scenario access
-      if (!isUnlocked) {
-        navigate("/payment/checkout", { replace: true });
-      }
-    }
-  }, [scenarioId, checkTopicAccess, navigate]);
+  const isUnlocked = checkTopicAccess(0, "scenarios");
 
   // Sync theme attribute with document root
   const toggleTheme = () => {
@@ -99,58 +90,90 @@ export default function ScenarioDetailView({ scenarioId, scenarioTitle, mode = "
 
         {/* Dialogue Conversation Transcript Feed */}
         <div className="xlr-scnd-feed">
-          {dialogue.dialogueBlocks.map((block) => {
-            const isInterviewer = block.speaker === "interviewer";
-            const speakerObj = isInterviewer ? dialogue.interviewer : dialogue.candidate;
+          {!isUnlocked ? (
+            <div className="xlr-scnd-locked-overlay" style={{
+              background: "rgba(15, 23, 42, 0.95)",
+              border: "1px solid rgba(245, 158, 11, 0.4)",
+              borderRadius: "16px",
+              padding: "32px 24px",
+              textAlign: "center",
+              margin: "24px 0",
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
+            }}>
+              <h3 style={{ fontSize: "20px", fontWeight: "800", color: "#f8fafc", margin: "0 0 8px 0" }}>
+                Unlock System Design Scenarios
+              </h3>
+              <p style={{ fontSize: "14px", color: "#94a3b8", maxWidth: "460px", margin: "0 auto 20px auto", lineHeight: "1.5" }}>
+                Scenario-based engineering dialogues are reserved for subscribers. Upgrade your plan to access 50+ real-world system design interview questions and solutions.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate("/payment/checkout")}
+                style={{
+                  background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                  color: "#ffffff",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "10px",
+                  fontWeight: "800",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 14px rgba(37, 99, 235, 0.4)"
+                }}
+              >
+                Unlock Access Now
+              </button>
+            </div>
+          ) : (
+            (dialogue.dialogueBlocks || []).map((block) => {
+              const isInterviewer = block.speaker === "interviewer";
+              const speakerObj = isInterviewer ? dialogue.interviewer : dialogue.candidate;
 
-            return (
-              <div key={block.id} className="xlr-scnd-block-wrapper">
-                <div className="xlr-scnd-block-header">
-                  <div className="xlr-scnd-speaker-avatar">
-                    <img src={speakerObj.avatar} alt={speakerObj.name} onError={(e) => {
-                      e.target.src = isInterviewer
-                        ? "https://api.dicebear.com/7.x/bottts/svg?seed=Manager"
-                        : "https://api.dicebear.com/7.x/avataaars/svg?seed=Gagan";
-                    }} />
-                  </div>
-                  <div className="xlr-scnd-speaker-meta">
-                    <span className="xlr-scnd-speaker-name">{speakerObj.name}</span>
-                    <span className="xlr-scnd-speaker-role">{speakerObj.role}</span>
-                  </div>
-                </div>
-
-                <div className="xlr-scnd-block-content">
-                  {/* Interviewer Question */}
-                  {isInterviewer ? (
-                    <h2 className="xlr-scnd-question-text">{block.text}</h2>
-                  ) : (
-                    /* Candidate Answer Content */
-                    <div className="xlr-scnd-answer-body">
-                      {block.paragraphs && block.paragraphs.map((p, idx) => (
-                        <p key={idx} className="xlr-scnd-para">{p}</p>
-                      ))}
-
-                      {block.bulletHeader && (
-                        <p className="xlr-scnd-bullet-header">{block.bulletHeader}</p>
-                      )}
-
-                      {block.bullets && (
-                        <ul className="xlr-scnd-bullet-list">
-                          {block.bullets.map((item, bIdx) => (
-                            <li key={bIdx} className="xlr-scnd-bullet-item">{item}</li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {block.closingText && (
-                        <p className="xlr-scnd-closing-para">{block.closingText}</p>
-                      )}
+              return (
+                <div key={block.id} className="xlr-scnd-block-wrapper">
+                  <div className="xlr-scnd-block-header">
+                    <div className="xlr-scnd-speaker-avatar">
+                      <img src={speakerObj.avatar} alt={speakerObj.name} onError={(e) => {
+                        e.target.src = isInterviewer
+                          ? "https://api.dicebear.com/7.x/bottts/svg?seed=Manager"
+                          : "https://api.dicebear.com/7.x/avataaars/svg?seed=Gagan";
+                      }} />
                     </div>
-                  )}
+                    <div className="xlr-scnd-speaker-meta">
+                      <span className="xlr-scnd-speaker-name">{speakerObj.name}</span>
+                      <span className="xlr-scnd-speaker-role">{speakerObj.role}</span>
+                    </div>
+                  </div>
+
+                  <div className="xlr-scnd-block-content">
+                    {/* Interviewer Question */}
+                    {isInterviewer ? (
+                      <h2 className="xlr-scnd-question-text">{block.text}</h2>
+                    ) : (
+                      /* Candidate Answer Content */
+                      <div className="xlr-scnd-answer-body">
+                        {block.paragraphs && block.paragraphs.map((p, idx) => (
+                          <p key={idx} className="xlr-scnd-para">{p}</p>
+                        ))}
+
+                        {block.bulletHeader && (
+                          <p className="xlr-scnd-bullet-header">{block.bulletHeader}</p>
+                        )}
+
+                        {block.bullets && (
+                          <ul className="xlr-scnd-bullet-list">
+                            {block.bullets.map((item, bIdx) => (
+                              <li key={bIdx} className="xlr-scnd-bullet-item">{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
 
         {/* Bottom Mark as Studied Button */}

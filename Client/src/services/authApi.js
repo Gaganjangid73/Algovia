@@ -161,6 +161,127 @@ class AuthApiService {
   }
 
   /**
+   * Verify Razorpay Payment Signature (alias)
+   */
+  async verifyPayment(payload) {
+    return await this.verifyPaymentSignature(payload);
+  }
+
+  /**
+   * Mark Payment as Failed or Cancelled in Backend DB
+   */
+  async markPaymentFailed({ razorpay_order_id, error_code, error_description, status = "failed" }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    try {
+      const response = await fetch(`${rawRoot}/payment/mark-failed`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ razorpay_order_id, error_code, error_description, status })
+      });
+
+      return await response.json();
+    } catch (err) {
+      console.warn("[AuthApi] Mark payment failed network warning:", err);
+      return { success: false, message: err.message };
+    }
+  }
+
+  /**
+   * Fetch Active Subscription Status and Protection Metadata
+   */
+  async getSubscriptionStatus() {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/subscription/status`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      }
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch subscription status.");
+    }
+    return data;
+  }
+
+  /**
+   * Fetch Prorated Subscription Upgrade Quote
+   */
+  async getUpgradeQuote({ newPlanId = "FULL_YEARLY", currency = "INR" }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/subscription/upgrade-quote?newPlanId=${newPlanId}&currency=${currency}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      }
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch upgrade quote.");
+    }
+    return data;
+  }
+
+  /**
+   * Create Prorated Razorpay Order for Upgrade
+   */
+  async createUpgradeOrder({ newPlanId = "FULL_YEARLY", currency = "INR" }) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/subscription/create-upgrade-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({ newPlanId, currency })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create upgrade order.");
+    }
+    return data;
+  }
+
+  /**
+   * Verify Prorated Upgrade Payment & Grant Upgrade Access
+   */
+  async verifyUpgradePayment(payload) {
+    const rawRoot = API_BASE_URL.replace(/\/api\/auth$/, "/api");
+    const token = this.getToken();
+
+    const response = await fetch(`${rawRoot}/subscription/verify-upgrade-payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Upgrade payment verification failed.");
+    }
+    return data;
+  }
+
+  /**
    * Retrieve stored access token
    */
   getToken() {

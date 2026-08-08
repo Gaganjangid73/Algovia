@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
   RiArrowLeftLine, 
@@ -19,7 +19,20 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { loadRazorpayScript } from "../utils/loadRazorpay";
 import { authApi, USER_STORAGE_KEY } from "../services/authApi";
+import PaymentSuccessModal from "../components/payment/PaymentSuccessModal";
+import PaymentFailedModal from "../components/payment/PaymentFailedModal";
+import UpgradePlanModal from "../components/subscription/UpgradePlanModal";
+import SubscriptionAlertModal from "../components/subscription/SubscriptionAlertModal";
 import "./CheckoutPage.css";
+
+const getPlanTier = (planId) => {
+  if (!planId) return 0;
+  const p = String(planId).toUpperCase();
+  if (p.includes("YEARLY") || p.includes("FULL_ACCESS")) return 4;
+  if (p.includes("FULL")) return 3;
+  if (p.includes("BASIC")) return 2;
+  return 0;
+};
 
 /**
  * Checkout / Payment Page for Algovia.io
@@ -29,11 +42,36 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, openAuthModal } = useAuth();
 
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [successPlanName, setSuccessPlanName] = useState("Full Access");
+  const [isFailedModalOpen, setIsFailedModalOpen] = useState(false);
+  const [failedErrorMessage, setFailedErrorMessage] = useState("");
+
+  // Protection States & Modals
+  const [subProtection, setSubProtection] = useState(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertData, setAlertData] = useState({ code: "", message: "", daysRemaining: 0 });
+
   // Selected State Options
   const [currency, setCurrency] = useState("INR"); // "INR" | "USD"
   const [billingCycle, setBillingCycle] = useState("monthly"); // "monthly" | "yearly" | "student" | "team"
   const [planType, setPlanType] = useState("full"); // "full" | "basic"
   const [teamSeats, setTeamSeats] = useState(5); // Minimum 2
+
+  // Fetch active subscription protection status from backend
+  useEffect(() => {
+    if (isAuthenticated) {
+      authApi
+        .getSubscriptionStatus()
+        .then((res) => {
+          if (res.subscription?.protection) {
+            setSubProtection(res.subscription.protection);
+          }
+        })
+        .catch((err) => console.warn("[CheckoutPage] Status fetch warning:", err));
+    }
+  }, [isAuthenticated]);
 
   // User Data
   const userName = user?.name || "";
@@ -91,6 +129,39 @@ const CheckoutPage = () => {
     totalText = `${symbol}${unitPrice.toLocaleString()}`;
   }
 
+  // Determine Requested Plan Identifier
+  let requestedPlanId = "FULL_MONTHLY";
+  if (billingCycle === "team") {
+    requestedPlanId = "TEAM";
+  } else if (billingCycle === "student") {
+    requestedPlanId = "STUDENT_MONTHLY";
+  } else if (billingCycle === "yearly") {
+    requestedPlanId = planType === "full" ? "FULL_YEARLY" : "BASIC_YEARLY";
+  } else {
+    requestedPlanId = planType === "full" ? "FULL_MONTHLY" : "BASIC_MONTHLY";
+  }
+
+  // Component-level Subscription Protection Calculations
+  const rawActivePlan = (subProtection?.activePlanId || user?.subscriptionPlan || user?.plan || "").toUpperCase();
+  const currentTier = subProtection?.currentPlanTier || getPlanTier(rawActivePlan);
+  const requestedTier = getPlanTier(requestedPlanId);
+
+  const isUserSubscribed = Boolean(user?.isSubscribed || user?.is_subscribed || currentTier > 0);
+  const daysRemaining = subProtection?.daysRemaining !== undefined
+    ? subProtection.daysRemaining
+    : (isUserSubscribed ? 30 : 0);
+
+  const isExactActivePlan = isUserSubscribed && (
+    rawActivePlan === requestedPlanId.toUpperCase() ||
+    (rawActivePlan.includes("FULL") && requestedPlanId.includes("FULL") && ((billingCycle === "yearly" && rawActivePlan.includes("YEARLY")) || (billingCycle === "monthly" && !rawActivePlan.includes("YEARLY")))) ||
+    (rawActivePlan.includes("BASIC") && requestedPlanId.includes("BASIC") && ((billingCycle === "yearly" && rawActivePlan.includes("YEARLY")) || (billingCycle === "monthly" && !rawActivePlan.includes("YEARLY"))))
+  );
+
+  const isDuplicateBlocked = isExactActivePlan && daysRemaining > 7;
+  const isRenewalWindow = isExactActivePlan && daysRemaining <= 7 && daysRemaining > 0;
+  const isDowngradeBlocked = !isExactActivePlan && requestedTier < currentTier && daysRemaining > 0;
+  const isUpgradeAllowed = !isExactActivePlan && requestedTier > currentTier && daysRemaining > 0;
+
   // Handle Team seats change
   const incrementSeats = () => setTeamSeats((prev) => Math.min(100, prev + 1));
   const decrementSeats = () => setTeamSeats((prev) => Math.max(2, prev - 1));
@@ -106,6 +177,32 @@ const CheckoutPage = () => {
       return;
     }
 
+    // Check Protection Rules
+    if (isDuplicateBlocked) {
+      setAlertData({
+        code: "ALREADY_ACTIVE",
+        message: `You already have an active subscription to this plan. Duplicate purchases are blocked until 7 days before expiry (${daysRemaining} days remaining).`,
+        daysRemaining
+      });
+      setIsAlertModalOpen(true);
+      return;
+    }
+
+    if (isDowngradeBlocked) {
+      setAlertData({
+        code: "DOWNGRADE_NOT_ALLOWED",
+        message: `You cannot downgrade to a lower-tier plan while your higher-tier plan is active (${daysRemaining} days remaining).`,
+        daysRemaining
+      });
+      setIsAlertModalOpen(true);
+      return;
+    }
+
+    if (isUpgradeAllowed) {
+      setIsUpgradeModalOpen(true);
+      return;
+    }
+
     setPaymentError("");
     setIsProcessing(true);
 
@@ -116,17 +213,7 @@ const CheckoutPage = () => {
         throw new Error("Failed to load Razorpay Payment Gateway. Please check internet connection.");
       }
 
-      // 2. Determine Plan Identifier
-      let planId = "FULL_MONTHLY";
-      if (billingCycle === "team") {
-        planId = "TEAM";
-      } else if (billingCycle === "student") {
-        planId = "STUDENT_MONTHLY";
-      } else if (billingCycle === "yearly") {
-        planId = planType === "full" ? "FULL_YEARLY" : "BASIC_YEARLY";
-      } else {
-        planId = planType === "full" ? "FULL_MONTHLY" : "BASIC_MONTHLY";
-      }
+      const planId = requestedPlanId;
 
       // 3. Request Server-side Razorpay Order Creation
       const orderRes = await authApi.createPaymentOrder({
@@ -137,11 +224,13 @@ const CheckoutPage = () => {
         teamSeats: billingCycle === "team" ? teamSeats : 1
       });
 
-      const { orderId, amount: amountInPaise, keyId } = orderRes;
+      const { orderId, amount: amountInPaise, keyId, key } = orderRes;
 
       // 4. Configure Razorpay Popup Modal Options
+      const activeRazorpayKey = key || keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TNF6FuY1OIb3GW";
+
       const options = {
-        key: keyId || "rzp_test_algovia_key_2026",
+        key: activeRazorpayKey,
         amount: amountInPaise,
         currency: currency.toUpperCase(),
         name: "Algovia.io",
@@ -171,18 +260,14 @@ const CheckoutPage = () => {
                 plan: planType === "full" ? "Full Access" : "Basic Plan"
               };
               localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
-              localStorage.setItem("algovia_subscribed", "true");
-
-              alert(`🎉 Payment Successful! Welcome to Algovia.io ${updatedUser.plan}. All topics are now UNLOCKED!`);
-              navigate("/");
-              window.location.reload();
+              setSuccessPlanName(updatedUser.plan);
+              setIsSuccessModalOpen(true);
             } else {
               throw new Error(verifyRes.message || "Payment verification failed.");
             }
           } catch (err) {
             console.error("[Razorpay] Verification Error:", err);
             setPaymentError(err.message || "Payment verification failed.");
-            alert(`Payment Error: ${err.message}`);
           } finally {
             setIsProcessing(false);
           }
@@ -225,16 +310,30 @@ const CheckoutPage = () => {
         const rzp = new window.Razorpay(options);
         rzp.on("payment.failed", function (resp) {
           setIsProcessing(false);
-          setPaymentError(resp.error.description || "Payment failed.");
-          alert(`Payment Failed: ${resp.error.description}`);
+          const errText = resp.error?.description || "Payment failed at gateway.";
+          setPaymentError(errText);
+          setFailedErrorMessage(errText);
+          setIsFailedModalOpen(true);
         });
         rzp.open();
       }
     } catch (err) {
       console.error("[Razorpay] Order Error:", err);
       setIsProcessing(false);
-      setPaymentError(err.message || "Failed to initialize payment.");
-      alert(`Payment Initialization Error: ${err.message}`);
+      const errText = err.message || "Failed to initialize payment.";
+      setPaymentError(errText);
+
+      if (err.code === "DOWNGRADE_NOT_ALLOWED" || err.code === "ALREADY_ACTIVE") {
+        setAlertData({
+          code: err.code,
+          message: errText,
+          daysRemaining: err.daysRemaining || subProtection?.daysRemaining || 0
+        });
+        setIsAlertModalOpen(true);
+      } else {
+        setFailedErrorMessage(errText);
+        setIsFailedModalOpen(true);
+      }
     }
   };
 
@@ -577,14 +676,40 @@ const CheckoutPage = () => {
                   </div>
                 )}
 
-                <button 
-                  type="button" 
-                  className="chk-submit-btn" 
-                  onClick={handleSubscribe}
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? "Processing Payment..." : (billingCycle === "yearly" ? "Subscribe Yearly" : "Subscribe")}
-                </button>
+                {(() => {
+                  let btnLabel = isProcessing ? "Processing Payment..." : (billingCycle === "yearly" ? "Subscribe Yearly" : "Subscribe");
+                  let btnClass = "chk-submit-btn";
+                  let isBtnDisabled = isProcessing;
+
+                  if (isDuplicateBlocked) {
+                    btnLabel = "Current Active Plan";
+                    btnClass = "chk-submit-btn chk-submit-btn--disabled";
+                    isBtnDisabled = true;
+                  } else if (isRenewalWindow) {
+                    btnLabel = "Renew Subscription";
+                    btnClass = "chk-submit-btn";
+                    isBtnDisabled = false;
+                  } else if (isDowngradeBlocked) {
+                    btnLabel = "Plan Active (No Downgrade)";
+                    btnClass = "chk-submit-btn chk-submit-btn--disabled";
+                    isBtnDisabled = true;
+                  } else if (isUpgradeAllowed) {
+                    btnLabel = "Upgrade Plan (Prorated)";
+                    btnClass = "chk-submit-btn chk-submit-btn--upgrade";
+                    isBtnDisabled = false;
+                  }
+
+                  return (
+                    <button 
+                      type="button" 
+                      className={btnClass} 
+                      onClick={handleSubscribe}
+                      disabled={isBtnDisabled}
+                    >
+                      {btnLabel}
+                    </button>
+                  );
+                })()}
               </div>
             )}
           </section>
@@ -646,6 +771,46 @@ const CheckoutPage = () => {
 
         </div>
       </main>
+
+      {/* Payment Success Modal */}
+      <PaymentSuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        planName={successPlanName}
+        onStartExploring={() => {
+          navigate("/");
+          window.location.reload();
+        }}
+      />
+
+      {/* Payment Failed Modal */}
+      <PaymentFailedModal
+        isOpen={isFailedModalOpen}
+        onClose={() => setIsFailedModalOpen(false)}
+        errorMessage={failedErrorMessage}
+        onRetry={handleSubscribe}
+      />
+
+      {/* Prorated Upgrade Plan Modal */}
+      <UpgradePlanModal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => setIsUpgradeModalOpen(false)}
+        newPlanId={requestedPlanId}
+        onUpgradeSuccess={(updatedUser) => {
+          setIsUpgradeModalOpen(false);
+          setSuccessPlanName(updatedUser.plan);
+          setIsSuccessModalOpen(true);
+        }}
+      />
+
+      {/* Subscription Protection Alert Modal */}
+      <SubscriptionAlertModal
+        isOpen={isAlertModalOpen}
+        onClose={() => setIsAlertModalOpen(false)}
+        code={alertData.code}
+        message={alertData.message}
+        daysRemaining={alertData.daysRemaining}
+      />
     </div>
   );
 };

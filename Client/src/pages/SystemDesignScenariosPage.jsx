@@ -159,24 +159,24 @@ export default function SystemDesignScenariosPage() {
     );
   };
 
-  return (
-    <div className="xlr-sds-layout">
-      <header className="xlr-sticky-header">
-        <Announcementbar />
-        <Navbar />
-      </header>
+  const allFlatScenarios = getAllScenariosFlat(activeTab.toLowerCase());
 
-      <div className="xlr-sds-container">
-        {/* Top Header Row */}
-        <div className="xlr-sds-header">
-          <div className="xlr-sds-header-left">
-            <h1 className="xlr-sds-title">System Design Scenario Based</h1>
+  return (
+    <div className="xlr-sds-page-wrapper">
+      <Announcementbar />
+      <Navbar />
+
+      <main className="xlr-sds-container">
+        {/* Header Hero Section */}
+        <div className="xlr-sds-hero">
+          <div className="xlr-sds-hero-text">
+            <h1 className="xlr-sds-title">System Design Scenarios</h1>
             <p className="xlr-sds-subtitle">
-              <strong>90% of interviews touch these.</strong> Understand them deeply and you'll never panic again.
+              Master real-world engineering trade-offs, architecture choices, and scenario-based interview questions through interactive dialogues.
             </p>
           </div>
 
-          {/* Mode Toggle Switch (HLD / LLD) matching screenshot */}
+          {/* Mode Switcher Toggle Pill (HLD / LLD) */}
           <div className="xlr-sds-tab-toggle">
             <button
               type="button"
@@ -220,8 +220,9 @@ export default function SystemDesignScenariosPage() {
 
                 <div className="xlr-sds-table-body">
                   {cat.scenarios.map((sc, scIdx) => {
+                    const globalIdx = allFlatScenarios.findIndex((item) => item.id === sc.id);
                     const isDone = completedIds.includes(sc.id);
-                    const isUnlocked = checkTopicAccess(scIdx, "scenarios");
+                    const isUnlocked = checkTopicAccess(globalIdx >= 0 ? globalIdx : scIdx, "scenarios");
                     return (
                       <div
                         key={sc.id}
@@ -265,7 +266,7 @@ export default function SystemDesignScenariosPage() {
             </div>
           ))}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

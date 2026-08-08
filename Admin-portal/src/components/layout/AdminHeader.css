@@ -1,0 +1,98 @@
+/* ==========================================================================
+   AdminHeader.css - Pure Vanilla CSS
+   Top Navigation & Search Bar
+   ========================================================================== */
+
+.admin-header {
+  height: var(--header-height);
+  background: var(--admin-surface-dark);
+  border-bottom: 1px solid var(--admin-border);
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  backdrop-filter: blur(10px);
+}
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-header-search {
+  width: 320px;
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--admin-text-secondary);
+  transition: border-color 0.2s ease;
+}
+
+.admin-header-search:focus-within {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.admin-header-search input {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-primary);
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-header-icon-btn {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-secondary);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.admin-header-icon-btn:hover {
+  background: var(--admin-surface-hover);
+  color: var(--admin-text-primary);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.admin-notif-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--admin-warning);
+}
+
+.admin-header-time-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--admin-border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+}

@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import subscriptionRoutes from "./routes/subscription.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import studentVerifyRoutes from "./routes/studentVerify.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 dotenv.config();
 
@@ -19,9 +20,11 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://localhost:5174",
+  "http://localhost:5175",
   "http://localhost:3000",
   "http://127.0.0.1:5173",
   "http://127.0.0.1:5174",
+  "http://127.0.0.1:5175",
   "https://algovia.io",
   "https://algorithmxlr8.io"
 ];
@@ -71,6 +74,7 @@ app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/subscription", subscriptionRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/student-verify", studentVerifyRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Health Check Endpoint
 app.get("/api/health", (req, res) => {

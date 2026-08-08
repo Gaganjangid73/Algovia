@@ -98,6 +98,24 @@ export async function initializeDatabase() {
       });
       console.log("[Database] Added 'is_student_verified' and 'student_email' columns to 'users' table.");
     }
+
+    // Role Column for Admin Access
+    const hasRole = await db.schema.hasColumn("users", "role");
+    if (!hasRole) {
+      await db.schema.table("users", (table) => {
+        table.string("role").defaultTo("user");
+      });
+      console.log("[Database] Added 'role' column to 'users' table.");
+    }
+
+    // Password Hash Column
+    const hasPasswordHash = await db.schema.hasColumn("users", "password_hash");
+    if (!hasPasswordHash) {
+      await db.schema.table("users", (table) => {
+        table.string("password_hash").nullable();
+      });
+      console.log("[Database] Added 'password_hash' column to 'users' table.");
+    }
   }
 
   // 2. OTP Verification Table for Student Status
@@ -127,7 +145,7 @@ export async function initializeDatabase() {
     console.log("[Database] Created 'otps' table.");
   }
 
-  // 3. Refresh Tokens Table
+  // 4. Refresh Tokens Table
   const hasTokens = await db.schema.hasTable("refresh_tokens");
   if (!hasTokens) {
     await db.schema.createTable("refresh_tokens", (table) => {
@@ -141,7 +159,7 @@ export async function initializeDatabase() {
     console.log("[Database] Created 'refresh_tokens' table.");
   }
 
-  // 4. Payments Table
+  // 5. Payments Table
   const hasPayments = await db.schema.hasTable("payments");
   if (!hasPayments) {
     await db.schema.createTable("payments", (table) => {
@@ -160,7 +178,7 @@ export async function initializeDatabase() {
     console.log("[Database] Created 'payments' table.");
   }
 
-  // 5. Subscriptions Table
+  // 6. Subscriptions Table
   const hasSubscriptions = await db.schema.hasTable("subscriptions");
   if (!hasSubscriptions) {
     await db.schema.createTable("subscriptions", (table) => {
@@ -175,6 +193,41 @@ export async function initializeDatabase() {
       table.timestamp("updated_at").defaultTo(db.fn.now());
     });
     console.log("[Database] Created 'subscriptions' table.");
+  }
+
+  // 7. Seed Default Super Admin User (Gagan@0123)
+  try {
+    const bcrypt = await import("bcryptjs");
+    const adminEmail = "admin@algovia.io";
+    const existingAdmin = await db("users").where({ email: adminEmail }).first();
+    const hashedPassword = await bcrypt.hash("Gagan@0123", 10);
+
+    if (!existingAdmin) {
+      const crypto = await import("crypto");
+      await db("users").insert({
+        id: crypto.randomUUID(),
+        name: "Gagan Jangid (Admin)",
+        email: adminEmail,
+        password_hash: hashedPassword,
+        role: "admin",
+        is_verified: true,
+        is_subscribed: true,
+        subscription_plan: "FULL_YEARLY",
+        created_at: new Date()
+      });
+      console.log(`[Database] Created default Super Admin user (${adminEmail}) with password 'Gagan@0123'.`);
+    } else {
+      await db("users")
+        .where({ email: adminEmail })
+        .update({
+          password_hash: hashedPassword,
+          role: "admin",
+          updated_at: new Date()
+        });
+      console.log(`[Database] Updated Super Admin user (${adminEmail}) password to 'Gagan@0123'.`);
+    }
+  } catch (err) {
+    console.warn("[Database] Admin seed warning:", err.message);
   }
 
   console.log("[Database] SQL Schema initialization complete.");

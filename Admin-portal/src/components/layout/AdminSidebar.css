@@ -1,0 +1,208 @@
+/* ==========================================================================
+   AdminSidebar.css - Pure Vanilla CSS
+   Collapsible Executive Navigation Sidebar
+   ========================================================================== */
+
+.admin-sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--admin-surface-dark);
+  border-right: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  transition: width 0.2s ease;
+}
+
+.admin-sidebar-header {
+  height: var(--header-height);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-sidebar-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.admin-sidebar-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar-brand-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.admin-sidebar-brand-sub {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--admin-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Navigation List */
+.admin-sidebar-nav {
+  flex: 1;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+}
+
+.admin-nav-section-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px 4px 12px;
+  margin-top: 10px;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  color: var(--admin-text-secondary);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.18s ease;
+  position: relative;
+}
+
+.admin-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--admin-text-primary);
+}
+
+.admin-nav-item--active {
+  background: rgba(59, 130, 246, 0.12) !important;
+  color: var(--admin-primary) !important;
+  font-weight: 700;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.admin-nav-item--active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--admin-primary);
+}
+
+.admin-nav-badge {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--admin-warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Bottom Footer */
+.admin-sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--admin-border);
+  background: var(--admin-surface-dark);
+}
+
+[data-theme="light"] .admin-sidebar-footer {
+  background: #f8fafc;
+  border-top-color: #e2e8f0;
+}
+
+.admin-user-profile-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #334155;
+  border: 1px solid var(--admin-border-accent);
+}
+
+[data-theme="light"] .admin-profile-avatar {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+.admin-profile-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-profile-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.admin-profile-role {
+  font-size: 11px;
+  color: var(--admin-text-muted);
+}
+
+.admin-sidebar-logout-btn {
+  margin-left: auto;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-sidebar-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ffffff;
+}
+
+[data-theme="light"] .admin-sidebar-logout-btn {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+[data-theme="light"] .admin-sidebar-logout-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}

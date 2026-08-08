@@ -1,0 +1,273 @@
+/* ==========================================================================
+   AdminLoginPage.css - Pure Vanilla CSS (Strictly NO Tailwind CSS)
+   Split-Screen Executive Login matching user's reference screenshot
+   ========================================================================== */
+
+.algovia-login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background: linear-gradient(135deg, #091321 0%, #0d1e34 50%, #162842 100%);
+  overflow: hidden;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Ambient Glowing Orbs Background */
+.algovia-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.algovia-orb--1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #6366f1 0%, rgba(99, 102, 241, 0) 70%);
+  top: 15%;
+  left: 20%;
+}
+
+.algovia-orb--2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #8b5cf6 0%, rgba(139, 92, 246, 0) 70%);
+  bottom: 10%;
+  left: 5%;
+}
+
+/* Left Half - Brand Banner */
+.algovia-login-left {
+  flex: 1.1;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.algovia-login-headline {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.algovia-gradient-text {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+}
+
+.algovia-login-desc {
+  font-size: 16px;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 540px;
+  margin-bottom: 36px;
+}
+
+/* 6 Feature Badges (Grid 3 cols x 2 rows) */
+.algovia-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+.algovia-feature-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Stat Counter Bar */
+.algovia-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 36px;
+}
+
+.algovia-stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.algovia-stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.algovia-stat-lbl {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #818cf8;
+}
+
+.algovia-quote-strip {
+  border-left: 3px solid #6366f1;
+  padding-left: 16px;
+  font-size: 14.5px;
+  font-style: italic;
+  color: #cbd5e1;
+}
+
+/* Right Half - White Login Card Container */
+.algovia-login-right {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.algovia-white-card {
+  background: #ffffff;
+  color: #0f172a;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 28px;
+  padding: 48px 40px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.algovia-card-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #6366f1;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.algovia-card-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 32px;
+}
+
+.algovia-login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+.algovia-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.algovia-form-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.algovia-form-label span {
+  color: #ef4444;
+}
+
+.algovia-form-input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.algovia-form-input:focus {
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+.algovia-login-submit-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+  color: #ffffff;
+  border: none;
+  padding: 15px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+}
+
+.algovia-login-submit-btn:hover {
+  opacity: 0.93;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+}
+
+.algovia-login-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.algovia-card-footer {
+  margin-top: 28px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.algovia-card-footer a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .algovia-login-page {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .algovia-login-left {
+    padding: 40px 30px;
+  }
+
+  .algovia-login-right {
+    padding: 20px 30px 50px 30px;
+  }
+}

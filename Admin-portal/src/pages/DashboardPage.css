@@ -1,0 +1,111 @@
+/* ==========================================================================
+   DashboardPage.css - Pure Vanilla CSS
+   ========================================================================== */
+
+.admin-dashboard-header {
+  margin-bottom: 24px;
+}
+
+.admin-page-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.admin-page-subtitle {
+  font-size: 13.5px;
+  color: var(--admin-text-secondary);
+}
+
+/* Metric Cards */
+.admin-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.admin-stat-icon-wrapper--blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--admin-primary);
+}
+
+.admin-stat-icon-wrapper--green {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--admin-success);
+}
+
+.admin-stat-icon-wrapper--amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--admin-warning);
+}
+
+.admin-stat-icon-wrapper--purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--admin-purple);
+}
+
+.admin-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.admin-stat-label {
+  font-size: 12.5px;
+  color: var(--admin-text-secondary);
+  font-weight: 600;
+}
+
+.admin-stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Quick Actions */
+.admin-quick-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+/* Section Containers */
+.admin-section-block {
+  margin-top: 24px;
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.admin-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+}
